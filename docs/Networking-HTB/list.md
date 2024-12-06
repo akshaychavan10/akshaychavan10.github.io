@@ -1,0 +1,38 @@
+# 📝 **Table of Contents**
+
+Welcome to the **Networking Section** of my notes repository! Below is an organized list of topics covering networking concepts, workflows, protocols, and more from **Hackthebox Academy**. 
+
+---
+
+📝 **Table of Contents**
+
+1. 🖧 **[Networking Structure](1.%20%20Networking%20Structure.md)**  
+   Understand the fundamental structure and components of a network.
+
+2. 🔄 **[Networking Workflow](2.%20Networking%20Workflow.md)**  
+   Explore how data flows through a network step-by-step.
+
+3. 🌍 **[Addressing](3.%20Addressing.md)**  
+   Learn about IP addressing, subnetting, and their practical uses.
+
+4. ⚙️ **[Protocols & Terminology](4.%20Protocols%20%26%20Terminology.md)**  
+   Familiarize yourself with key networking protocols and their definitions.
+
+5. 🔗 **[Connection Establishment](5.%20Connection%20Establishment.md)**  
+   Dive into the processes behind establishing secure connections.
+
+6. 🌐 **[DNS](6.%20DNS.md)**  
+   Discover the workings of the Domain Name System (DNS) and its role in the internet.
+
+---
+
+## 📚 **How to Use**
+- **Click** on any topic above to access its detailed notes.  
+- **Navigate** back to this page anytime to find other topics easily.  
+
+---
+
+## 💬 **Suggestions or Feedback?**
+I’m always looking to improve! If you have ideas or find errors, feel free to contribute and contact me via [GitHub](https://github.com/akshaychavan10) or [LinkedIn](https://www.linkedin.com/in/akshaychavan07/).
+
+---

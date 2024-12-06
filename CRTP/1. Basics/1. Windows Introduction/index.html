@@ -1,0 +1,2123 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://akshaychavan10.github.io/CRTP/1.%20Basics/1.%20Windows%20Introduction/">
+      
+      
+        <link rel="prev" href="../../notes/">
+      
+      
+        <link rel="next" href="../2.%20Windows%20Privilege%20Escalation/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.47">
+    
+    
+      
+        <title>1. Windows Introduction - Knowledge base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Knowledge base" class="md-header__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Knowledge base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Windows Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Knowledge base" class="md-nav__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Knowledge base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Knowledge Base
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CRTP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CRTP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. Basics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            1. Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    1. Windows Introduction
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    1. Windows Introduction
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      File System
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Directory Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Command Line
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permission-management-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Management on Windows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-process-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Process Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Process Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-legitimate-processes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Legitimate Processes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Services
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task Scheduler
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Registry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Firewall
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Firewall">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firewall-rule-management-with-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Firewall Rule Management with GUI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firewall-rule-management-with-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      Firewall Rule Management with Command Line
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Event Logs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Event Logs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#viewing-event-logs-with-event-viewer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viewing Event Logs with Event Viewer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewing-event-logs-via-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viewing Event logs via Command Line
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-management-instrumentation-wmi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Management Instrumentation (wmi)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.%20Windows%20Privilege%20Escalation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Windows Privilege Escalation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.%20Introduction%20to%20Active%20Directory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Introduction to Active Directory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Methodology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5.%20Miscellaeous%20Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Miscellaeous Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2. Domain Enumeration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            2. Domain Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/1.%20Basics%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Basics Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/2.%20GPO%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. GPO Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/3.%20ACL%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. ACL Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/4.%20Trusts%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Trusts Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/5.%20BloodHound%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. BloodHound Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3. Lateral Movement
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            3. Lateral Movement
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.%20Lateral-Movement/1.%20Invoke-Command/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Invoke-Command
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.%20Lateral-Movement/2.%20Invoke-Mimikatz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Invoke Mimikatz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    4. Domain Persistence
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            4. Domain Persistence
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.%20Domain-Persistence/1.%20Golden%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Golden Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.%20Domain-Persistence/2.%20Silver%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Silver Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.%20Domain-Persistence/3.%20Skeleton%20key/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Skeleton key
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    5. Domain Priv Esc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            5. Domain Priv Esc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5.%20Domain%20Priv%20Esc/1.%20kerberost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. kerberost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5.%20Domain%20Priv%20Esc/2.%20Unconstrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Unconstrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5.%20Domain%20Priv%20Esc/3.%20Constrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Constrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    6. Forest Trusts Abuse
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            6. Forest Trusts Abuse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6.%20Forest%20Trusts%20Abuse/1.%20Ticket%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Ticket Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6.%20Forest%20Trusts%20Abuse/2.%20MSSQL%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. MSSQL Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Networking HTB
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Networking HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/1.%20%20Networking%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.  Networking Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/2.%20Networking%20Workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Networking Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/3.%20Addressing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Addressing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/4.%20Protocols%20%26%20Terminology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Protocols & Terminology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/5.%20Connection%20Establishment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Connection Establishment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/6.%20DNS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      File System
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Directory Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Command Line
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permission-management-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Management on Windows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-process-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Process Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Process Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-legitimate-processes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Legitimate Processes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Services
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task Scheduler
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Registry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Firewall
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Firewall">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firewall-rule-management-with-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Firewall Rule Management with GUI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firewall-rule-management-with-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      Firewall Rule Management with Command Line
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Event Logs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Event Logs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#viewing-event-logs-with-event-viewer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viewing Event Logs with Event Viewer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewing-event-logs-via-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viewing Event logs via Command Line
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-management-instrumentation-wmi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Management Instrumentation (wmi)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>1. Windows Introduction</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>Personal version of windows :</p>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/win-table.png" /></p>
+<p>Server Version of windows <img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/win-table2.png" /></p>
+<h2 id="file-system">File System</h2>
+<p>the file system refers to the way files and directories are organised and stored on a storage device, such as a hard drive or SSD.</p>
+<p><strong>File System Used by windows</strong> :</p>
+<p><em>FAT</em> : 
+- File allocation table.
+- Although the purpose of its emergence was to be used on floppy disks, it was adapted to be used in hard drives and other devices over time.
+- Today its used in USB flash drives , flash drives and other embedded systems.
+<em>exFAT</em> :
+- Extensible File Allocation Table.
+- optimized for flash memory such as USB flash drives and SD crads.
+<em>NTFS</em> : 
+- New Technology File System 
+- Used as default file system in windows.
+- Replace the FAT system as its more advanced and suitable for new technolgies.
+- Also support Linux and BSD systems.</p>
+<h2 id="directory-structure">Directory Structure</h2>
+<p>As in every operating system, the folder and file structure in Windows takes place in a certain order from the first installation.</p>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/dir1.png" /></p>
+<ol>
+<li>PerfLogs : Store windows performace logs. (its found as an empty folder because the logging option is turned off by default.)</li>
+<li>ProgramData : It stores Application Data that is not specific to any particular user. . Hidden folder.</li>
+<li>Program Files : All the programs installed in the system located here.(64 bit)</li>
+<li>Program Files(x86) : Its default installation location for 32 bit programs on a 64 bit windows system.</li>
+<li>Users : Personal folder of each user who has logged on the system at least once.</li>
+<li>Windows : the Windows Folder is where the entire operating system is installed.</li>
+</ol>
+<h2 id="windows-command-line">Windows Command Line</h2>
+<p>The command line is an intermediary program that receives the command from the user via the keyboard and transfer them to the OS for execution.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>help dir</code></td>
+<td>provides detailed information about the cmd used on cmd line.</td>
+</tr>
+<tr>
+<td><code>dir</code></td>
+<td>list files and folders</td>
+</tr>
+<tr>
+<td><code>cd</code></td>
+<td>change directory.</td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>view and change the system's date information</td>
+</tr>
+<tr>
+<td><code>echo</code></td>
+<td>print on the screen.</td>
+</tr>
+<tr>
+<td><code>hostname</code></td>
+<td>print hostname</td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td>see the system time</td>
+</tr>
+<tr>
+<td><code>ipconfig</code></td>
+<td>Display information about network interface.</td>
+</tr>
+<tr>
+<td><code>netstat -ano</code><br><code>-a</code><br><code>-n</code><br><code>-o</code></td>
+<td>Current network connections and their statuses.<br>Display all connections and listening ports<br>Display addresses and port numbers in numerical form.<br>Display the owning process ID associated with each connection.</td>
+</tr>
+<tr>
+<td><code>nslookup google.com</code></td>
+<td>Query DNS server to obtain domain name or IP address mapping.</td>
+</tr>
+<tr>
+<td><code>systeminfo</code></td>
+<td>detailed information about the system.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>print file content on screen.</td>
+</tr>
+<tr>
+<td><code>copy</code></td>
+<td>used in file copy operation.</td>
+</tr>
+<tr>
+<td><code>rename</code></td>
+<td>rename the file.</td>
+</tr>
+<tr>
+<td><code>mkdir</code></td>
+<td>create a new directory.</td>
+</tr>
+<tr>
+<td><code>rename</code></td>
+<td>rename files.</td>
+</tr>
+<tr>
+<td><code>move</code></td>
+<td>move files.</td>
+</tr>
+<tr>
+<td><code>tree</code></td>
+<td>listing nested directories.</td>
+</tr>
+<tr>
+<td><code>rmdir</code></td>
+<td>remove directory</td>
+</tr>
+<tr>
+<td>## Users and Groups in Windows</td>
+<td></td>
+</tr>
+<tr>
+<td>In windows users and groups are fundamental concepts used to manage access control and permission on the sytstem.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Users</strong>
+- Users are individual accounts that represent people or services accessing the system. 
+- Each user account has a unique username and a corresponding security identifier (SID). 
+- Users can be categorized into different types, such as:
+    - <em>Local Users</em> : User accounts that are created and managed on a specific Windows system.
+    - <em>Domain Users</em>: User accounts that belong to a Windows domain and are managed by a domain controller.
+    - <em>Built-in Users</em> : System-created user accounts with predefined roles, such as Administrator, Guest, and DefaultAccount.</p>
+<p><strong>Groups</strong> 
+- Groups are collections of user accounts that share common access permissions.
+- Windows includes several types of groups, including:
+    - <em>Local Groups</em>: Groups that are created and managed on a specific Windows system.
+    - <em>Domain Groups</em>: Groups that belong to a Windows domain and are managed by a domain controller.
+    - <em>Built-in Groups</em> : Predefined groups with specific roles and permissions, such as Administrators, Users, Guests, and Backup Operators.</p>
+<p><strong>Manage groups and users via cmd line</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>net user.</td>
+<td>display the usernames withing the system.</td>
+</tr>
+<tr>
+<td>net accounts</td>
+<td>allow user to see the configuration related to password usage and login restrictions on the system.</td>
+</tr>
+<tr>
+<td>net localgroup</td>
+<td>displays the list of groups on the system.<br> If it is used with parameters, different operations can be executed on groups.<br></td>
+</tr>
+<tr>
+<td><strong>Manage Groups and Users via GUI</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>To manage Users and Groups via GUI open <code>Run</code> application by <code>Windows+R</code> and type <code>lusrmgr.msc</code> .</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/user8.png" /></p>
+<p>we can create users and group in <code>Actions</code> tab.</p>
+<h2 id="permission-management-on-windows">Permission Management on Windows</h2>
+<p><strong>Permissions</strong> 
+- Permissions define the actions that users or groups are allowed or denied to perform on files, folders, registry keys, and other system resources.</p>
+<p>**Access Control Lists(ACLs) 
+- ACLs are data structure associated with objects (such as files and folders) that defines permission granted to users and groups.</p>
+<table>
+<thead>
+<tr>
+<th>Permissions</th>
+<th>Access control Lists</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Think of permissions as rules or settings that determine what actions someone can take with a file, folder, or any other resource on a computer. These actions could include things like reading, writing, deleting, or executing (running) a file.</td>
+<td>An ACL is like a list attached to that file that holds all the permissions for who can do what with it.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Permissions Types</strong> 
+Windows have six permission types when managing file permissions 
+1. Full control
+2. Modify
+3. Read &amp; Execute
+4. Read
+5. Write
+6. special permission.</p>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/perm2.png" /></p>
+<p><strong>Viewing File Permissions</strong> 
+Right-Click on file and open <code>properties</code> .</p>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/perm1.png" /></p>
+<p><strong>Changing file permissions</strong> 
+ right-click on the file and open the "properties" window, then click the "advanced" button in the "security" tab.
+ 
+<img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/perm3.png" /></p>
+<p>We can change permission in <code>security</code> tab.</p>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/perm5.png" /></p>
+<p><strong>User Account Control</strong> 
+- User Account Control (UAC) is a security feature in Windows that helps prevent unauthorized changes to your computer.
+- The primary purpose of UAC is to mitigate the impact of malicious software or unintentional changes made by users that could potentially harm the system. 
+- It achieves this by prompting users for confirmation or consent before allowing certain actions to be executed, particularly those that require administrative privileges. These actions include:
+    1. Installing or uninstalling software.
+    2. Making changes to system settings.
+    3. Installing device drivers.
+    4. Running certain applications with elevated privileges.
+- UAC has 4 level.
+    1. <em>Always Notify</em> : you are notified before applications and users make changes that require administrative permissions.
+    2. <em>Notify me only when apps try to make changes to my computer (default)</em> : UAC notifies you only before programs make changes that require administrative permissions. malicious program can be created to simulate the keystrokes or mouse movements made by a user and change windows settings.
+    3. <em>Notify me only when apps try to make changes to my computer (do not dim my desktop)</em> : This level is identical to the previous setting except for the fact that, when a UAC prompt is shown, the desktop is not dimmed and other desktop apps can interfere with it. This level is even less secure as it makes it even easier for malicious programs to simulate keystrokes or mouse moves that interfere with the UAC prompt.
+    4. <em>Never notify me</em> : At this level, UAC is turned off, and it doesn't offer any protection against unauthorized system changes.</p>
+<h2 id="windows-process-management">Windows Process Management</h2>
+<p><strong>Process</strong> : A process is software program that is currently running in windows. Each process has its own <code>PID</code> and they are logged in each process operation.</p>
+<p><strong>Process Tree</strong> : Running a program is a process. From this process, another process can be created. There is a parent-child relationship between the two processes.</p>
+<p><strong>Parent Process</strong> : In computing, a parent process is a process that has created one or more child processes.</p>
+<p><strong>Child Process</strong> : A child process in computing is a process created by another process (the parent process). A parent process may have multiple child processes, but a child process only one parent process.</p>
+<blockquote>
+<p>[!note] <code>Process Hacker</code> is tool to view the process tree.</p>
+</blockquote>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/proc2.png" /></p>
+<h3 id="windows-legitimate-processes">Windows Legitimate Processes</h3>
+<p><strong>wininit.exe</strong> 
+- know as <code>Windows Intilization Process</code>.
+- Responsible for starting 
+    - <code>services.exe</code> (service control manager)<br />
+    - <code>lsass.exe</code> (Local security authority subsystem service)
+    - <code>lsm.exe</code> (Local session manager.)
+- This process created during system boot and works with the privileges of the most authorized user (NT AUTHORITY\SYSTSEM) on the system.</p>
+<p><strong>Services.exe</strong> :
+- responsible for starting and stopping services.
+- Child processes :
+    - <code>Svchost.exe</code> 
+    - <code>dllhost.exe</code>
+    - <code>taskhost.exe</code>
+    - <code>spoolsv.exe</code>.
+- works with the privileges of the most authorized user (NT AUTHORITY\SYSTEM) on the system.
+- There should only be 1 "services.exe" process at a time in the process tree under normal conditions. If there are multiple "services.exe" processes or if there is a process with a similar name, it should be investigated further as it may be a process that belongs to a malicious activity.</p>
+<p><strong>svchost.exe</strong> :
+- It is a shared service process that allows many windows services to share single process.
+- Sharing a single process help windows to decrease its overall resource usage.
+- This is the process running on the system with NT AUTHORITY\NETWORK SERVICE or NT AUTHORITY\SYSTEM privileges.</p>
+<p><strong>lsass.exe</strong> :
+- process responsible for critical security operations such as confirming or rejecting users' passwords during login in the Windows operating system
+-  In addition, this process works actively during the password changes of users.
+- mimikatz tool used to obtain password from lsass.exe process.</p>
+<p><strong>winlogon.exe</strong> :
+- Performs the login and logout operations of the users.
+- <code>lsass.exe</code> focuses on security related tasks, paticularly authentication and enforcing security policies, while <code>winlogon.exe</code> manages the user login and logout processes.</p>
+<p><strong>Explorer.exe</strong> :
+- Its a parent process of almost every process that has a GUI in windows operating system and opens as a window.</p>
+<p><strong>Task Manager</strong> :
+- Application that enables to see and manage the processes on windows operating system.</p>
+<p><strong>Commands Related to Process Operations</strong> :</p>
+<table>
+<thead>
+<tr>
+<th><code>cmd</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tasklist</code></td>
+<td>allow us to see the list of processes running on the system.</td>
+</tr>
+<tr>
+<td><code>taskkill</code></td>
+<td>used to terminate the processes running on the system. <code>taskkill /PID 2812</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="windows-services">Windows Services</h2>
+<ul>
+<li>applications that run in the background on Microsoft Windows operating systems, often without any direct user interface.</li>
+<li>These services handle various system-level tasks such as managing network connections, printing, file sharing, system security, and more.</li>
+</ul>
+<p><strong>Managing Windows Services with a Graphical User Interface</strong>
+- Open <code>Run</code> application with <code>Windows+R</code> and type <code>service.msc</code>.
+<img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/srv2.png" /></p>
+<p><strong>Managing windows service with command line</strong> </p>
+<table>
+<thead>
+<tr>
+<th><code>cmd</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sc query</code></td>
+<td>Display all running services</td>
+</tr>
+<tr>
+<td><code>sc query type-service state-all</code></td>
+<td>Display all services available in the system.</td>
+</tr>
+<tr>
+<td><code>sc query &lt;service_name&gt;</code></td>
+<td>Get info about the service.</td>
+</tr>
+<tr>
+<td><code>sc start &lt;service_name&gt;</code></td>
+<td>Start and Stop service.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="task-scheduler">Task Scheduler</h2>
+<ul>
+<li>Task Scheduler is execution of certain operation on the system at certain time intervals or at certain times.</li>
+</ul>
+<p><strong>Managing Scheduled Tasks with GUI</strong>
+1. Open <code>Run</code> application with <code>Windows+R</code> and type <code>taskschd.msc</code></p>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/task2.png" /></p>
+<ol>
+<li>click on <code>Task Scheduler Library</code> to view and create new tasks.</li>
+</ol>
+<p><strong>Managing Scheduled Tasks with Command Line</strong> </p>
+<table>
+<thead>
+<tr>
+<th><code>cmd</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>schtasks /query</code></td>
+<td>Display all scheduled tasks.</td>
+</tr>
+<tr>
+<td><code>schtasks /create /TN "task_name</code></td>
+<td>Create new Task</td>
+</tr>
+<tr>
+<td><code>schtasks /delete /TN "task_name</code></td>
+<td>Delete task</td>
+</tr>
+<tr>
+<td><code>schtasks /query /TN "task_name</code></td>
+<td>Get info about specific task</td>
+</tr>
+<tr>
+<td><code>schtasks /run /TN "task_name</code></td>
+<td>Run Task</td>
+</tr>
+<tr>
+<td><code>schtasks /change /TN "task_name /ENABLE</code></td>
+<td>Enable or Disable task.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="windows-registry">Windows Registry</h2>
+<ul>
+<li>Windows Registry is a hierarchical database that contains the operating system and system configuration related to the program installed in the system.</li>
+<li>It keeps the info and settings of programs and hardware in this database. eg : when a program is installed on windows, the program may choose to keep the expiry date of its license in the windows Registry.</li>
+<li>The registry contains important configuration and information about the system, also info about other programs installed on the system.</li>
+<li>you can access rigistry by opening <code>Run</code> application and open <code>regedit</code> program.</li>
+</ul>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/reg2.png" /></p>
+<p><strong>Registry Structure</strong> 
+- windows registry entries are located at <code>%SystemRoot%\System32\Config</code> .
+- Registry contains two essential elements. <code>keys</code>(container objects similar to folders) and <code>values</code> (values are non-container objects similar to files).</p>
+<p>There are seven predefined root keys :  </p>
+<ul>
+<li>HKEY_LOCAL_MACHINE or HKLM</li>
+<li>HKEY_CURRENT_CONFIG or HKCC</li>
+<li>HKEY_CLASSES_ROOT or HKCR</li>
+<li>HKEY_CURRENT_USER or HKCU</li>
+<li>HKEY_USERS or HKU</li>
+<li>HKEY_PERFORMANCE_DATA (only in Windows NT, but invisible in the Windows Registry Editor)</li>
+<li>HKEY_DYN_DATA (only in Windows 9x, and visible in the Windows Registry Editor)</li>
+</ul>
+<p><strong>HKEY_LOCAL_MACHINE or HKLM</strong> 
+- Section where computer-specific hardware and software configuration information kept.
+- Settings applicable to each logged-in user are maintained in this section.</p>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/reg3.png" /></p>
+<ol>
+<li>Hardware : contains information about the hardware devices connected to the system.</li>
+<li>SAM : This section contains the encrypted versions of the passwords of the users.</li>
+<li>SECURITY : It is the section that contains the security policies in the system.</li>
+<li>SOFTWARE :  This section contains the configurations of the operating system services as well as the programs installed in the system.</li>
+<li>SYSTEM : It is the section where the configuration information of the system is kept.</li>
+</ol>
+<p><strong>HKEY_CURRENT_CONFIG or HKCC</strong> 
+- It is the section that keeps the hardware configurations during the operation of the system.</p>
+<p><strong>HKEY_CLASSES_ROOT or HKCR</strong>
+- It contains software settings, shortcuts, and all other user interface-related information. If this partition is deleted, none of the files will open, even if Windows is running.  </p>
+<p><strong>HKEY_CURRENT_USER or HKCU</strong>
+- This is the section where the configurations of the logged-in user are kept.  </p>
+<p><strong>HKEY_USERS or HKU</strong>
+- It is the section where the configurations of all users registered to the system are kept.</p>
+<p><strong>Registry Operations on the Command Line</strong> :
+Many operations that can be executed with the registry editor program can also be executed via the command line. Reading registry keys and values, writing values ​​to the registry, and exporting and importing keys are some of the operations that can be executed via the command line.</p>
+<h2 id="windows-firewall">Windows Firewall</h2>
+<p>Windows Firewall is a security tool that allows blocking or allowing incoming network packets to the host machine and outgoing network packets from the host machine within the framework of certain rules.</p>
+<ul>
+<li>Firewall Rule : It contains set of conditions used to determine whether a network packet is allowed to pass through the firewall.</li>
+<li>Inbount Rule : An inbound rule filters traffic that passes from a network to a local computer based on the rules’ parameters.</li>
+<li>Outbound Rules : traffic sent from local computers to the network should be filtered according to the filtering rules.</li>
+</ul>
+<h3 id="firewall-rule-management-with-gui">Firewall Rule Management with GUI</h3>
+<ul>
+<li>Open <code>Run</code> application with <code>Windows+R</code> and type <code>wf.msc</code>.</li>
+</ul>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/fw2.png" /></p>
+<h3 id="firewall-rule-management-with-command-line">Firewall Rule Management with Command Line</h3>
+<table>
+<thead>
+<tr>
+<th><code>cmd</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>netsh advfirewall firewall show rule name=all</code></td>
+<td>List all firewall Rules.</td>
+</tr>
+<tr>
+<td><code>netsh advfirewall firewall show rule name="rule_name"</code></td>
+<td>Display info of the specific firewall rule.</td>
+</tr>
+<tr>
+<td><code>netsh advfirewall firewall delete rule name="rule_name"</code></td>
+<td>Delete firewall rule.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="event-logs">Event Logs</h2>
+<p>Event Logs are logs collected through the Windows operating system.
+- Powershell activities
+- Deleting event logs
+- Starting and stopping services
+- Creating a new scheduled task
+- RDP activity
+- Changing user privileges
+- Failed login activities</p>
+<p><strong>Event log structure</strong> 
+- Each event in log entry has an Event ID. 
+- In windows system there are three main event log titles as "Applications", "System" and "Security".</p>
+<p><img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/evt1.png" /></p>
+<ol>
+<li>Application : Stores log related to the applications in the system. eg : you can find errors received by an antivirus application running on the system.</li>
+<li>System : It is the area where the logs created by the basic components of the operating system are located. For example, logs for a driver loads and unloads operations can be found here.</li>
+<li>Security : Records regarding authentication and security are kept here.</li>
+</ol>
+<h3 id="viewing-event-logs-with-event-viewer">Viewing Event Logs with Event Viewer</h3>
+<ul>
+<li>
+<p>Open <code>Run</code> application and write <code>eventvwr</code>
+<img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/evt3.png" /></p>
+</li>
+<li>
+<p>Lets Examine the logs of failed logins
+<img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/evt5.png" /></p>
+</li>
+<li>
+<p>Filtering Event logs
+<img alt="" src="https://ld-images-2.s3.us-east-2.amazonaws.com/Windows+Fundamentals/images/evt6.png" /></p>
+</li>
+</ul>
+<h3 id="viewing-event-logs-via-command-line">Viewing Event logs via Command Line</h3>
+<p><code>wevtutil query-events Security /rd:true /count:1 /format:text /q:"Event[System[(EventID=4625)]]"</code> </p>
+<pre><code>&quot;query-events&quot; parameter : Query events from a log or log file.
+&quot;/rd&quot; parameter : Reverse direction.
+&quot;/count&quot; parameter : Log count.
+&quot;/format&quot; parameter : Output format.
+&quot;/q&quot; parameter : XPathQuery
+</code></pre>
+<h2 id="windows-management-instrumentation-wmi">Windows Management Instrumentation (wmi)</h2>
+<ul>
+<li>Its feature used to access components of the windows operating system.</li>
+<li>WMI allows local and remote access.</li>
+</ul>
+<p><strong>Using WMI</strong></p>
+<table>
+<thead>
+<tr>
+<th><code>cmd</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wmic os list brief</code></td>
+<td>info about operating system.</td>
+</tr>
+<tr>
+<td><code>wmic useraccount get name</code></td>
+<td>list names of user in the system.</td>
+</tr>
+<tr>
+<td>&gt;[!note] Find Detailed info here : https://ss64.com/nt/wmic.html</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

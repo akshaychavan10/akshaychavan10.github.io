@@ -1,6 +1,6 @@
-# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json 
 
-site_name: My site
+site_name: Knowledge base
 site_url: https://akshaychavan10.github.io
 theme:
   name: material

@@ -1,0 +1,3554 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://akshaychavan10.github.io/Computer%20Networks/5.%20Introductory%20Networking/">
+      
+      
+        <link rel="prev" href="../5.%20Intro%20to%20LAN/">
+      
+      
+        <link rel="next" href="../6.%20Network%20Security/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+    
+    
+      
+        <title>5. Introductory Networking - Knowledge base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Knowledge base" class="md-header__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Knowledge base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Introductory Networking
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Welcome to My Knowledge Base
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../CRTP/notes/" class="md-tabs__link">
+          
+  
+  CRTP
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../10.%20HTTP%20in%20Details/" class="md-tabs__link">
+          
+  
+  Computer Networks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cryptography/16.%20Hashing%20-%20Crypto%20101/" class="md-tabs__link">
+          
+  
+  Cryptography
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cyber%20Security%20101/0.%20list/" class="md-tabs__link">
+          
+  
+  Cyber Security 101
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Linux/26.%20What%20the%20Shell/" class="md-tabs__link">
+          
+  
+  Linux
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Networking-HTB/0.%20list/" class="md-tabs__link">
+          
+  
+  Networking HTB
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Tools/11.%20Burp%20Suit%20the%20Basics/" class="md-tabs__link">
+          
+  
+  Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Web%20Application%20Security/10.%20File%20Inclusion/" class="md-tabs__link">
+          
+  
+  Web Application Security
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Windows/14%20Windows%20Fundamental/" class="md-tabs__link">
+          
+  
+  Windows
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Knowledge base" class="md-nav__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Knowledge base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Knowledge Base
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CRTP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CRTP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. Basics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            1. Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/1.%20Windows%20Introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Windows Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/2.%20Windows%20Privilege%20Escalation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Windows Privilege Escalation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/3.%20Introduction%20to%20Active%20Directory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Introduction to Active Directory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/4.%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Methodology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/5.%20Miscellaeous%20Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Miscellaeous Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2. Domain Enumeration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            2. Domain Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/1.%20Basics%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Basics Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/2.%20GPO%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. GPO Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/3.%20ACL%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. ACL Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/4.%20Trusts%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Trusts Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/5.%20BloodHound%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. BloodHound Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3. Lateral Movement
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            3. Lateral Movement
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/3.%20Lateral-Movement/1.%20Invoke-Command/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Invoke-Command
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/3.%20Lateral-Movement/2.%20Invoke-Mimikatz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Invoke Mimikatz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    4. Domain Persistence
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            4. Domain Persistence
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/1.%20Golden%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Golden Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/2.%20Silver%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Silver Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/3.%20Skeleton%20key/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Skeleton key
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    5. Domain Priv Esc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            5. Domain Priv Esc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/1.%20kerberost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. kerberost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/2.%20Unconstrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Unconstrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/3.%20Constrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Constrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    6. Forest Trusts Abuse
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            6. Forest Trusts Abuse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/6.%20Forest%20Trusts%20Abuse/1.%20Ticket%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Ticket Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/6.%20Forest%20Trusts%20Abuse/2.%20MSSQL%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. MSSQL Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Computer Networks
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Computer Networks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10.%20HTTP%20in%20Details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10. HTTP in Details
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21.%20Protocol%20and%20servers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    21. Protocol and servers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22.%20Protocol%20and%20Servers%202/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    22. Protocol and Servers 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.%20What%20is%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. What is Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5.%20Intro%20to%20LAN/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Intro to LAN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    5. Introductory Networking
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    5. Introductory Networking
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-osi-model-an-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      The OSI Model: An Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The OSI Model: An Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layer-7-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 7 -- Application
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-6-presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 6 -- Presentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-5-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 5 -- Session
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-4-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 4 -- Transport
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-3-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 3 -- Network:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-2-data-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 2 -- Data Link:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-1-physical" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 1 -- Physical:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encapsulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encapsulation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-tcpip-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      The TCP/IP Model.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The TCP/IP Model.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-way-handshake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Three Way Handshake
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking-tools-ping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Tools Ping
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking-tools-traceroute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Tools Traceroute
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking-tools-whois" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Tools WHOIS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking-tools-dig" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Tools Dig
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further Reading
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6.%20Network%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Network Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6.%20OSI%20Model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. OSI Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.%20Network%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Network Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.%20Packets%20and%20Frames/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Packets and Frames
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8.%20Network%20service%202/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. Network service 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9.%20DNS%20in%20Detail./" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. DNS in Detail.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cryptography
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptography
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography/16.%20Hashing%20-%20Crypto%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16. Hashing   Crypto 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography/18.%20Encryption%20-%20Crypto%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    18. Encryption   Crypto 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cyber Security 101
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Cyber Security 101
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/0.%20list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛡️ Offensive &amp; Defensive Security Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/1.%20What%20is%20Offensive%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. What is Offensive Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/10.Passive%20Reconnaissance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.Passive Reconnaissance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/11.Red%20Team%20Fundamentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11.Red Team Fundamentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/12.Red%20Team%20Engagements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12.Red Team Engagements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/13.Red%20Team%20Threat%20Intel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13.Red Team Threat Intel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/14.Digital%20Forensics%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14.Digital Forensics 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/15.Operating%20System%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15.Operating System Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/16.Phising/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16.Phising
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/17.Python%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    17.Python Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/2.%20Introduction%20to%20Defensive%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Introduction to Defensive Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/3.Careers%20in%20Cyber/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.Careers in Cyber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/4.Pentesting%20Fundamentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.Pentesting Fundamentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/5.Principles%20of%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.Principles of Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/6.Introductory%20Researching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.Introductory Researching
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/7.Search%20skills/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7.Search skills
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/8.Vulnerabilities%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8.Vulnerabilities 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/9.Active%20Reconnaissance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.Active Reconnaissance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/26.%20What%20the%20Shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    26. What the Shell
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/27.%20Common%20Linux%20Privesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    27. Common Linux Privesc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/28.%20Linux%20PrivEsc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    28. Linux PrivEsc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Networking HTB
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Networking HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Networking-HTB/0.%20list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Networking-HTB/1.%20%20Networking%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.  Networking Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Networking-HTB/2.%20Networking%20Workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Networking Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Networking-HTB/3.%20Addressing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Addressing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Networking-HTB/4.%20Protocols%20%26%20Terminology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Protocols & Terminology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Networking-HTB/5.%20Connection%20Establishment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Connection Establishment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Networking-HTB/6.%20DNS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tools
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/11.%20Burp%20Suit%20the%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11. Burp Suit the Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/15.%20Burp%20Suite%20-%20Repeater/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15. Burp Suite   Repeater
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/16.%20Burp%20Suite%20-%20Intruder%20%26%20Other%20Module%20and%20Extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16. Burp Suite   Intruder & Other Module and Extension
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/17.%20John%20the%20Ripper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    17. John the Ripper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/22.%20Metasploit%20-%20Introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    22. Metasploit   Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/23.%20Metasploit%20-%20Exploitation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    23. Metasploit   Exploitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/24.%20Metasploit%20-%20Meterpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    24. Metasploit   Meterpreter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/5.%20Wireshark%20-%20The%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Wireshark   The Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/6.%20Nmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Nmap
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/7.%20Hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Web Application Security
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Web Application Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/10.%20File%20Inclusion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10. File Inclusion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/11.%20How%20Website%20Works/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11. How Website Works
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/12.%20OWASP%20Top%2010%20-%202021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12. OWASP Top 10   2021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/12.%20Putting%20It%20All%20Together/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12. Putting It All Together
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/14.%20Upload%20Vulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14. Upload Vulnerabilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/4.%20Web%20Application%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Web Application Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/5.%20Walking%20An%20Application/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Walking An Application
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/6.%20Content%20Discovery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Content Discovery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/7.%20Subdomain%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Subdomain Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/8.%20Authentication%20Bypass/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. Authentication Bypass
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/9.%20IDOR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. IDOR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/14%20Windows%20Fundamental/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/32.%20Windows%20Privilege%20Escalation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    32. Windows Privilege Escalation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-osi-model-an-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      The OSI Model: An Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The OSI Model: An Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layer-7-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 7 -- Application
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-6-presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 6 -- Presentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-5-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 5 -- Session
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-4-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 4 -- Transport
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-3-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 3 -- Network:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-2-data-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 2 -- Data Link:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-1-physical" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer 1 -- Physical:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encapsulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encapsulation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-tcpip-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      The TCP/IP Model.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The TCP/IP Model.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-way-handshake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Three Way Handshake
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking-tools-ping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Tools Ping
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking-tools-traceroute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Tools Traceroute
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking-tools-whois" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Tools WHOIS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking-tools-dig" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Tools Dig
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further Reading
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>5. Introductory Networking</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>The topics that we're going to cover in this room are:</p>
+<ul>
+<li>The OSI Model</li>
+<li>The TCP/IP Model</li>
+<li>How these models look in practice</li>
+<li>An introduction to basic networking tools</li>
+</ul>
+<h2 id="the-osi-model-an-overview">The OSI Model: An Overview</h2>
+<p>The OSI (Open Systems Interconnection) Model is a standard framework for understanding computer networking theory. While real-world networking is based on the TCP/IP model, the OSI model is often used for its simplicity in grasping networking concepts initially.</p>
+<p>![[Pasted image 20240506143736.png]] </p>
+<h3 id="layer-7-application">Layer 7 -- Application</h3>
+<p>Application layer, helps computer programs connect to networks.  It deals directly with applications, providing them with a way to send data. Data received at this layer moves on to the presentation layer.</p>
+<h3 id="layer-6-presentation">Layer 6 -- Presentation</h3>
+<p>The Presentation layer, gets data from the Application layer. It might not be in a format the receiving computer understands, so this layer translates it into a standard format and handles encryption or compression. Then it sends the data to the Session layer.</p>
+<h3 id="layer-5-session">Layer 5 -- Session</h3>
+<p>The Session layer checks if it can establish a connection with the remote computer. If successful, it maintains and synchronizes the communication session. 
+This unique session prevents data mix-up when making multiple requests simultaneously, like opening multiple tabs in a web browser. Once a connection is logged, data moves to Layer 4: the Transport layer.</p>
+<h3 id="layer-4-transport">Layer 4 -- Transport</h3>
+<p>The Transport layer is crucial, selecting the transmission protocol, typically TCP or UDP. </p>
+<p>TCP offers reliable transmission by establishing and maintaining connections, ensuring data reaches the right place. It facilitates constant communication between computers, resending lost data for accuracy. </p>
+<p>UDP, on the other hand, prioritizes speed, throwing data packets without connection maintenance. This makes it ideal for tasks like video streaming where speed is paramount. However, UDP's lack of error correction means data loss is possible, resulting in issues like pixelation in video transmission over poor connections. </p>
+<p>Therefore, TCP is preferred for accuracy-driven tasks like file transfer or webpage loading.</p>
+<p>With a protocol selected, the transport layer then divides the transmission up into bite-sized pieces (over TCP these are called segments, over UDP they're called datagrams), which makes it easier to transmit the message successfully. </p>
+<h3 id="layer-3-network">Layer 3 -- Network:</h3>
+<p>The Network layer finds the destination of your request, like locating a webpage on the Internet using its IP address. It uses logical addressing, such as IP addresses, to organize and sort networks. The most common logical addressing format is IPv4, like 192.168.1.1 for home routers.</p>
+<h3 id="layer-2-data-link">Layer 2 -- Data Link:</h3>
+<p>The data link layer focuses on the physical addressing of the transmission. It receives a packet from the network layer (that includes the IP address for the remote computer) and adds in the physical (MAC) address of the receiving endpoint. Inside every network enabled computer is a Network Interface Card (NIC) which comes with a unique MAC (Media Access Control) address to identify it.</p>
+<p>MAC addresses are set by the manufacturer and literally burnt into the card; they can't be changed -- although they can be spoofed. When information is sent across a network, it's actually the physical address that is used to identify where exactly to send the information.</p>
+<p>The data link layer also serves an important function when it receives data, as it checks the received information to make sure that it hasn't been corrupted during transmission, which could well happen when the data is transmitted by layer 1: the physical layer.</p>
+<h3 id="layer-1-physical">Layer 1 -- Physical:</h3>
+<p>The Physical layer deals with hardware, transmitting and receiving electrical signals that make up data transfer on a network. It converts binary data into signals for transmission and receives incoming signals, converting them back into binary data.</p>
+<h2 id="encapsulation">Encapsulation</h2>
+<p>As data moves through each layer of the model, specific information is added to the transmission. For instance, the Network Layer adds source and destination IP addresses, while the Transport Layer includes protocol-specific details. The Data Link Layer adds a piece at the end to verify data integrity, enhancing security. This process, called encapsulation, ensures data can be sent from one computer to another.
+![[Pasted image 20240506144652.png]]</p>
+<p>Notice that the encapsulated data is given a different name at different steps of the process. In layers 7 to 5, it's simply "data." In the Transport layer, it's called a segment or datagram (depending on TCP or UDP). At the Network Layer, it's a packet. In the Data Link layer, it becomes a frame, and when transmitted, it's broken down into bits.</p>
+<p>When the message reaches the second computer, it undergoes de-encapsulation, starting from the Physical layer and moving up to the Application layer, removing added information at each step. This process is called de-encapsulation. While it's not exactly the same in practice, all computers follow this process of encapsulation to send data and de-encapsulation upon receiving it, following the OSI model layers.</p>
+<p>Encapsulation and de-encapsulation are crucial processes as they provide a standardized method for sending data. This ensures consistency in transmissions, allowing any network-enabled device to communicate with others reliably, irrespective of manufacturer, operating system, or other factors.</p>
+<h2 id="the-tcpip-model">The TCP/IP Model.</h2>
+<p>The TCP/IP model, older than OSI, forms the foundation for real-world networking. It comprises four layers: Application, Transport, Internet, and Network Interface, covering functions similar to OSI's seven layers.</p>
+<blockquote>
+<p>[!note] Some recent sources split the TCP/IP model into five layers -- breaking the Network Interface layer into Data Link and Physical layers (as with the OSI model). This is accepted and well-known; however, it is not officially defined (unlike the original four layers which are defined in RFC1122). It's up to you which version you use -- both are generally considered valid. </p>
+<p>[!Question] Why we bother with osi model if its not actually used for anything in the real-world?
+We use the OSI model primarily for learning networking theory. Its structured approach makes it easier to understand fundamental concepts, even though real-world networking is based on the TCP/IP model.</p>
+</blockquote>
+<p>![[Pasted image 20240506151208.png]]</p>
+<p>The processes of encapsulation and de-encapsulation work in exactly the same way with the TCP/IP model as they do with the OSI model</p>
+<p><strong>Now Let's get down to the practical side of things:</strong> </p>
+<p>When discussing TCP/IP, we're referring to a suite of protocols, which are sets of rules defining how actions are carried out. The two main protocols are Transmission Control Protocol (TCP), managing data flow between endpoints, and Internet Protocol (IP), controlling packet addressing and sending. TCP/IP comprises many more protocols, which we'll explore later. For now, let's focus on TCP.</p>
+<p>TCP is connection-based, meaning you need to establish a stable connection before sending data. This process is called the three-way handshake.</p>
+<h3 id="three-way-handshake">Three Way Handshake</h3>
+<ul>
+<li>To establish a connection, your computer sends a SYN (synchronize) bit to the remote server, initiating the process. </li>
+<li>The server responds with a packet containing SYN and ACK (acknowledgment) bits. </li>
+<li>Your computer then sends a packet with just the ACK bit, confirming the connection setup. </li>
+</ul>
+<p>This three-way handshake ensures reliable data transmission, with lost or corrupted data being resent.
+![[Pasted image 20240506151223.png]]</p>
+<h2 id="networking-tools-ping">Networking Tools Ping</h2>
+<p>The ping command tests if a connection to a remote resource, like a website or computer on your network, is possible. It uses the ICMP protocol, operating at the Network layer of the OSI Model and the Internet layer of the TCP/IP model. The basic syntax is <code>ping &lt;target&gt;</code>. For instance, "ping google.com" tests the network connection to Google.</p>
+<p>The ping command can reveal the IP address of the server hosting a website, instead of the requested URL.</p>
+<p>Ping is widely available; all operating systems support it by default, and even most embedded devices can use it.</p>
+<h2 id="networking-tools-traceroute">Networking Tools Traceroute</h2>
+<p>Traceroute maps the path your request takes to reach the target machine.</p>
+<p>The internet consists of numerous servers and endpoints interconnected. To reach desired content, your request often passes through several servers. Traceroute reveals these connections, showing every step between your computer and the requested resource. The basic syntax for traceroute on Linux is <code>traceroute &lt;destination&gt;</code>.</p>
+<p>By default, the Windows traceroute utility (tracert) uses ICMP protocol, similar to ping, while the Unix equivalent operates over UDP. However, you can change this using switches in both cases.</p>
+<h2 id="networking-tools-whois">Networking Tools WHOIS</h2>
+<p>Domains translate into IP addresses, sparing us from remembering complex strings of numbers. They are managed by companies called Domain Registrars. To obtain a domain, you register with a registrar and lease it for a certain period.</p>
+<p>Whois essentially allows you to query who a domain name is registered to. In Europe personal details are redacted; however, elsewhere you can potentially get a great deal of information from a whois search.</p>
+<p>You can use <code>whois google.com</code></p>
+<h2 id="networking-tools-dig">Networking Tools Dig</h2>
+<p>DNS (Domain Name System) is the system that converts a URL into an IP address. When you request a website like www.google.com, your computer asks a DNS server for its IP address. The server finds the IP and sends it back. Then your computer connects to that IP to access the website.</p>
+<p>Let's break this down a bit.</p>
+<ul>
+<li>
+<p>When you request a website, your computer first checks its local "Hosts File" for an explicit IP-to-Domain mapping. This is an older system than DNS but still takes precedence in most operating systems. If no mapping exists, your computer then checks its local DNS cache. If it finds the IP address there, it uses it; otherwise, it proceeds to the next stage of the process.</p>
+</li>
+<li>
+<p>If your computer hasn't found the address yet, it sends a request to a recursive DNS server, which is typically known to your router. ISPs often have their own recursive servers, and companies like Google and OpenDNS also provide them. Your computer automatically knows where to send the request because details for a recursive DNS server are stored in your router or computer. The server maintains a cache of results for popular domains. If the requested website isn't in the cache, the recursive server passes the request to a root name server.</p>
+</li>
+<li>
+<p>Before 2004, there were only 13 root name DNS servers worldwide. Now there are more, but they are still accessible using the same 13 IP addresses assigned to the original servers. These servers balance requests to ensure you connect to the closest one. Root name servers manage DNS servers in the next level down, known as Top-Level Domain (TLD) servers. They redirect your request to an appropriate TLD server.</p>
+</li>
+<li>
+<p>Top-Level Domain (TLD) servers are categorized by extensions. For example, if you search for tryhackme.com, your request goes to a TLD server for .com domains. If you search for bbc.co.uk, it goes to a TLD server for .co.uk domains. Like root name servers, TLD servers manage the next level down: Authoritative name servers. When a TLD server receives your request, it passes it down to an appropriate Authoritative name server.</p>
+</li>
+<li>
+<p>Authoritative name servers store DNS records for domains directly. They are the source of information for every domain worldwide. When your request reaches the authoritative name server for the domain you're querying, it sends back the relevant information, enabling your computer to connect to the IP address behind the requested domain.</p>
+</li>
+</ul>
+<hr />
+<p>The <code>dig</code> command in Linux is a powerful DNS (Domain Name System) tool used for querying DNS name servers for various DNS records like A, AAAA, CNAME, MX, TXT, etc. It stands for "domain information groper."</p>
+<p>With <code>dig</code>, you can retrieve information about DNS records for a given domain name or IP address. It provides detailed information such as the IP addresses associated with a domain, the authoritative name servers for a domain, TTL (time to live) values, and much more.</p>
+<p>Here's a basic example of how you might use <code>dig</code>:</p>
+<p>Copy code</p>
+<p><code>dig example.com</code></p>
+<hr />
+<h2 id="further-reading">Further Reading</h2>
+<p>if you want to expand your knowledge of networking theory, the <a href="https://www.amazon.co.uk/Interconnecting-Cisco-Network-Devices-ICND1/dp/1587054620/ref=sr_1_1?keywords=Interconnecting+Cisco+Network+Devices%2C+Part+1&amp;qid=1583683766&amp;sr=8-1">CISCO Self Study Guide by Steve McQuerry</a> is a great resource to work from</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../5.%20Intro%20to%20LAN/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 5. Intro to LAN">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                5. Intro to LAN
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../6.%20Network%20Security/" class="md-footer__link md-footer__link--next" aria-label="Next: 6. Network Security">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                6. Network Security
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Akshay Chavan
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.footer"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

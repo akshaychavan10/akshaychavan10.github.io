@@ -1,0 +1,4326 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://akshaychavan10.github.io/Networking-HTB/4.%20Protocols%20%26%20Terminology/">
+      
+      
+        <link rel="prev" href="../3.%20Addressing/">
+      
+      
+        <link rel="next" href="../5.%20Connection%20Establishment/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+    
+    
+      
+        <title>4. Protocols & Terminology - Knowledge base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#networking-key-terminology" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Knowledge base" class="md-header__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Knowledge base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. Protocols & Terminology
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Welcome to My Knowledge Base
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../CRTP/notes/" class="md-tabs__link">
+          
+  
+  CRTP
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Computer%20Networks/10.%20HTTP%20in%20Details/" class="md-tabs__link">
+          
+  
+  Computer Networks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cryptography/16.%20Hashing%20-%20Crypto%20101/" class="md-tabs__link">
+          
+  
+  Cryptography
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cyber%20Security%20101/0.%20list/" class="md-tabs__link">
+          
+  
+  Cyber Security 101
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Linux/26.%20What%20the%20Shell/" class="md-tabs__link">
+          
+  
+  Linux
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../0.%20list/" class="md-tabs__link">
+          
+  
+  Networking HTB
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Tools/11.%20Burp%20Suit%20the%20Basics/" class="md-tabs__link">
+          
+  
+  Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Web%20Application%20Security/10.%20File%20Inclusion/" class="md-tabs__link">
+          
+  
+  Web Application Security
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Windows/14%20Windows%20Fundamental/" class="md-tabs__link">
+          
+  
+  Windows
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Knowledge base" class="md-nav__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Knowledge base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Knowledge Base
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CRTP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CRTP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. Basics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            1. Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/1.%20Windows%20Introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Windows Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/2.%20Windows%20Privilege%20Escalation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Windows Privilege Escalation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/3.%20Introduction%20to%20Active%20Directory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Introduction to Active Directory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/4.%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Methodology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/5.%20Miscellaeous%20Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Miscellaeous Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2. Domain Enumeration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            2. Domain Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/1.%20Basics%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Basics Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/2.%20GPO%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. GPO Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/3.%20ACL%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. ACL Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/4.%20Trusts%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Trusts Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/5.%20BloodHound%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. BloodHound Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3. Lateral Movement
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            3. Lateral Movement
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/3.%20Lateral-Movement/1.%20Invoke-Command/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Invoke-Command
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/3.%20Lateral-Movement/2.%20Invoke-Mimikatz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Invoke Mimikatz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    4. Domain Persistence
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            4. Domain Persistence
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/1.%20Golden%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Golden Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/2.%20Silver%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Silver Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/3.%20Skeleton%20key/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Skeleton key
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    5. Domain Priv Esc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            5. Domain Priv Esc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/1.%20kerberost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. kerberost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/2.%20Unconstrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Unconstrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/3.%20Constrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Constrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    6. Forest Trusts Abuse
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            6. Forest Trusts Abuse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/6.%20Forest%20Trusts%20Abuse/1.%20Ticket%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Ticket Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/6.%20Forest%20Trusts%20Abuse/2.%20MSSQL%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. MSSQL Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Computer Networks
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Computer Networks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/10.%20HTTP%20in%20Details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10. HTTP in Details
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/21.%20Protocol%20and%20servers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    21. Protocol and servers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/22.%20Protocol%20and%20Servers%202/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    22. Protocol and Servers 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/4.%20What%20is%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. What is Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/5.%20Intro%20to%20LAN/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Intro to LAN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/5.%20Introductory%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Introductory Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/6.%20Network%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Network Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/6.%20OSI%20Model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. OSI Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/7.%20Network%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Network Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/7.%20Packets%20and%20Frames/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Packets and Frames
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/8.%20Network%20service%202/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. Network service 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/9.%20DNS%20in%20Detail./" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. DNS in Detail.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cryptography
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptography
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography/16.%20Hashing%20-%20Crypto%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16. Hashing   Crypto 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography/18.%20Encryption%20-%20Crypto%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    18. Encryption   Crypto 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cyber Security 101
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Cyber Security 101
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/0.%20list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛡️ Offensive &amp; Defensive Security Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/1.%20What%20is%20Offensive%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. What is Offensive Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/10.Passive%20Reconnaissance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.Passive Reconnaissance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/11.Red%20Team%20Fundamentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11.Red Team Fundamentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/12.Red%20Team%20Engagements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12.Red Team Engagements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/13.Red%20Team%20Threat%20Intel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13.Red Team Threat Intel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/14.Digital%20Forensics%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14.Digital Forensics 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/15.Operating%20System%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15.Operating System Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/16.Phising/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16.Phising
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/17.Python%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    17.Python Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/2.%20Introduction%20to%20Defensive%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Introduction to Defensive Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/3.Careers%20in%20Cyber/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.Careers in Cyber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/4.Pentesting%20Fundamentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.Pentesting Fundamentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/5.Principles%20of%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.Principles of Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/6.Introductory%20Researching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.Introductory Researching
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/7.Search%20skills/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7.Search skills
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/8.Vulnerabilities%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8.Vulnerabilities 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/9.Active%20Reconnaissance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.Active Reconnaissance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/26.%20What%20the%20Shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    26. What the Shell
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/27.%20Common%20Linux%20Privesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    27. Common Linux Privesc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/28.%20Linux%20PrivEsc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    28. Linux PrivEsc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Networking HTB
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Networking HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0.%20list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.%20%20Networking%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.  Networking Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.%20Networking%20Workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Networking Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.%20Addressing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Addressing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    4. Protocols & Terminology
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    4. Protocols & Terminology
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#networking-key-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Key Terminology
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Networking Key Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tcp-transmission-control-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP (Transmission Control Protocol)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#udp-user-datagram-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      UDP (User Datagram Protocol)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#icmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      ICMP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voipvoice-over-internet-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      VoIP(Voice over internet protocol)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wireless-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wireless Networks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wireless Networks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wifi-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wifi Connection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encryption Protocols.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vpn" class="md-nav__link">
+    <span class="md-ellipsis">
+      VPN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vendor-specific-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vendor Specific Information
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5.%20Connection%20Establishment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Connection Establishment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6.%20DNS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tools
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/11.%20Burp%20Suit%20the%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11. Burp Suit the Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/15.%20Burp%20Suite%20-%20Repeater/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15. Burp Suite   Repeater
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/16.%20Burp%20Suite%20-%20Intruder%20%26%20Other%20Module%20and%20Extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16. Burp Suite   Intruder & Other Module and Extension
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/17.%20John%20the%20Ripper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    17. John the Ripper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/22.%20Metasploit%20-%20Introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    22. Metasploit   Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/23.%20Metasploit%20-%20Exploitation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    23. Metasploit   Exploitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/24.%20Metasploit%20-%20Meterpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    24. Metasploit   Meterpreter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/5.%20Wireshark%20-%20The%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Wireshark   The Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/6.%20Nmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Nmap
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/7.%20Hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Web Application Security
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Web Application Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/10.%20File%20Inclusion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10. File Inclusion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/11.%20How%20Website%20Works/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11. How Website Works
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/12.%20OWASP%20Top%2010%20-%202021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12. OWASP Top 10   2021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/12.%20Putting%20It%20All%20Together/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12. Putting It All Together
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/14.%20Upload%20Vulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14. Upload Vulnerabilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/4.%20Web%20Application%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Web Application Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/5.%20Walking%20An%20Application/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Walking An Application
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/6.%20Content%20Discovery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Content Discovery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/7.%20Subdomain%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Subdomain Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/8.%20Authentication%20Bypass/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. Authentication Bypass
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/9.%20IDOR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. IDOR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/14%20Windows%20Fundamental/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/32.%20Windows%20Privilege%20Escalation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    32. Windows Privilege Escalation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#networking-key-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking Key Terminology
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Networking Key Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tcp-transmission-control-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP (Transmission Control Protocol)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#udp-user-datagram-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      UDP (User Datagram Protocol)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#icmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      ICMP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voipvoice-over-internet-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      VoIP(Voice over internet protocol)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wireless-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wireless Networks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wireless Networks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wifi-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wifi Connection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encryption Protocols.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vpn" class="md-nav__link">
+    <span class="md-ellipsis">
+      VPN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vendor-specific-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vendor Specific Information
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>4. Protocols & Terminology</h1>
+
+<h2 id="networking-key-terminology">Networking Key Terminology</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Protocol</strong></th>
+<th><strong>Acronym</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wired Equivalent Privacy</td>
+<td><code>WEP</code></td>
+<td>WEP is a type of security protocol that was commonly used to secure wireless networks.</td>
+</tr>
+<tr>
+<td>Secure Shell</td>
+<td><code>SSH</code></td>
+<td>A secure network protocol used to log into and execute commands on a remote system</td>
+</tr>
+<tr>
+<td>File Transfer Protocol</td>
+<td><code>FTP</code></td>
+<td>A network protocol used to transfer files from one system to another</td>
+</tr>
+<tr>
+<td>Simple Mail Transfer Protocol</td>
+<td><code>SMTP</code></td>
+<td>A protocol used to send and receive emails</td>
+</tr>
+<tr>
+<td>Hypertext Transfer Protocol</td>
+<td><code>HTTP</code></td>
+<td>A client-server protocol used to send and receive data over the internet</td>
+</tr>
+<tr>
+<td>Server Message Block</td>
+<td><code>SMB</code></td>
+<td>A protocol used to share files, printers, and other resources in a network</td>
+</tr>
+<tr>
+<td>Network File System</td>
+<td><code>NFS</code></td>
+<td>A protocol used to access files over a network</td>
+</tr>
+<tr>
+<td>Simple Network Management Protocol</td>
+<td><code>SNMP</code></td>
+<td>A protocol used to manage network devices</td>
+</tr>
+<tr>
+<td>Wi-Fi Protected Access</td>
+<td><code>WPA</code></td>
+<td>WPA is a wireless security protocol that uses a password to protect wireless networks from unauthorized access.</td>
+</tr>
+<tr>
+<td>Temporal Key Integrity Protocol</td>
+<td><code>TKIP</code></td>
+<td>TKIP is also a security protocol used in wireless networks but less secure.</td>
+</tr>
+<tr>
+<td>Network Time Protocol</td>
+<td><code>NTP</code></td>
+<td>It is used to synchronize the timing of computers on a network.</td>
+</tr>
+<tr>
+<td>Virtual Local Area Network</td>
+<td><code>VLAN</code></td>
+<td>It is a way to segment a network into multiple logical networks.</td>
+</tr>
+<tr>
+<td>VLAN Trunking Protocol</td>
+<td><code>VTP</code></td>
+<td>VTP is a Layer 2 protocol that is used to establish and maintain a virtual LAN (VLAN) spanning multiple switches.</td>
+</tr>
+<tr>
+<td>Routing Information Protocol</td>
+<td><code>RIP</code></td>
+<td>RIP is a distance-vector routing protocol used in local area networks (LANs) and wide area networks (WANs).</td>
+</tr>
+<tr>
+<td>Open Shortest Path First</td>
+<td><code>OSPF</code></td>
+<td>It is an interior gateway protocol (IGP) for routing traffic within a single Autonomous System (AS) in an Internet Protocol (IP) network.</td>
+</tr>
+<tr>
+<td>Interior Gateway Routing Protocol</td>
+<td><code>IGRP</code></td>
+<td>IGRP is a Cisco proprietary interior gateway protocol designed for routing within autonomous systems.</td>
+</tr>
+<tr>
+<td>Enhanced Interior Gateway Routing Protocol</td>
+<td><code>EIGRP</code></td>
+<td>It is an advanced distance-vector routing protocol that is used to route IP traffic within a network.</td>
+</tr>
+<tr>
+<td>Pretty Good Privacy</td>
+<td><code>PGP</code></td>
+<td>PGP is an encryption program that is used to secure emails, files, and other types of data.</td>
+</tr>
+<tr>
+<td>Network News Transfer Protocol</td>
+<td><code>NNTP</code></td>
+<td>NNTP is a protocol used for distributing and retrieving messages in newsgroups across the internet.</td>
+</tr>
+<tr>
+<td>Cisco Discovery Protocol</td>
+<td><code>CDP</code></td>
+<td>It is a proprietary protocol developed by Cisco Systems that allows network administrators to discover and manage Cisco devices connected to the network.</td>
+</tr>
+<tr>
+<td>Hot Standby Router Protocol</td>
+<td><code>HSRP</code></td>
+<td>HSRP is a protocol used in Cisco routers to provide redundancy in the event of a router or other network device failure.</td>
+</tr>
+<tr>
+<td>Virtual Router Redundancy Protocol</td>
+<td><code>VRRP</code></td>
+<td>It is a protocol used to provide automatic assignment of available Internet Protocol (IP) routers to participating hosts.</td>
+</tr>
+<tr>
+<td>Spanning Tree Protocol</td>
+<td><code>STP</code></td>
+<td>STP is a network protocol used to ensure a loop-free topology in Layer 2 Ethernet networks.</td>
+</tr>
+<tr>
+<td>Terminal Access Controller Access-Control System</td>
+<td><code>TACACS</code></td>
+<td>TACACS is a protocol that provides centralized authentication, authorization, and accounting for network access.</td>
+</tr>
+<tr>
+<td>Session Initiation Protocol</td>
+<td><code>SIP</code></td>
+<td>It is a signaling protocol used for establishing and terminating real-time voice, video and multimedia sessions over an IP network.</td>
+</tr>
+<tr>
+<td>Voice Over IP</td>
+<td><code>VOIP</code></td>
+<td>VOIP is a technology that allows for telephone calls to be made over the internet.</td>
+</tr>
+<tr>
+<td>Extensible Authentication Protocol</td>
+<td><code>EAP</code></td>
+<td>EAP is a framework for authentication that supports multiple authentication methods, such as passwords, digital certificates, one-time passwords, and public-key authentication.</td>
+</tr>
+<tr>
+<td>Lightweight Extensible Authentication Protocol</td>
+<td><code>LEAP</code></td>
+<td>LEAP is a proprietary wireless authentication protocol developed by Cisco Systems. It is based on the Extensible Authentication Protocol (EAP) used in the Point-to-Point Protocol (PPP).</td>
+</tr>
+<tr>
+<td>Protected Extensible Authentication Protocol</td>
+<td><code>PEAP</code></td>
+<td>PEAP is a security protocol that provides an encrypted tunnel for wireless networks and other types of networks.</td>
+</tr>
+<tr>
+<td>Systems Management Server</td>
+<td><code>SMS</code></td>
+<td>SMS is a systems management solution that helps organizations manage their networks, systems, and mobile devices.</td>
+</tr>
+<tr>
+<td>Microsoft Baseline Security Analyzer</td>
+<td><code>MBSA</code></td>
+<td>It is a free security tool from Microsoft that is used to detect potential security vulnerabilities in Windows computers, networks, and systems.</td>
+</tr>
+<tr>
+<td>Supervisory Control and Data Acquisition</td>
+<td><code>SCADA</code></td>
+<td>It is a type of industrial control system that is used to monitor and control industrial processes, such as those in manufacturing, power generation, and water and waste treatment.</td>
+</tr>
+<tr>
+<td>Virtual Private Network</td>
+<td><code>VPN</code></td>
+<td>VPN is a technology that allows users to create a secure, encrypted connection to another network over the internet.</td>
+</tr>
+<tr>
+<td>Internet Protocol Security</td>
+<td><code>IPsec</code></td>
+<td>IPsec is a protocol used to provide secure, encrypted communication over a network. It is commonly used in VPNs, or Virtual Private Networks, to create a secure tunnel between two devices.</td>
+</tr>
+<tr>
+<td>Point-to-Point Tunneling Protocol</td>
+<td><code>PPTP</code></td>
+<td>It is a protocol used to create a secure, encrypted tunnel for remote access.</td>
+</tr>
+<tr>
+<td>Network Address Translation</td>
+<td><code>NAT</code></td>
+<td>NAT is a technology that allows multiple devices on a private network to connect to the internet using a single public IP address. NAT works by translating the private IP addresses of devices on the network into a single public IP address, which is then used to connect to the internet.</td>
+</tr>
+<tr>
+<td>Carriage Return Line Feed</td>
+<td><code>CRLF</code></td>
+<td>Combines two control characters to indicate the end of a line and a start of a new one for certain text file formats.</td>
+</tr>
+<tr>
+<td>Asynchronous JavaScript and XML</td>
+<td><code>AJAX</code></td>
+<td>Web development technique that allows creating dynamic web pages using JavaScript and XML/JSON.</td>
+</tr>
+<tr>
+<td>Internet Server Application Programming Interface</td>
+<td><code>ISAPI</code></td>
+<td>Allows to create performance-oriented web extensions for web servers using a set of APIs.</td>
+</tr>
+<tr>
+<td>Uniform Resource Identifier</td>
+<td><code>URI</code></td>
+<td>It is a syntax used to identify a resource on the Internet.</td>
+</tr>
+<tr>
+<td>Uniform Resource Locator</td>
+<td><code>URL</code></td>
+<td>Subset of URI that identifies a web page or another resource on the Internet, including the protocol and the domain name.</td>
+</tr>
+<tr>
+<td>Internet Key Exchange</td>
+<td><code>IKE</code></td>
+<td>IKE is a protocol used to set up a secure connection between two computers. It is used in virtual private networks (VPNs) to provide authentication and encryption for data transmission, protecting the data from outside eavesdropping and tampering.</td>
+</tr>
+<tr>
+<td>Generic Routing Encapsulation</td>
+<td><code>GRE</code></td>
+<td>This protocol is used to encapsulate the data being transmitted within the VPN tunnel.</td>
+</tr>
+<tr>
+<td>Remote Shell</td>
+<td><code>RSH</code></td>
+<td>It is a program under Unix that allows executing commands and programs on a remote computer.</td>
+</tr>
+<tr>
+<td>## Common Protocols</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="tcp-transmission-control-protocol">TCP (Transmission Control Protocol)</h4>
+<ul>
+<li>Connection-Oriented protocol.</li>
+<li>establish conection between two devices using three-way-handshake.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Protocol</strong></th>
+<th><strong>Acronym</strong></th>
+<th><strong>Port</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Telnet</td>
+<td><code>Telnet</code></td>
+<td><code>23</code></td>
+<td>Remote login service</td>
+</tr>
+<tr>
+<td>Secure Shell</td>
+<td><code>SSH</code></td>
+<td><code>22</code></td>
+<td>Secure remote login service</td>
+</tr>
+<tr>
+<td>Simple Network Management Protocol</td>
+<td><code>SNMP</code></td>
+<td><code>161-162</code></td>
+<td>Manage network devices</td>
+</tr>
+<tr>
+<td>Hyper Text Transfer Protocol</td>
+<td><code>HTTP</code></td>
+<td><code>80</code></td>
+<td>Used to transfer webpages</td>
+</tr>
+<tr>
+<td>Hyper Text Transfer Protocol Secure</td>
+<td><code>HTTPS</code></td>
+<td><code>443</code></td>
+<td>Used to transfer secure webpages</td>
+</tr>
+<tr>
+<td>Domain Name System</td>
+<td><code>DNS</code></td>
+<td><code>53</code></td>
+<td>Lookup domain names</td>
+</tr>
+<tr>
+<td>File Transfer Protocol</td>
+<td><code>FTP</code></td>
+<td><code>20-21</code></td>
+<td>Used to transfer files</td>
+</tr>
+<tr>
+<td>Trivial File Transfer Protocol</td>
+<td><code>TFTP</code></td>
+<td><code>69</code></td>
+<td>Used to transfer files</td>
+</tr>
+<tr>
+<td>Network Time Protocol</td>
+<td><code>NTP</code></td>
+<td><code>123</code></td>
+<td>Synchronize computer clocks</td>
+</tr>
+<tr>
+<td>Simple Mail Transfer Protocol</td>
+<td><code>SMTP</code></td>
+<td><code>25</code></td>
+<td>Used for email transfer</td>
+</tr>
+<tr>
+<td>Post Office Protocol</td>
+<td><code>POP3</code></td>
+<td><code>110</code></td>
+<td>Used to retrieve emails</td>
+</tr>
+<tr>
+<td>Internet Message Access Protocol</td>
+<td><code>IMAP</code></td>
+<td><code>143</code></td>
+<td>Used to access emails</td>
+</tr>
+<tr>
+<td>Server Message Block</td>
+<td><code>SMB</code></td>
+<td><code>445</code></td>
+<td>Used to transfer files</td>
+</tr>
+<tr>
+<td>Network File System</td>
+<td><code>NFS</code></td>
+<td><code>111</code>, <code>2049</code></td>
+<td>Used to mount remote systems</td>
+</tr>
+<tr>
+<td>Bootstrap Protocol</td>
+<td><code>BOOTP</code></td>
+<td><code>67</code>, <code>68</code></td>
+<td>Used to bootstrap computers</td>
+</tr>
+<tr>
+<td>Kerberos</td>
+<td><code>Kerberos</code></td>
+<td><code>88</code></td>
+<td>Used for authentication and authorization</td>
+</tr>
+<tr>
+<td>Lightweight Directory Access Protocol</td>
+<td><code>LDAP</code></td>
+<td><code>389</code></td>
+<td>Used for directory services</td>
+</tr>
+<tr>
+<td>Remote Authentication Dial-In User Service</td>
+<td><code>RADIUS</code></td>
+<td><code>1812</code>, <code>1813</code></td>
+<td>Used for authentication and authorization</td>
+</tr>
+<tr>
+<td>Dynamic Host Configuration Protocol</td>
+<td><code>DHCP</code></td>
+<td><code>67</code>, <code>68</code></td>
+<td>Used to configure IP addresses</td>
+</tr>
+<tr>
+<td>Remote Desktop Protocol</td>
+<td><code>RDP</code></td>
+<td><code>3389</code></td>
+<td>Used for remote desktop access</td>
+</tr>
+<tr>
+<td>Network News Transfer Protocol</td>
+<td><code>NNTP</code></td>
+<td><code>119</code></td>
+<td>Used to access newsgroups</td>
+</tr>
+<tr>
+<td>Remote Procedure Call</td>
+<td><code>RPC</code></td>
+<td><code>135</code>, <code>137-139</code></td>
+<td>Used to call remote procedures</td>
+</tr>
+<tr>
+<td>Identification Protocol</td>
+<td><code>Ident</code></td>
+<td><code>113</code></td>
+<td>Used to identify user processes</td>
+</tr>
+<tr>
+<td>Internet Control Message Protocol</td>
+<td><code>ICMP</code></td>
+<td><code>0-255</code></td>
+<td>Used to troubleshoot network issues</td>
+</tr>
+<tr>
+<td>Internet Group Management Protocol</td>
+<td><code>IGMP</code></td>
+<td><code>0-255</code></td>
+<td>Used for multicasting</td>
+</tr>
+<tr>
+<td>Oracle DB (Default/Alternative) Listener</td>
+<td><code>oracle-tns</code></td>
+<td><code>1521</code>/<code>1526</code></td>
+<td>The Oracle database default/alternative listener is a service that runs on the database host and receives requests from Oracle clients.</td>
+</tr>
+<tr>
+<td>Ingres Lock</td>
+<td><code>ingreslock</code></td>
+<td><code>1524</code></td>
+<td>Ingres database is commonly used for large commercial applications and as a backdoor that can execute commands remotely via RPC.</td>
+</tr>
+<tr>
+<td>Squid Web Proxy</td>
+<td><code>http-proxy</code></td>
+<td><code>3128</code></td>
+<td>Squid web proxy is a caching and forwarding HTTP web proxy used to speed up a web server by caching repeated requests.</td>
+</tr>
+<tr>
+<td>Secure Copy Protocol</td>
+<td><code>SCP</code></td>
+<td><code>22</code></td>
+<td>Securely copy files between systems</td>
+</tr>
+<tr>
+<td>Session Initiation Protocol</td>
+<td><code>SIP</code></td>
+<td><code>5060</code></td>
+<td>Used for VoIP sessions</td>
+</tr>
+<tr>
+<td>Simple Object Access Protocol</td>
+<td><code>SOAP</code></td>
+<td><code>80</code>, <code>443</code></td>
+<td>Used for web services</td>
+</tr>
+<tr>
+<td>Secure Socket Layer</td>
+<td><code>SSL</code></td>
+<td><code>443</code></td>
+<td>Securely transfer files</td>
+</tr>
+<tr>
+<td>TCP Wrappers</td>
+<td><code>TCPW</code></td>
+<td><code>113</code></td>
+<td>Used for access control</td>
+</tr>
+<tr>
+<td>Internet Security Association and Key Management Protocol</td>
+<td><code>ISAKMP</code></td>
+<td><code>500</code></td>
+<td>Used for VPN connections</td>
+</tr>
+<tr>
+<td>Microsoft SQL Server</td>
+<td><code>ms-sql-s</code></td>
+<td><code>1433</code></td>
+<td>Used for client connections to the Microsoft SQL Server.</td>
+</tr>
+<tr>
+<td>Kerberized Internet Negotiation of Keys</td>
+<td><code>KINK</code></td>
+<td><code>892</code></td>
+<td>Used for authentication and authorization</td>
+</tr>
+<tr>
+<td>Open Shortest Path First</td>
+<td><code>OSPF</code></td>
+<td><code>520</code></td>
+<td>Used for routing</td>
+</tr>
+<tr>
+<td>Point-to-Point Tunneling Protocol</td>
+<td><code>PPTP</code></td>
+<td><code>1723</code></td>
+<td>Is used to create VPNs</td>
+</tr>
+<tr>
+<td>Remote Execution</td>
+<td><code>REXEC</code></td>
+<td><code>512</code></td>
+<td>This protocol is used to execute commands on remote computers and send the output of commands back to the local computer.</td>
+</tr>
+<tr>
+<td>Remote Login</td>
+<td><code>RLOGIN</code></td>
+<td><code>513</code></td>
+<td>This protocol starts an interactive shell session on a remote computer.</td>
+</tr>
+<tr>
+<td>X Window System</td>
+<td><code>X11</code></td>
+<td><code>6000</code></td>
+<td>It is a computer software system and network protocol that provides a graphical user interface (GUI) for networked computers.</td>
+</tr>
+<tr>
+<td>Relational Database Management System</td>
+<td><code>DB2</code></td>
+<td><code>50000</code></td>
+<td>RDBMS is designed to store, retrieve and manage data in a structured format for enterprise applications such as financial systems, customer relationship management (CRM) systems.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="udp-user-datagram-protocol">UDP (User Datagram Protocol)</h4>
+<ul>
+<li>Connectionless : does not establish a virtual connection before transmitting data. instead it sends packets to destination without checking to see if they were received.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Protocol</strong></th>
+<th><strong>Acronym</strong></th>
+<th><strong>Port</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Domain Name System</td>
+<td><code>DNS</code></td>
+<td><code>53</code></td>
+<td>It is a protocol to resolve domain names to IP addresses.</td>
+</tr>
+<tr>
+<td>Trivial File Transfer Protocol</td>
+<td><code>TFTP</code></td>
+<td><code>69</code></td>
+<td>It is used to transfer files between systems.</td>
+</tr>
+<tr>
+<td>Network Time Protocol</td>
+<td><code>NTP</code></td>
+<td><code>123</code></td>
+<td>It synchronizes computer clocks in a network.</td>
+</tr>
+<tr>
+<td>Simple Network Management Protocol</td>
+<td><code>SNMP</code></td>
+<td><code>161</code></td>
+<td>It monitors and manages network devices remotely.</td>
+</tr>
+<tr>
+<td>Routing Information Protocol</td>
+<td><code>RIP</code></td>
+<td><code>520</code></td>
+<td>It is used to exchange routing information between routers.</td>
+</tr>
+<tr>
+<td>Internet Key Exchange</td>
+<td><code>IKE</code></td>
+<td><code>500</code></td>
+<td>Internet Key Exchange</td>
+</tr>
+<tr>
+<td>Bootstrap Protocol</td>
+<td><code>BOOTP</code></td>
+<td><code>68</code></td>
+<td>It is used to bootstrap hosts in a network.</td>
+</tr>
+<tr>
+<td>Dynamic Host Configuration Protocol</td>
+<td><code>DHCP</code></td>
+<td><code>67</code></td>
+<td>It is used to assign IP addresses to devices in a network dynamically.</td>
+</tr>
+<tr>
+<td>Telnet</td>
+<td><code>TELNET</code></td>
+<td><code>23</code></td>
+<td>It is a text-based remote access communication protocol.</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td><code>MySQL</code></td>
+<td><code>3306</code></td>
+<td>It is an open-source database management system.</td>
+</tr>
+<tr>
+<td>Terminal Server</td>
+<td><code>TS</code></td>
+<td><code>3389</code></td>
+<td>It is a remote access protocol used for Microsoft Windows Terminal Services by default.</td>
+</tr>
+<tr>
+<td>NetBIOS Name</td>
+<td><code>netbios-ns</code></td>
+<td><code>137</code></td>
+<td>It is used in Windows operating systems to resolve NetBIOS names to IP addresses on a LAN.</td>
+</tr>
+<tr>
+<td>Microsoft SQL Server</td>
+<td><code>ms-sql-m</code></td>
+<td><code>1434</code></td>
+<td>Used for the Microsoft SQL Server Browser service.</td>
+</tr>
+<tr>
+<td>Universal Plug and Play</td>
+<td><code>UPnP</code></td>
+<td><code>1900</code></td>
+<td>It is a protocol for devices to discover each other on the network and communicate.</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td><code>PGSQL</code></td>
+<td><code>5432</code></td>
+<td>It is an object-relational database management system.</td>
+</tr>
+<tr>
+<td>Virtual Network Computing</td>
+<td><code>VNC</code></td>
+<td><code>5900</code></td>
+<td>It is a graphical desktop sharing system.</td>
+</tr>
+<tr>
+<td>X Window System</td>
+<td><code>X11</code></td>
+<td><code>6000-6063</code></td>
+<td>It is a computer software system and network protocol that provides GUI on Unix-like systems.</td>
+</tr>
+<tr>
+<td>Syslog</td>
+<td><code>SYSLOG</code></td>
+<td><code>514</code></td>
+<td>It is a standard protocol to collect and store log messages on a computer system.</td>
+</tr>
+<tr>
+<td>Internet Relay Chat</td>
+<td><code>IRC</code></td>
+<td><code>194</code></td>
+<td>It is a real-time Internet text messaging (chat) or synchronous communication protocol.</td>
+</tr>
+<tr>
+<td>OpenPGP</td>
+<td><code>OpenPGP</code></td>
+<td><code>11371</code></td>
+<td>It is a protocol for encrypting and signing data and communications.</td>
+</tr>
+<tr>
+<td>Internet Protocol Security</td>
+<td><code>IPsec</code></td>
+<td><code>500</code></td>
+<td>IPsec is also a protocol that provides secure, encrypted communication. It is commonly used in VPNs to create a secure tunnel between two devices.</td>
+</tr>
+<tr>
+<td>Internet Key Exchange</td>
+<td><code>IKE</code></td>
+<td><code>11371</code></td>
+<td>It is a protocol for encrypting and signing data and communications.</td>
+</tr>
+<tr>
+<td>X Display Manager Control Protocol</td>
+<td><code>XDMCP</code></td>
+<td><code>177</code></td>
+<td>XDMCP is a network protocol that allows a user to remotely log in to a computer running the X11.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="icmp">ICMP</h4>
+<ul>
+<li>protocol used by devices to communicate with each other on the Internet for various purposes, including error reporting and status information. It sends requests and messages between devices, which can be used to report errors or provide status information.
+<strong>ICMP Requests</strong> :  A request is message sent by one device to another to request information or perform a specific action . (ex: ping request test connectivity between two devices)</li>
+</ul>
+<p><strong>ICMP Messages</strong> : A messge in ICMP can be either a request or reply. (ex: ICMP used to share information about error such as destination unreachble or time exceeded.)</p>
+<table>
+<thead>
+<tr>
+<th><strong>Request Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Echo Request</code></td>
+<td>This message tests whether a device is reachable on the network. When a device sends an echo request, it expects to receive an echo reply message. For example, the tools <code>tracert</code> (Windows) or <code>traceroute</code> (Linux) always send ICMP echo requests.</td>
+</tr>
+<tr>
+<td><code>Timestamp Request</code></td>
+<td>This message determines the time on a remote device.</td>
+</tr>
+<tr>
+<td><code>Address Mask Request</code></td>
+<td>This message is used to request the subnet mask of a device.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><strong>Message Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Echo reply</code></td>
+<td>This message is sent in response to an echo request message.</td>
+</tr>
+<tr>
+<td><code>Destination unreachable</code></td>
+<td>This message is sent when a device cannot deliver a packet to its destination.</td>
+</tr>
+<tr>
+<td><code>Redirect</code></td>
+<td>A router sends this message to inform a device that it should send its packets to a different router.</td>
+</tr>
+<tr>
+<td><code>time exceeded</code></td>
+<td>This message is sent when a packet has taken too long to reach its destination.</td>
+</tr>
+<tr>
+<td><code>Parameter problem</code></td>
+<td>This message is sent when there is a problem with a packet's header.</td>
+</tr>
+<tr>
+<td><code>Source quench</code></td>
+<td>This message is sent when a device receives packets too quickly and cannot keep up. It is used to slow down the flow of packets.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>TTL (TIME TO LIVE)</strong> : 
+- TTL is header field in ICMP packets that limit the packets lifetime as it travels throught the network.
+- Each time packet passes throught a router , the router decrements the TTL value by 1. when TTL reaches 0, the router discards and sends an ICMP <code>time exceeded</code> message back to the sender.</p>
+<h4 id="voipvoice-over-internet-protocol">VoIP(Voice over internet protocol)</h4>
+<ul>
+<li>method of transmitting voice and multimedia commnucations. eg : allows us to make phone call using broadband internet connection instead of traditional phone line, like skype , whatsapp , slack , zoom etc.</li>
+<li>common VoIP prots are TCP/5060 and TCP/5061 which are used for the <a href="https://en.wikipedia.org/wiki/Session_Initiation_Protocol">Session Initiation Protocol</a> (SIP).<ul>
+<li>SIP is a signaling protocol for initiating, maintaining, modifying, and terminating real-time sessions involving video, voice, messaging.</li>
+<li>The most common SIP requests and methods are:</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Method</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>INVITE</code></td>
+<td>Initiates a session or invites another endpoint to participate.</td>
+</tr>
+<tr>
+<td><code>ACK</code></td>
+<td>Confirms the receipt of an INVITE request.</td>
+</tr>
+<tr>
+<td><code>BYE</code></td>
+<td>Terminate a session.</td>
+</tr>
+<tr>
+<td><code>CANCEL</code></td>
+<td>Cancels a pending INVITE request.</td>
+</tr>
+<tr>
+<td><code>REGISTER</code></td>
+<td>Registers a SIP user agent (UA) with a SIP server.</td>
+</tr>
+<tr>
+<td><code>OPTIONS</code></td>
+<td>Requests information about the capabilities of a SIP server or user agent, such as the types of media it supports.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="wireless-networks">Wireless Networks</h2>
+<ul>
+<li>wireless networks use radio Frequency (RF) to transmit data between devices.</li>
+<li>each devices on network has a wireless adapter that convert data into RF singles and send them over air.</li>
+<li>other devices receive these signals with their own wireless adapters and the data is then converted back into usable form.</li>
+<li>Small area such as home or small office use wireless technology called WiFi , on the other hand  wireless wide area network (WWAN) might use mobile telecommunication technology such as 3G,4G LTE, 5G.</li>
+<li>Communication between devices occurs over RF in the <code>2.4 GHz</code> or <code>5 GHz</code> bands in a WiFi network.</li>
+</ul>
+<h4 id="wifi-connection">Wifi Connection</h4>
+<ul>
+<li>to connect to router, lapto p uses a wireless netowrking protocol called IEEE 802.11. this protocol defines the technical details of how wireless devices communicate with each other and with WAPs.</li>
+<li>When device wants to connect to wifi network , it sends a request to WAP to initiate the connection process. This request is know as <code>connection request frame</code> or <code>association request</code>. and is sent using IEEE 802.11 protocol.</li>
+<li>In addition to the <code>IEEE 802.11</code> protocol, other networking protocols and technologies may also be used, like TCP/IP, DHCP, and WPA2, in a WiFi network to perform tasks such as assigning IP addresses to devices, routing traffic between devices, and providing security.</li>
+</ul>
+<p><strong>WEP Challenge-Response Handshake</strong> :</p>
+<ul>
+<li>Its protocol to establish a secure connection between WAP and client device.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Step</strong></th>
+<th><strong>Who</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>Client</code></td>
+<td>Sends an association request packet to the WAP, requesting access.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>WAP</code></td>
+<td>Responds with an association response packet to the client, which includes a challenge string.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>Client</code></td>
+<td>Calculates a response to the challenge string and a shared secret key and sends it back to the WAP.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>WAP</code></td>
+<td>Calculates the expected response to the challenge with the same shared secret key and sends an authentication response packet to the client.</td>
+</tr>
+<tr>
+<td>- Nevertheless, some packets can get lost, so the CRC checksum has been integrated.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- Cyclic Redundancy check (CRC) is an error detection mechanism used to protect against data corruption in wireless communication.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- First CRC value calculate for each packet based on packet's data, and when it reaches destination device , CRC value is recalculated and compared to original value.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- if its matches data transfered successfully without any errors. if not then needs to retransmitte the data.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- used to verify integrity of the data.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="security-features">Security Features</h4>
+<p><strong>Encryption</strong> : Common encryption algorith in WiFi networks are Wired Equivalent Privacy (WEP), WiFi Protected Access 2 (WPA2), and WiFi Protected Access 3 (WPA3).</p>
+<p><strong>Access Control</strong> : WiFi networks are configured by default to allow authorized devices to join the network using specific authentication methods. However, these methods can be changed by requiring a password or a unique identifier (such as a MAC address) to identify authorized devices.</p>
+<p><strong>Firewall</strong> : controls incoming and outgoing network traffic based on rules.</p>
+<h4 id="encryption-protocols">Encryption Protocols.</h4>
+<blockquote>
+<p>[!info] Here WAP is router and WEP &amp; WPA is encryption protocols</p>
+</blockquote>
+<p><strong>WEP</strong> 
+- wep uses 40-bit or 1040bit key to encrypt data, while wpa using AES uses a 128-bit key.Longer keys provide more robust encryption and are more resistant to attacks.
+- </p>
+<h2 id="vpn">VPN</h2>
+<p>several components and requirements are necessary for a VPN to work:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Requirement</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VPN Client</code></td>
+<td>This is installed on the remote device and is used to establish and maintain a VPN connection with the VPN server. For example, this could be an OpenVPN client.</td>
+</tr>
+<tr>
+<td><code>VPN Server</code></td>
+<td>This is a computer or network device responsible for accepting VPN connections from VPN clients and routing traffic between the VPN clients and the private network.</td>
+</tr>
+<tr>
+<td><code>Encryption</code></td>
+<td>VPN connections are encrypted using a variety of encryption algorithms and protocols, such as AES and IPsec, to secure the connection and protect the transmitted data.</td>
+</tr>
+<tr>
+<td><code>Authentication</code></td>
+<td>The VPN server and client must authenticate each other using a shared secret, certificate, or another authentication method to establish a secure connection.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IPsec</strong> 
+- internet protocol security is a network protocl that provides encryption and authentication for internet communications. 
+- Works by encrypting the data payload of each IP packet and adding an <strong>authentication header (AH)</strong> .
+- IPsec uses two protocols to provide encryption and authentication
+    - 1. Authentication Header (AH) : Provides integrity (data does not altered or tampered.) and authenticity (genuine source of origin of data) for IP packets. it adds AH to each IP packet, which contain cryptographic checksum
+    - 2. Encapsulating Security Payload (ESP) : provides encryption and optional authentication for IP packets.
+- IPsec can be used in two modes :</p>
+<table>
+<thead>
+<tr>
+<th><strong>Mode</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Transport Mode</code></td>
+<td>In this mode, IPsec encrypts and authenticates the data payload of each IP packet but does not encrypt the IP header. This is typically used to secure end-to-end communication between two hosts.</td>
+</tr>
+<tr>
+<td><code>Tunnel Mode</code></td>
+<td>With this mode, IPsec encrypts and authenticates the entire IP packet, including the IP header. This is typically used to create a VPN tunnel between two networks.</td>
+</tr>
+<tr>
+<td><strong>PPTP</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><a href="https://www.vpnranks.com/blog/pptp-vs-l2tp/">Point-to-Point Tunneling Protocol</a> (<code>PPTP</code>) is also a network protocol that allows the creation of VPNs and works by establishing a secure tunnel between the VPN client and server and then encapsulating the data being transmitted within this tunnel.</li>
+</ul>
+<h2 id="vendor-specific-information">Vendor Specific Information</h2>
+<ul>
+<li>Cisco IOS is os of cisco network devices such as routers and switches.</li>
+<li>Cisco IOS can be managed by command line interface and GUI.</li>
+<li>support various network protocols and services required for network operations.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Protocol Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Routing protocols</code></td>
+<td>Such as <a href="https://en.wikipedia.org/wiki/Open_Shortest_Path_First">OSPF</a> and <a href="https://en.wikipedia.org/wiki/Border_Gateway_Protocol">BGP</a> are used to route data packets on a network.</td>
+</tr>
+<tr>
+<td><code>Switching protocols</code></td>
+<td>Such as <a href="https://en.wikipedia.org/wiki/VLAN_Trunking_Protocol">VLAN Trunking Protocol</a> (<code>VTP</code>) and <a href="https://en.wikipedia.org/wiki/Spanning_Tree_Protocol">Spanning Tree Protocol</a> (<code>STP</code>) is used to configure and manage switches on a network.</td>
+</tr>
+<tr>
+<td><code>Network services</code></td>
+<td>Such as <a href="https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">Dynamic Host Configuration Protocol</a> (<code>DHCP</code>) are used to automatically provide clients on the network with IP addresses and other network configurations.</td>
+</tr>
+<tr>
+<td><code>Security features</code></td>
+<td>Such as <a href="https://en.wikipedia.org/wiki/Access-control_list">Access Control Lists</a> (<code>ACLs</code>), which are used to control access to network resources and prevent security threats.</td>
+</tr>
+<tr>
+<td>- In Cisco IOS, different types of passwords are used for various purposes, for example:</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><strong>Password Type</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>User</code></td>
+<td>The <a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/s1/sec-s1-cr-book/sec-cr-t2.html#wp2992613898">user</a> password is used for logging in to Cisco IOS. It is used to restrict access to the network device and its features.</td>
+</tr>
+<tr>
+<td><code>Enable Password</code></td>
+<td>The <a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/d1/sec-d1-cr-book/sec-cr-e1.html#wp3884449514">enable password</a> is used to enter "enable" mode. The "enable" mode is the mode where you have access to advanced functions and settings.</td>
+</tr>
+<tr>
+<td><code>Secret</code></td>
+<td>The <a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/s1/sec-s1-cr-book/sec-cr-s1.html#wp2622423174">secret</a> is a password to secure access to certain functions and services. It is often used to restrict access to remote management tools and services.</td>
+</tr>
+<tr>
+<td><code>Enable Secret</code></td>
+<td>The <a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/d1/sec-d1-cr-book/sec-cr-e1.html#wp3438133060">enable secret</a> is an extra-secure password used to secure access to "enable" mode, and they are stored encrypted to provide additional protection.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../3.%20Addressing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 3. Addressing">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                3. Addressing
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../5.%20Connection%20Establishment/" class="md-footer__link md-footer__link--next" aria-label="Next: 5. Connection Establishment">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                5. Connection Establishment
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Akshay Chavan
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.footer"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

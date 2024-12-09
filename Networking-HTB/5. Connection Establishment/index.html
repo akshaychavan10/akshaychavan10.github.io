@@ -1,0 +1,3736 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://akshaychavan10.github.io/Networking-HTB/5.%20Connection%20Establishment/">
+      
+      
+        <link rel="prev" href="../4.%20Protocols%20%26%20Terminology/">
+      
+      
+        <link rel="next" href="../6.%20DNS/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+    
+    
+      
+        <title>5. Connection Establishment - Knowledge base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#key-exchange-mechanisms" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Knowledge base" class="md-header__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Knowledge base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Connection Establishment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Welcome to My Knowledge Base
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../CRTP/notes/" class="md-tabs__link">
+          
+  
+  CRTP
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Computer%20Networks/10.%20HTTP%20in%20Details/" class="md-tabs__link">
+          
+  
+  Computer Networks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cryptography/16.%20Hashing%20-%20Crypto%20101/" class="md-tabs__link">
+          
+  
+  Cryptography
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cyber%20Security%20101/0.%20list/" class="md-tabs__link">
+          
+  
+  Cyber Security 101
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Linux/26.%20What%20the%20Shell/" class="md-tabs__link">
+          
+  
+  Linux
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../0.%20list/" class="md-tabs__link">
+          
+  
+  Networking HTB
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Tools/11.%20Burp%20Suit%20the%20Basics/" class="md-tabs__link">
+          
+  
+  Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Web%20Application%20Security/10.%20File%20Inclusion/" class="md-tabs__link">
+          
+  
+  Web Application Security
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Windows/14%20Windows%20Fundamental/" class="md-tabs__link">
+          
+  
+  Windows
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Knowledge base" class="md-nav__button md-logo" aria-label="Knowledge base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Knowledge base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Knowledge Base
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CRTP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CRTP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. Basics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            1. Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/1.%20Windows%20Introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Windows Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/2.%20Windows%20Privilege%20Escalation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Windows Privilege Escalation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/3.%20Introduction%20to%20Active%20Directory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Introduction to Active Directory
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/4.%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Methodology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/1.%20Basics/5.%20Miscellaeous%20Notes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Miscellaeous Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2. Domain Enumeration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            2. Domain Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/1.%20Basics%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Basics Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/2.%20GPO%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. GPO Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/3.%20ACL%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. ACL Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/4.%20Trusts%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Trusts Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/2.%20Domain%20Enumeration/5.%20BloodHound%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. BloodHound Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3. Lateral Movement
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            3. Lateral Movement
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/3.%20Lateral-Movement/1.%20Invoke-Command/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Invoke-Command
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/3.%20Lateral-Movement/2.%20Invoke-Mimikatz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Invoke Mimikatz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    4. Domain Persistence
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            4. Domain Persistence
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/1.%20Golden%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Golden Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/2.%20Silver%20Ticket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Silver Ticket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/4.%20Domain-Persistence/3.%20Skeleton%20key/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Skeleton key
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    5. Domain Priv Esc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            5. Domain Priv Esc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/1.%20kerberost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. kerberost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/2.%20Unconstrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Unconstrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/5.%20Domain%20Priv%20Esc/3.%20Constrained%20Delegation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Constrained Delegation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    6. Forest Trusts Abuse
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            6. Forest Trusts Abuse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/6.%20Forest%20Trusts%20Abuse/1.%20Ticket%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Ticket Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRTP/6.%20Forest%20Trusts%20Abuse/2.%20MSSQL%20Abuse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. MSSQL Abuse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Computer Networks
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Computer Networks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/10.%20HTTP%20in%20Details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10. HTTP in Details
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/21.%20Protocol%20and%20servers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    21. Protocol and servers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/22.%20Protocol%20and%20Servers%202/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    22. Protocol and Servers 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/4.%20What%20is%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. What is Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/5.%20Intro%20to%20LAN/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Intro to LAN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/5.%20Introductory%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Introductory Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/6.%20Network%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Network Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/6.%20OSI%20Model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. OSI Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/7.%20Network%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Network Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/7.%20Packets%20and%20Frames/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Packets and Frames
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/8.%20Network%20service%202/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. Network service 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Networks/9.%20DNS%20in%20Detail./" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. DNS in Detail.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cryptography
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptography
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography/16.%20Hashing%20-%20Crypto%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16. Hashing   Crypto 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography/18.%20Encryption%20-%20Crypto%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    18. Encryption   Crypto 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cyber Security 101
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Cyber Security 101
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/0.%20list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛡️ Offensive &amp; Defensive Security Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/1.%20What%20is%20Offensive%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. What is Offensive Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/10.Passive%20Reconnaissance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.Passive Reconnaissance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/11.Red%20Team%20Fundamentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11.Red Team Fundamentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/12.Red%20Team%20Engagements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12.Red Team Engagements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/13.Red%20Team%20Threat%20Intel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13.Red Team Threat Intel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/14.Digital%20Forensics%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14.Digital Forensics 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/15.Operating%20System%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15.Operating System Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/16.Phising/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16.Phising
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/17.Python%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    17.Python Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/2.%20Introduction%20to%20Defensive%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Introduction to Defensive Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/3.Careers%20in%20Cyber/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.Careers in Cyber
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/4.Pentesting%20Fundamentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.Pentesting Fundamentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/5.Principles%20of%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.Principles of Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/6.Introductory%20Researching/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.Introductory Researching
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/7.Search%20skills/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7.Search skills
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/8.Vulnerabilities%20101/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8.Vulnerabilities 101
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cyber%20Security%20101/9.Active%20Reconnaissance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.Active Reconnaissance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/26.%20What%20the%20Shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    26. What the Shell
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/27.%20Common%20Linux%20Privesc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    27. Common Linux Privesc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/28.%20Linux%20PrivEsc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    28. Linux PrivEsc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Networking HTB
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Networking HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0.%20list/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📝 Table of Contents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.%20%20Networking%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.  Networking Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.%20Networking%20Workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Networking Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.%20Addressing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Addressing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.%20Protocols%20%26%20Terminology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Protocols & Terminology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    5. Connection Establishment
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    5. Connection Establishment
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-exchange-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      key Exchange Mechanisms
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="key Exchange Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internet-key-exchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      Internet Key Exchange
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Protocols
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tcpudp-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP/UDP connections
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TCP/UDP connections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ip-packet" class="md-nav__link">
+    <span class="md-ellipsis">
+      IP Packet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ip-record-route-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      IP Record-Route Field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ip-payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      IP Payload
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#udp" class="md-nav__link">
+    <span class="md-ellipsis">
+      UDP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blind-spoofing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blind spoofing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cryptography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cryptography
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symmetric-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      symmetric encryption
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asymetric-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      Asymetric encryption
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cipher-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cipher mode
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6.%20DNS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tools
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/11.%20Burp%20Suit%20the%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11. Burp Suit the Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/15.%20Burp%20Suite%20-%20Repeater/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15. Burp Suite   Repeater
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/16.%20Burp%20Suite%20-%20Intruder%20%26%20Other%20Module%20and%20Extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16. Burp Suite   Intruder & Other Module and Extension
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/17.%20John%20the%20Ripper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    17. John the Ripper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/22.%20Metasploit%20-%20Introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    22. Metasploit   Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/23.%20Metasploit%20-%20Exploitation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    23. Metasploit   Exploitation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/24.%20Metasploit%20-%20Meterpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    24. Metasploit   Meterpreter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/5.%20Wireshark%20-%20The%20Basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Wireshark   The Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/6.%20Nmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Nmap
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/7.%20Hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Web Application Security
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Web Application Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/10.%20File%20Inclusion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10. File Inclusion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/11.%20How%20Website%20Works/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11. How Website Works
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/12.%20OWASP%20Top%2010%20-%202021/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12. OWASP Top 10   2021
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/12.%20Putting%20It%20All%20Together/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12. Putting It All Together
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/14.%20Upload%20Vulnerabilities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14. Upload Vulnerabilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/4.%20Web%20Application%20Security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Web Application Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/5.%20Walking%20An%20Application/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Walking An Application
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/6.%20Content%20Discovery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Content Discovery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/7.%20Subdomain%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Subdomain Enumeration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/8.%20Authentication%20Bypass/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. Authentication Bypass
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Application%20Security/9.%20IDOR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. IDOR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/14%20Windows%20Fundamental/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/32.%20Windows%20Privilege%20Escalation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    32. Windows Privilege Escalation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-exchange-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      key Exchange Mechanisms
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="key Exchange Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internet-key-exchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      Internet Key Exchange
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Protocols
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tcpudp-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP/UDP connections
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TCP/UDP connections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ip-packet" class="md-nav__link">
+    <span class="md-ellipsis">
+      IP Packet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ip-record-route-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      IP Record-Route Field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ip-payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      IP Payload
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#udp" class="md-nav__link">
+    <span class="md-ellipsis">
+      UDP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blind-spoofing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blind spoofing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cryptography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cryptography
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symmetric-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      symmetric encryption
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asymetric-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      Asymetric encryption
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cipher-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cipher mode
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>5. Connection Establishment</h1>
+
+<h2 id="key-exchange-mechanisms">key Exchange Mechanisms</h2>
+<ul>
+<li>key exchange method used to exchange cryptographic keys between two parties.</li>
+<li>this typically works by allowing two parties to agree on a shared secret key over an insure channel.</li>
+</ul>
+<p><strong>Diffie-Hellman</strong> 
+1. allow two parties to agree on a shared secret key without any prior communication or shared private information.
+2. used as the basis for establishing secure communication channels, such as <code>TLS (Transport Layer Security</code> protocol that is used to protect web traffic.
+3. But its vulnerable to MITM attacks.
+4. Also require large amount of CPU power to generate shared keys.</p>
+<p><strong>RSA</strong> 
+1. uses the properties of large prime numbers to generate a shared secret key.
+2. This method relies on the fact that its relatively easy to multiply large prime numbers together but challenging to factor the resulting number back into its prime factors.</p>
+<blockquote>
+<p>[!info] what does it mean is : The security of RSA relies on the fact that it's very hard for someone to take  large number n (which is the product of two large prime numbers) and figure out what those two prime numbers p and q were. In other words, it's difficult for an attacker to factorize n back into its original prime factors p and q.</p>
+</blockquote>
+<p><strong>ECDH</strong> 
+1. <code>Elliptic curve Diffie-Hellman</code> is variant of Diffie-Hellman key exchangev that uses elliptic curve cryptography to generate screte key.</p>
+<p><strong>ECDSA</strong> 
+1. <code>Elliptic Curve Digital Signarture Algorithm(ECDSA)</code> uses elliptric curve cryptography to generate digital signature that can authenticate parities.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Algorithm</strong></th>
+<th><strong>Acronym</strong></th>
+<th><strong>Security</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Diffie-Hellman</code></td>
+<td><code>DH</code></td>
+<td>Relatively secure and computationally efficient</td>
+</tr>
+<tr>
+<td><code>Rivest–Shamir–Adleman</code></td>
+<td><code>RSA</code></td>
+<td>Widely used and considered secure, but computationally intensive</td>
+</tr>
+<tr>
+<td><code>Elliptic Curve Diffie-Hellman</code></td>
+<td><code>ECDH</code></td>
+<td>Provides enhanced security compared to traditional Diffie-Hellman</td>
+</tr>
+<tr>
+<td><code>Elliptic Curve Digital Signature Algorithm</code></td>
+<td><code>ECDSA</code></td>
+<td>Provides enhanced security and efficiency for digital signature generation</td>
+</tr>
+</tbody>
+</table>
+<h4 id="internet-key-exchange">Internet Key Exchange</h4>
+<ol>
+<li>protocol used to establish and maintain secure communication sessions. (mostly used in VPN)</li>
+<li>it uses combination of <code>Diffie-Hellman</code> key exchange and other cryptographic techniques.</li>
+<li>Can be used for authentication of users and devices.</li>
+<li>
+<p>IKE operates either in <code>main mode</code> or <code>aggressive mode</code> and this determines the sequence and parameter of key exchange process.</p>
+</li>
+<li>
+<p>Main mode </p>
+<ul>
+<li>default mode and consider more secure.</li>
+<li>key exchange process is performed in three phases.</li>
+</ul>
+</li>
+<li>Aggressive mode<ul>
+<li>faster performance by reducing the number of round trips and message exchanges required for key exchange.</li>
+<li>exchange process performed in two phases.</li>
+</ul>
+</li>
+</ol>
+<h2 id="authentication-protocols">Authentication Protocols</h2>
+<p>commonly used auth protocol </p>
+<table>
+<thead>
+<tr>
+<th><strong>Protocol</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Kerberos</code></td>
+<td>Key Distribution Center (KDC) based authentication protocol that uses tickets in domain environments.</td>
+</tr>
+<tr>
+<td><code>SRP</code></td>
+<td>This is a password-based authentication protocol that uses cryptography to protect against eavesdropping and man-in-the-middle attacks.</td>
+</tr>
+<tr>
+<td><code>SSL</code></td>
+<td>A cryptographic protocol used for secure communication over a computer network.</td>
+</tr>
+<tr>
+<td><code>TLS</code></td>
+<td>TLS is a cryptographic protocol that provides communication security over the internet. It is the successor to SSL.</td>
+</tr>
+<tr>
+<td><code>OAuth</code></td>
+<td>An open standard for authorization that allows users to grant third-party access to their web resources without sharing their passwords.</td>
+</tr>
+<tr>
+<td><code>OpenID</code></td>
+<td>OpenID is a decentralized authentication protocol that allows users to use a single identity to sign in to multiple websites.</td>
+</tr>
+<tr>
+<td><code>SAML</code></td>
+<td>Security Assertion Markup Language is an XML-based standard for securely exchanging authentication and authorization data between parties.</td>
+</tr>
+<tr>
+<td><code>2FA</code></td>
+<td>An authentication method that uses a combination of two different factors to verify a user's identity.</td>
+</tr>
+<tr>
+<td><code>FIDO</code></td>
+<td>The Fast IDentity Online Alliance is a consortium of companies working to develop open standards for strong authentication.</td>
+</tr>
+<tr>
+<td><code>PKI</code></td>
+<td>PKI is a system for securely exchanging information based on the use of public and private keys for encryption and digital signatures.</td>
+</tr>
+<tr>
+<td><code>SSO</code></td>
+<td>An authentication method that allows a user to use a single set of credentials to access multiple applications.</td>
+</tr>
+<tr>
+<td><code>MFA</code></td>
+<td>MFA is an authentication method that uses multiple factors, such as something the user knows (a password), something the user has (a phone), or something the user is (biometric data), to verify their identity.</td>
+</tr>
+<tr>
+<td><code>PAP</code></td>
+<td>A simple authentication protocol that sends a user's password in clear text over the network.</td>
+</tr>
+<tr>
+<td><code>CHAP</code></td>
+<td>An authentication protocol that uses a three-way handshake to verify a user's identity.</td>
+</tr>
+<tr>
+<td><code>EAP</code></td>
+<td>A framework for supporting multiple authentication methods, allowing for the use of various technologies to verify a user's identity.</td>
+</tr>
+<tr>
+<td><code>SSH</code></td>
+<td>This is a network protocol for secure communication between a client and a server. We can use it for remote command-line access and remote command execution, as well as for secure file transfer. SSH uses encryption to protect against eavesdropping and other attacks and can also be used for authentication.</td>
+</tr>
+<tr>
+<td><code>HTTPS</code></td>
+<td>This is a secure version of the HTTP protocol used for communication on the internet. HTTPS uses SSL/TLS to encrypt communication and provide authentication, ensuring that third parties cannot intercept and read the transmitted data. It is widely used for secure communication over the internet, particularly for web browsing.</td>
+</tr>
+<tr>
+<td><code>LEAP</code></td>
+<td>LEAP is a wireless authentication protocol developed by Cisco. It uses EAP to provide mutual authentication between a wireless client and a server and uses the RC4 encryption algorithm to encrypt communication between the two. Unfortunately, LEAP is vulnerable to dictionary attacks and other security vulnerabilities and has been largely replaced by more secure protocols such as EAP-TLS and PEAP.</td>
+</tr>
+<tr>
+<td><code>PEAP</code></td>
+<td>PEAP on the other hand is a secure tunneling protocol used for wireless and wired networks. It is based on EAP and uses TLS to encrypt communication between a client and a server. PEAP uses a server-side certificate to authenticate the server and can also be used to authenticate the client using various methods, such as passwords, certificates, or biometric data. PEAP is widely used in enterprise networks for secure authentication.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tcpudp-connections">TCP/UDP connections</h2>
+<ul>
+<li>Both TCP and UDP used in information and data transmission on the internet.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TCP</code> is a connection-oriented protocol that ensures that all data sent from one computer to another is received.</td>
+<td><code>UDP</code>, on the other hand, is a connectionless protocol. It is used when speed is more important than reliability, such as for video streaming or online gaming.</td>
+</tr>
+<tr>
+<td>If an error occurs while sending data, the receiver sends a message back so the sender can resend the missing data. This makes <code>TCP</code> reliable and slower than UDP because more time is required for transmission and error recovery.</td>
+<td>With <code>UDP</code>, there is no verification that the received data is complete and error-free. If an error occurs while sending data, the receiver will not receive this missing data, and no message will be sent back to resend it. Some data may be lost with <code>UDP</code>, but the overall transmission is faster.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ip-packet">IP Packet</h4>
+<p>An <a href="https://en.wikipedia.org/wiki/Internet_Protocol">Internet Protocol</a> (<code>IP</code>) packet is the data area used by the network layer of the <a href="https://en.wikipedia.org/wiki/OSI_model">Open Systems Interconnection</a> (<code>OSI</code>) model to transmit data from one computer to another. It consists of a header and the payload, the actual payload data</p>
+<p>The header of an IP packet contains several fields that have important information.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Version</code></td>
+<td>Indicates which version of the IP protocol is being used</td>
+</tr>
+<tr>
+<td><code>Internet Header Length</code></td>
+<td>Indicates the size of the header in 32-bit words</td>
+</tr>
+<tr>
+<td><code>Class of Service</code></td>
+<td>Means how important the transmission of the data is</td>
+</tr>
+<tr>
+<td><code>Total length</code></td>
+<td>Specifies the total length of the packet in bytes</td>
+</tr>
+<tr>
+<td><code>Identification (ID)</code></td>
+<td>Is used to identify fragments of the packet when fragmented into smaller parts</td>
+</tr>
+<tr>
+<td><code>Flags</code></td>
+<td>Used to indicate fragmentation</td>
+</tr>
+<tr>
+<td><code>Fragment Offset</code></td>
+<td>Indicates where the current fragment is placed in the packet</td>
+</tr>
+<tr>
+<td><code>Time to Live</code></td>
+<td>Specifies how long the packet may remain on the network</td>
+</tr>
+<tr>
+<td><code>Protocol</code></td>
+<td>Specifies which protocol is used to transmit the data, such as TCP or UDP</td>
+</tr>
+<tr>
+<td><code>Checksum</code></td>
+<td>Is used to detect errors in the header</td>
+</tr>
+<tr>
+<td><code>Source/Destination</code></td>
+<td>Indicate where the packet was sent from and where it is being sent to</td>
+</tr>
+<tr>
+<td><code>Options</code></td>
+<td>Contain optional information for routing</td>
+</tr>
+<tr>
+<td><code>Padding</code></td>
+<td>Pads the packet to a full word length</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ip-record-route-field">IP Record-Route Field</h4>
+<ul>
+<li>The <code>Record-Route field</code> in the IP header also records the route to a destination device. </li>
+<li>When the destination device sends back the <code>ICMP Echo Reply</code> packet, the IP addresses of all devices that pass through the packet are listed in the <code>Record-Route field</code> of the IP header.</li>
+</ul>
+<h4 id="ip-payload">IP Payload</h4>
+<p>The IP payload refers to the actual data being carried within an Internet Protocol (IP) packet. The IP packet consists of a header and a payload.</p>
+<h4 id="tcp">TCP</h4>
+<ul>
+<li>also know as segment, divided into several sections called headers and payloads.</li>
+<li>tcp segment wrapped in IP packet.</li>
+</ul>
+<h4 id="udp">UDP</h4>
+<ul>
+<li>datagrams (small data packets)</li>
+</ul>
+<h4 id="blind-spoofing">Blind spoofing</h4>
+<ul>
+<li>attacker sends false information on a network without seeing the actual responses sent back by the target devices. It involves manipulating the IP header field to indicate false source and destination addresses. For example, we send a TCP packet to the target host with false source and destination port numbers and a false <code>Initial Sequence Number</code> (<code>ISN</code>). The <code>ISN</code> is a field in the TCP header that is used to specify the sequence number of the first TCP packet in a connection. The ISN is set by the sender of a TCP packet and sent to the receiver in the TCP header of the first packet. This can cause the target host to establish a connection with us without receiving the connection.</li>
+</ul>
+<p>This attack is commonly used to disrupt the integrity of network connections or to break connections between network devices. It can also be used to monitor network traffic or to intercept information sent by network devices.</p>
+<h2 id="cryptography">Cryptography</h2>
+<h4 id="symmetric-encryption">symmetric encryption</h4>
+<ul>
+<li>uses same key to encrypt and decrypt the data.</li>
+<li>AES and DES are examples of symmetric encryption.</li>
+<li>used to encrypt large data.</li>
+</ul>
+<h4 id="asymetric-encryption">Asymetric encryption</h4>
+<ul>
+<li>also know as public-key encryption</li>
+<li>uses two different key. <ul>
+<li>public key : used to encrypt the data</li>
+<li>private key : used to decrypt the data.</li>
+</ul>
+</li>
+<li>RSA, PGP (Pretty good privacy) and ECC (Elliptic curve cryptography)</li>
+</ul>
+<h4 id="cipher-mode">Cipher mode</h4>
+<ul>
+<li>refers to how a block cipher algorithm encrypts a plaintext message.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Cipher Mode</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">Electronic Code Book</a> (<code>ECB</code>) mode</td>
+<td>ECB mode is generally not recommended for use due to its susceptibility to certain types of attacks. Furthermore, it does not hide data patterns efficiently. As a result, statistical analysis can reveal elements of clear-text messages, for example, in web applications.</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC">Cipher Block Chaining</a> (<code>CBC</code>) mode</td>
+<td>CBC mode is generally used to encrypt messages like disk encryption and e-mail communication. This is the default mode for AES and is also used in software like TrueCrypt, VeraCrypt, TLS, and SSL.</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_feedback_(CFB)">Cipher Feedback</a> (<code>CFB</code>) mode</td>
+<td>CFB mode is well suited for real-time encryption of a data stream, e.g., network communication encryption or encryption/decryption of files in transit like Public-Key Cryptography Standards (PKCS) and Microsoft's BitLocker.</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#OFB">Output Feedback</a> (<code>OFB</code>) mode</td>
+<td>OFB mode is also used to encrypt a data stream, e.g., to encrypt real-time communication. However, this mode is considered better for the data stream because of how the key stream is generated. We can find this mode in PKCS but also in the SSH protocol.</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CTR">Counter</a> (<code>CTR</code>) mode</td>
+<td>CTR mode encrypts real-time data streams AES uses, e.g., network communication, disk encryption, and other real-time scenarios where data is processed. An example of this would be IPsec or Microsoft's BitLocker.</td>
+</tr>
+<tr>
+<td><a href="https://en.wikipedia.org/wiki/Galois/Counter_Mode">Galois/Counter</a> (<code>GCM</code>) mode</td>
+<td>GCM is used in cases where confidentiality and integrity need to be protected together, such as wireless communications, VPNs, and other secure communication protocols.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../4.%20Protocols%20%26%20Terminology/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 4. Protocols &amp; Terminology">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                4. Protocols & Terminology
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../6.%20DNS/" class="md-footer__link md-footer__link--next" aria-label="Next: 6. DNS">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                6. DNS
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Akshay Chavan
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.footer"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

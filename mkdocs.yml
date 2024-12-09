@@ -4,3 +4,12 @@ site_name: Knowledge base
 site_url: https://akshaychavan10.github.io
 theme:
   name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.footer
+
+
+copyright: Copyright &copy; 2024 Akshay Chavan

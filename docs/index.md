@@ -4,9 +4,9 @@ hide:
 ---
 
 
-# Welcome to My Knowledge Base
+# KnowledgeBase.sh 
 
-Hi there! I'm Akshay Chavan, and this is my personal wiki where I organize and share my knowledge, experiences, and projects in the following areas:
+Hi there! I'm Akshay Chavan, and this is my personal wiki where I organize and share my knowledge, experiences, and projects.
 
 ---
 
@@ -23,34 +23,35 @@ Hi there! I'm Akshay Chavan, and this is my personal wiki where I organize and s
 Explore my curated collection of cybersecurity concepts, tools, and techniques:
 
 - [Certified Red Team Professional Notes](CRTP/notes.md)
-- [Networking (Hackthebox Academy)](Networking-HTB/0.%20list.md)
+- [Computer Networks](Computer%20Networks/0.%20list.md)
+- [Cryptography](Cryptography/0.%20list.md)
 - [Cyber Security 101](Cyber%20Security%20101/0.%20list.md)
+- [Linux](Linux/0.%20list.md)
+- [Networking (Hackthebox Academy)](Networking-HTB/0.%20list.md)
+- [SOC Level 1](SOC%20Level%201/0.%20list.md)
+- [Tools](Tools/0.%20list.md)
+- [Web Application Security](Web%20Application%20Security/0.%20list.md)
 
 <!--
-- [Linux](Linux/list.md)
-- [Windows](Windows/list.md)
-- [Networking](Computer%20Networks/list.md)
-- [Web Application Security](Web%20Application%20Security/list.md)
-- [Cryptography](Cryptography/list.md)
-- [Tools](Tools/list.md)
-- [SOC Level 1](SOC%20Level%201/list.md)
-- [MISC](MISC/list.md)
+- [MISC](MISC/0.%20list.md)
 -->
 ---
 
 ## 🛠️ **CTF Writeups**
 Read about my journey solving Capture the Flag challenges:
-<!--
-- [HackTheBox - Machine Name](ctf-writeups/hackthebox-machine.md)
-- [TryHackMe - Scenario Name](ctf-writeups/tryhackme-scenario.md)
--->
+
+- [HackTheBox](CTF/htb_list.md)
+- [TryHackMe](CTF/thm_list.md)
+- [OverTheWire](CTF/wargame_list.md)
 ---
 
 ## 🚀 **Projects**
 Discover my projects and tools:
+
+- [VAPT Framework](https://github.com/akshaychavan10/VAPT-Framework)
+- [Machine Learning-Based Threat Detection](https://github.com/akshaychavan10/Threat-Detection-System-Using-Machine-Learning)
+
 <!--
-- [VAPT Framework](projects/vapt-framework.md)
-- [Machine Learning-Based Threat Detection](projects/threat-detection-ml.md)
 - [Quantum Encryption Platform](projects/quantum-encryption-platform.md)
 -->
 ---
@@ -65,15 +66,8 @@ Check out my blog posts on technology, cybersecurity, and the cosmos:
 
 ## 👨‍💻 **About Me**
 I am a master's student in Cybersecurity with a passion for ethical hacking, bug bounties, and space technologies.  
-Learn more about my 
-
-<!--[journey and aspirations](about/about-me.md).-->
+Learn more about my [journey and aspirations](MISC/about-me.md).
 
 ---
 
-## 🌟 **Get in Touch**
-Feel free to connect with me:
-- [GitHub](https://github.com/akshaychavan)
-- [LinkedIn](https://linkedin.com/in/akshaychavan)
 
----

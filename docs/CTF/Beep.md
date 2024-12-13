@@ -5,13 +5,13 @@ categories: [CTF, hackthebox]
 tags: [lfi, sudo]
 ---
 
-![infocar](/assets/htb/beep/infocard.png)
+![infocar](media/beepinfocard.png)
 
-beep is an easy box that has 20 points. box has a lfi vulnerability which gives us creds to login. then we use file upload vuln to get a shell. privs is done by using sudo.
+Beep is an easy HackTheBox machine worth 20 points. The box features a Local File Inclusion (LFI) vulnerability, which reveals credentials, and a file upload vulnerability that provides a shell. Privilege escalation is achieved using sudo.
 
 ## Enumeration
 
-as always we start with Nmap
+Starting with Nmap, we scanned the target for open services
 
 ```nmap
 Starting Nmap 7.80 ( https://nmap.org ) at 2020-12-03 08:13 EST
@@ -55,8 +55,15 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 377.37 seconds
 ```
 
-Nmap shows various services are open. Let's start with the webpage.
-there is an Elastix login page.
+Key services include
+
+- HTTP (80): Elastix login page.
+- HTTP (10000): Webmin interface.
+- MySQL (3306): Restricted to localhost.
+
+### Web Enumeration
+
+Visiting the HTTP port revealed an Elastix login page:
 
 ![homepage](/assets/htb/beep/homepage.png)
 

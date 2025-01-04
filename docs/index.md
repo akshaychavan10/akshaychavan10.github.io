@@ -50,6 +50,7 @@ Discover my projects and tools:
 
 - [VAPT Framework](https://github.com/akshaychavan10/VAPT-Framework)
 - [Machine Learning-Based Threat Detection](https://github.com/akshaychavan10/Threat-Detection-System-Using-Machine-Learning)
+- [Malware Detection Using Yara](https://github.com/akshaychavan10/Malware-Detection-Using-Yara)
 
 <!--
 - [Quantum Encryption Platform](projects/quantum-encryption-platform.md)

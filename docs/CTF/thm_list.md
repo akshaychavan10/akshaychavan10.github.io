@@ -9,7 +9,7 @@ hide:
 - **[Cmspit](Cmspit.md)**  
 - **[Cybercrafted](Cybercrafted.md)**  
 - **[Horizontall](Horizontall.md)**  
-
+- **[Light](Light.md)**
 ---
 
 ## 📚 **How to Use**

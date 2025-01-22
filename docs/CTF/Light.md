@@ -12,15 +12,36 @@ In this CTF challenge, I faced a SQLite-based application that seemed innocuous 
 
 The initial reconnaissance was performed using **Nmap**, revealing the following open services:
 
---Nmap scan
-
-
+```
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-22 15:22 CET                                                                                                          
+Stats: 0:00:50 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan                                                                                                 
+Service scan Timing: About 50.00% done; ETC: 15:23 (0:00:49 remaining)                                                                                                      
+Nmap scan report for 10.10.106.14                                                                                                                                           
+Host is up (0.051s latency).                                                                                                                                                
+                                                                                                                                                                            
+PORT     STATE SERVICE VERSION                                                                                                                                              
+22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.9 (Ubuntu Linux; protocol 2.0)                                                                                         
+| ssh-hostkey:                                                                                                                                                              
+|   3072 61:c5:06:f2:4a:20:5b:cd:09:4d:72:b0:a5:aa:ce:71 (RSA)                                                                                                              
+|   256 51:e0:5f:fa:81:64:d3:d9:26:24:16:ca:45:94:c2:00 (ECDSA)                                                                                                             
+|_  256 77:e1:36:3b:95:9d:e0:3e:0a:56:82:b2:9d:4c:fe:1a (ED25519)                                                                                                           
+1337/tcp open  waste?                                                                                                                                                       
+| fingerprint-strings:                                                                                                                                                      
+|   DNSStatusRequestTCP, DNSVersionBindReqTCP, Kerberos, NULL, RPCCheck, SMBProgNeg, SSLSessionReq, TLSSessionReq, TerminalServerCookie, X11Probe:                          
+|     Welcome to the Light database!                                                                                                                                        
+|     Please enter your username:                                                                                                                                           
+|   FourOhFourRequest, GenericLines, GetRequest, HTTPOptions, Help, RTSPRequest:                                                                                            
+|     Welcome to the Light database!                                                                                                                                        
+|     Please enter your username: Username not found.
+|_    Please enter your username:
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service
+```
 
 ## **Phase 1: The Initial Struggle**  
 The application greeted me with a login prompt. Default credentials (`smokey:vYQ5ngPpw8AdUmL`) failed, so I tested for SQL injection.  
 
 **First Attempt**: 
- 
+
 ```sql
 ' UNION SELECT null, table_name, null FROM information_schema.tables --
 ```  

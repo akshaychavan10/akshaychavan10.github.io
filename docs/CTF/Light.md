@@ -37,8 +37,21 @@ PORT     STATE SERVICE VERSION
 1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service
 ```
 
-## **Phase 1: The Initial Struggle**  
-The application greeted me with a login prompt. Default credentials (`smokey:vYQ5ngPpw8AdUmL`) failed, so I tested for SQL injection.  
+## **Phase 1: The Initial Struggle**
+
+The challenge began with a network connection to the target: 
+
+```bash
+nc $ip 1337  
+```  
+The application greeted me with: 
+
+```  
+Welcome to the Light database!  
+Please enter your username:  
+```    
+
+I entered given username **smokey** and it gives me password for User. (`smokey:vYQ5ngPpw8AdUmL`). This is database application so lets try SQL Injection Attack.  
 
 **First Attempt**: 
 

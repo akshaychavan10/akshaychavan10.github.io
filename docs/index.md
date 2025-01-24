@@ -48,22 +48,22 @@ Read about my journey solving Capture the Flag challenges:
 ## 🚀 **Projects**
 Discover my projects and tools:
 
-- [VAPT Framework](https://github.com/akshaychavan10/VAPT-Framework)
-- [Machine Learning-Based Threat Detection](https://github.com/akshaychavan10/Threat-Detection-System-Using-Machine-Learning)
-- [Malware Detection Using Yara](https://github.com/akshaychavan10/Malware-Detection-Using-Yara)
+- [Malware Detection Using Machine Learning](https://github.com/akshaychavan10/Malware-Detection-System-Using-Machine-Learning)
+- [Bug Bounty Reconnaissance Automation Framework](https://github.com/akshaychavan10/Bug-Bounty-Reconnaissance-Automation-Framework)
+- [Malware Scanner Using YARA](https://github.com/akshaychavan10/Malware-Detection-Using-Yara)
+- [Reconnaissance For CTF](https://github.com/akshaychavan10/CTF-Recon-Framework)
 
 <!--
 - [Quantum Encryption Platform](projects/quantum-encryption-platform.md)
 -->
 ---
-
+<!--
 ## ✍️ **Blogs**
 Check out my blog posts on technology, cybersecurity, and the cosmos:
-<!--
+
 - [The Beauty of Astrophysics](blogs/beauty-of-astrophysics.md)
 - [Building a Secure Digital Future](blogs/secure-digital-future.md)
 -->
----
 
 ## 👨‍💻 **About Me**
 I am a master's student in Cybersecurity with a passion for ethical hacking, bug bounties, and space technologies.  

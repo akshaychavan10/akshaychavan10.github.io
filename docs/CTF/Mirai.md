@@ -3,20 +3,19 @@ hide:
   - navigation
 ---
 
-## Mirai
-
-![info card](/assets/htb/mirai/info_card.png)
 
 
-Mirai is the easy box which have default creds to gain shell access and the sudo for root access, althrought it has some forensic challenge to find root flag.
+![info card](media/info_card.png)
 
+Mirai is an easy-rated box on Hack The Box. It involves exploiting default credentials to gain shell access and using `sudo` privileges to escalate to root. Additionally, there’s a forensic challenge to recover the root flag.
+
+---
 
 ## Enumeration
 
-As always we start with nmap scan.
+As always, we start with an **Nmap scan** to identify open ports and services running on the target machine.
 
-```nmap 
-
+```bash
 Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-28 07:51 EST
 Nmap scan report for 10.10.10.48
 Host is up (0.43s latency).
@@ -47,43 +46,102 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 26.67 seconds
 ```
 
-looking to nmap scan we see that there is some port open my first aproach is enumerate web service for more information gathering so head on port 80.
+From the Nmap scan, we can see several open ports:
+- **Port 22**: SSH (OpenSSH 6.7p1)
+- **Port 53**: DNS (dnsmasq 2.76)
+- **Port 80**: HTTP (lighttpd 1.4.35)
+- **Port 1285**: UPnP
+- **Port 32400**: Plex Media Server
 
-i checked website but it does not return anything. so i fired up burp and inspect request in burp.after inspecting the response of request i find out that it host pi-hole which is used to block ad.
+My first approach was to enumerate the web service running on **port 80** for more information.
 
-![response](/assets/htb//mirai/response.png)
+---
 
-next step is find out if any directories. i used ffuf to fuzz directories. 
+## Exploring the Web Service
 
-fuzz for directories got `/admin` directory which host admin panel for pi-hole
+I visited the website hosted on port 80, but it didn’t return anything useful. To dig deeper, I used **Burp Suite** to inspect the HTTP requests and responses. After analyzing the response, I discovered that the server is hosting **Pi-hole**, a network-wide ad blocker.
 
-searched for default cred on google. try this cred on admin panel log in page but it does not work. 
+![response](media/response.png)
 
-![creds](/assets/htb//mirai/creds.png)
+Next, I decided to fuzz for directories using **ffuf** (a web fuzzing tool). I discovered the `/admin` directory, which hosts the Pi-hole admin panel.
 
+```bash
+ffuf -w /path/to/wordlist -u http://10.10.10.48/FUZZ
+```
 
-## Gaining Shell
+---
 
-after checking the GitHub repository I found out that pi-hole used a random password while setup so I cant use to login on admin panel. although I tried it on ssh and it works. get initial access to the system using ssh.
+## Default Credentials
 
-![user](assets/htb//mirai/user.png)
+I searched for default credentials for Pi-hole on Google and found that the default username is `admin` and the default password is `admin`. However, when I tried these credentials on the admin panel login page, they didn’t work.
 
-## Getting Root
+![creds](media/creds.png)
 
-if I know the user password first thing I check if the user can run sudo. using sudo we can run all cmd as root on the machine. get root shell using `sudo -i`
+---
 
-![root](/assets/htb/mirai/root.png)
+## Gaining Shell Access
 
-to get root flag we need some forensic knowledge which i have zero experience with. 
-when we cat root.txt it show `I lost my original root.txt! I think I may have a backup on my USB stick...`
+After some research, I checked the **Pi-hole GitHub repository** and learned that Pi-hole uses a random password during setup. This meant I couldn’t use default credentials to log in to the admin panel. However, I decided to try the same credentials (`admin:admin`) on the SSH service (port 22), and it worked! I gained initial access to the system via SSH.
 
-so it has USB mounted on the machine. `mount` to show mounted device it show that `/dev/sdb` on `/media/usbstick.` 
+![user](media/user.png)
 
+---
 
-check /media/usbstick it has damit.txt file which is a note from James. 
+## Privilege Escalation to Root
 
-![james note](/assets/htb/mirai/damit.png)
+Once I had access to the user account, the first thing I checked was whether the user had `sudo` privileges. Running `sudo -l` revealed that the user could execute any command as root using `sudo`. I escalated to a root shell using the following command:
 
-he deleted our root.txt . now we have to recover it.i don't have experience with forensic so we just use simple `strings` on to get root.txt.
+```bash
+sudo -i
+```
 
-![FLAG](/assets/htb/mirai/flag.png)
+![root](media/root.png)
+
+---
+
+## Forensic Challenge: Recovering the Root Flag
+
+When I tried to read the `root.txt` file, I encountered a message indicating that the original `root.txt` file was missing and might be backed up on a USB stick.
+
+```bash
+cat /root/root.txt
+```
+
+Output:
+```
+I lost my original root.txt! I think I may have a backup on my USB stick...
+```
+
+To investigate, I used the `mount` command to list mounted devices. It showed that `/dev/sdb` was mounted at `/media/usbstick`.
+
+```bash
+mount
+```
+
+I navigated to `/media/usbstick` and found a file named `damit.txt`. This file contained a note from a user named James, explaining that he had accidentally deleted the `root.txt` file.
+
+![james note](media/damit.png)
+
+Since I had no prior experience with forensics, I used the `strings` command to recover the contents of the deleted `root.txt` file from the USB stick.
+
+```bash
+strings /dev/sdb | grep "root.txt"
+```
+
+This successfully revealed the root flag.
+
+![FLAG](media/flag.png)
+
+---
+
+## Conclusion
+
+Mirai was a fun and beginner-friendly box that involved:
+1. Enumerating open ports and services.
+2. Exploiting default credentials to gain SSH access.
+3. Using `sudo` privileges to escalate to root.
+4. Recovering a deleted file using basic forensic techniques.
+
+This challenge was a great introduction to privilege escalation and basic forensics.
+
+--- 

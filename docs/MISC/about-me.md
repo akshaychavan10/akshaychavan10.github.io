@@ -7,21 +7,19 @@ hide:
 
 Hey there! 👋
 
-I’m **Akshay Chavan**, a **Cybersecurity Enthusiast** and a **Master’s student** with hands-on experience in **Ethical Hacking**, **Bug Bounties**, and **Vulnerability Assessments**.
-
 ## What I Do
 
-- **Ethical Hacking**: Engaged in **bug bounty programs** and **red teaming** exercises, finding vulnerabilities in web applications, networks, and systems. My work focuses on identifying critical weaknesses and helping organizations improve their security posture.
-- **Penetration Testing** & **Vulnerability Assessment**: I developed a **VAPT Framework** that automates security scanning and penetration testing to identify vulnerabilities quickly. I also conduct thorough manual testing for high-impact findings.
-- **Cybersecurity Research**: Exploring innovative solutions, including **machine learning-based threat detection** to classify network threats and malware with high accuracy, helping to stay one step ahead of adversaries.
+- **Ethical Hacking:** I’ve made a name for myself in bug bounty programs and red teaming exercises, uncovering critical vulnerabilities in systems for organizations like Hyatt Hotels, iRobot, HubSpot, and Jobreg. My efforts have earned me a spot in the Hall of Fame on HackerOne and recognition from NCIIPC (Government of India) for contributions to national cyber safety.
+
+- **Penetration Testing & Vulnerability Assessment:** I don’t just rely on tools—I combine automated frameworks with deep manual analysis to uncover risks that others might miss. My goal? To find the weak spots before the bad guys do.
+
+- **Cybersecurity Advocacy:** Beyond technical work, I’m passionate about raising awareness and sharing knowledge to make the digital world safer for everyone.
+
+- When I’m not diving deep into security, I’m fascinated by the mysteries of **space** and **astrophysics**, and how they can inspire new tech solutions!
 
 ## Why Cybersecurity?
 
-I believe in making the digital world a safer place by staying ahead of emerging threats. From capturing flags in CTF challenges to creating automation frameworks for better vulnerability scanning, I am always looking for new ways to improve security.
-
-## Fun Fact
-
-When I’m not diving deep into security, I’m fascinated by the mysteries of **space** and **astrophysics**, and how they can inspire new tech solutions!
+Because I’ve always been the person who double-checks the locks, questions the **secure** Wi-Fi, and wonders if the toaster is spying on me. Cybersecurity lets me channel that paranoia into something productive—like protecting the digital world from actual threats. Plus, breaking things (ethically) and then fixing them is way more fun than it sounds. 🕵️‍♂️💻
 
 ---
 

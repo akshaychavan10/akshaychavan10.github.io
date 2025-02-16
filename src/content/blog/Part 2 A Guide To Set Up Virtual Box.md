@@ -5,10 +5,6 @@ date: 2024-02-20
 tags: ["homelab", "virtualbox"]
 ---
 
-# A Beginner's Guide to Provisioning Virtual Machines with VirtualBox
-
-![VirtualBox Logo](https://www.virtualbox.org/graphics/vbox_logo2_gradient.png)
-
 Virtual machines (VMs) are an essential tool for anyone interested in cybersecurity, software development, or IT infrastructure. They allow you to run multiple operating systems on a single physical machine, creating isolated environments for testing, learning, and experimentation. In this guide, we'll walk you through the process of setting up virtual machines using **Oracle VirtualBox**, a popular and free virtualization tool.
 
 ## What is VirtualBox?

@@ -5,8 +5,6 @@ date: 2024-02-20
 tags: ["homelab", "overview"]
 ---
 
-# Enterprise-101-Cyber-Attack-Simulation
-
 ## Project Overview
 
 **Enterprise 101** Enterprise 101 is a hands-on project that I developed to  simulates a real-world enterprise network environment to test, analyze, and improve cybersecurity defenses through penetration testing and security monitoring.

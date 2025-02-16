@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const sections = [
+  { title: "Cyber Security 101", slug: "cyber-security-101" },
+  { title: "Linux", slug: "linux" },
+  { title: "Web Security", slug: "web-security" },
+  { title: "Certified Red Team Professional", slug: "crtp" },
+  { title: "Computer Networks", slug: "computer-networks" },
+  { title: "Cryptography", slug: "cryptography" },
+  { title: "Networking Hackthebox Academy", slug: "networking-hackthebox" },
+  { title: "SOC Level 1", slug: "soc-level-1" },
+  { title: "Tools", slug: "tools" }
+];
+---
+
+<Layout title="Security Notes">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold mb-8">Security Notes</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sections.map((section) => (
+        <a href={`/notes/${section.slug}`} class="block">
+          <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <h2 class="text-xl font-semibold text-gray-900">{section.title}</h2>
+            <p class="mt-2 text-gray-600">View notes →</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

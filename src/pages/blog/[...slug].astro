@@ -1,0 +1,49 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await post.render();
+---
+
+<Layout title={post.data.title}>
+  <div class="relative">
+    <div class="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="mb-8">
+        <a href="/blog" class="text-indigo-600 hover:text-indigo-500">
+          ← Back to blog
+        </a>
+      </div>
+      
+      <article class="prose prose-indigo max-w-none">
+        {post.data.image && (
+          <img 
+            src={post.data.image}
+            alt={post.data.title}
+            class="w-full h-64 object-cover rounded-lg mb-8"
+          />
+        )}
+        <h1>{post.data.title}</h1>
+        <div class="flex flex-wrap gap-2 mb-8">
+          {post.data.tags?.map((tag) => (
+            <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-sm">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <Content />
+      </article>
+    </div>
+    
+    <TableOfContents headings={headings} />
+  </div>
+</Layout>

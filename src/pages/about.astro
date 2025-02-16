@@ -1,0 +1,133 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About Me">
+  <div class="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold mb-8">About Me</h1>
+    
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <div class="prose prose-indigo max-w-none">
+        <div class="flex flex-col md:flex-row gap-8 mb-8">
+          <div class="md:w-1/3">
+            <img 
+              src="https://media.licdn.com/dms/image/v2/D4E03AQHgLUqghxebvA/profile-displayphoto-shrink_200_200/B4EZRHRmvxHEAc-/0/1736362586169?e=1744848000&v=beta&t=BM6c6SlQYsYlfSD4u5lT9-tOgAPbUR90Gaw7iAU11u8" 
+              alt="Profile Picture" 
+              class="rounded-lg shadow-md w-full"
+            />
+          </div>
+          <div class="md:w-2/3">
+            <h2 class="text-2xl font-semibold mb-4">Akshay Chavan</h2>
+            <p class="text-gray-600 mb-4">
+              Security Researcher
+            </p>
+            <div class="flex gap-4 mb-6">
+              <a href="https://github.com/akshaychavan10" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-indigo-600">
+                GitHub
+              </a>
+              <a href="https://www.linkedin.com/in/akshaychavan07" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-indigo-600">
+                LinkedIn
+              </a>
+              <a href="mailto:akschavan100@gmail.com" class="text-gray-600 hover:text-indigo-600">
+                Email
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <section class="mb-8">
+          <h3 class="text-xl font-semibold mb-4">What I Do</h3>
+          <p class="mb-4">
+            <b>Ethical Hacking</b>: I specialize in bug bounty programs and red teaming exercises, identifying critical vulnerabilities in systems for organizations such as Hyatt Hotels, iRobot, HubSpot, and Jobreg. My contributions have earned me a place in the Hall of Fame on HackerOne, as well as recognition from the NCIIPC (Government of India) for enhancing national cyber safety.
+          </p>
+          <p class="mb-4">
+            <b> Penetration Testing & Vulnerability Assessment:</b> I don’t just rely on tools—I combine automated frameworks with deep manual analysis to uncover risks that others might miss. My objective is to proactively identify and address vulnerabilities, ensuring robust security measures are in place to safeguard systems and data.
+          </p>
+          <p class="mb-4">
+          <b> Cybersecurity Advocacy: </b> Beyond technical work, I’m passionate about raising awareness and sharing knowledge to make the digital world safer for everyone.
+          </p>
+          <p class="mb-4">
+          When I’m not diving deep into security, I’m fascinated by the mysteries of <b> Space </b> and <b> Astrophysics </b>, and how they can inspire new tech solutions!
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h3 class="text-xl font-semibold mb-4">Skills</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h4 class="font-medium mb-2">Security</h4>
+              <ul class="list-disc list-inside text-gray-600">
+                <li>Linux/Unix</li>
+                <li>Python3</li>
+                <li>Bash</li>
+                <li>Windows</li>
+                <li>Web Application Security</li>
+                <li>Network Penetration Testing</li>
+                <li>IDS/IPS</li>
+                <li>Security Information and Event Management (SIEM)</li>
+                <li>Incident Response</li>
+                <li>Report Writing and Documentation
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-medium mb-2">Tools</h4>
+              <ul class="list-disc list-inside text-gray-600">
+                <li>YARA</li>
+                <li>MISP</li>
+                <li>Splunk</li>
+                <li>Wireshark</li>
+                <li>Burp Suit</li>
+                <li>Snort</li>
+                <li>BloodHound</li>
+                <li>Zeek</li>
+                <li>Mimikatz</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h3 class="text-xl font-semibold mb-4">Awards</h3>
+          <ul class="space-y-4">
+            <li class="flex items-center gap-4">
+              <span class="text-gray-600">Appreciation from NCIIPC (Government of India) - Recognized for significant contributions to national cyber safety.</span>
+            </li>
+            <li class="flex items-center gap-4">
+              <span class="text-gray-600">Hall of Fame - Featured as a top security researcher on platforms like Guidbook.com, Hyatt Hotels, iRobot, HubSpot, and Jobreg.</span>
+            </li>
+            <li class="flex items-center gap-4">
+              <span class="text-gray-600">Winner - Hack it Out Secured first place in a hacking competition organized by Abhedya Futuristic Solutions.</span>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="text-xl font-semibold mb-4">Experience</h3>
+          <div class="space-y-6">
+            <div>
+              <h4 class="font-medium">Security Researcher</h4>
+              <p class="text-gray-600">Hackerone.com • 2023 - Present</p>
+              <ul class="list-disc list-inside text-gray-600 mt-2">
+                <li>Conducted vulnerability assessments & penetration tests on 20+ web applications, identifying security weaknesses.</li>
+                <li>Reported 30+ high-risk vulnerabilities, including XSS, SQL injection, SSRF, and privilege escalation.</li>
+                <li>Assisted organizations in firewall configuration reviews and VPN security assessments.</li>
+                <li>Provided security recommendations and collaborated with developers for remediation efforts.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-medium">Security Analyst Intern</h4>
+              <p class="text-gray-600">Abhedya Futuristic Solutions Private Limited, Jaipur • 2020 - 2021</p>
+              <ul class="list-disc list-inside text-gray-600 mt-2">
+                <li>Assisted the SOC team in managing security incidents, vulnerability assessments, and log monitoring.</li>
+                <li>Configured and monitored firewalls, VPNs, and proxy servers, enhancing network security.</li>
+                <li>Conducted vulnerability & risk analysis, identifying and mitigating threats before exploitation.</li>
+                <li>Monitored SIEM (Splunk) dashboards, analyzing alerts and logs for suspicious activities.</li>
+                <li>Developed security awareness training materials for employees to reduce risk exposure.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,44 @@
+---
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Personal portfolio and blog" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+    <nav class="bg-white shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex">
+            <a href="/" class="flex items-center font-bold text-xl">Home</a>
+          </div>
+          <div class="flex space-x-8">
+            <a href="/projects" class="inline-flex items-center px-1 pt-1">Projects</a>
+            <a href="/blog" class="inline-flex items-center px-1 pt-1">Blog</a>
+            <a href="/notes" class="inline-flex items-center px-1 pt-1">Notes</a>
+            <a href="/writeups" class="inline-flex items-center px-1 pt-1">Writeups</a>
+            <a href="/about" class="inline-flex items-center px-1 pt-1">About</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

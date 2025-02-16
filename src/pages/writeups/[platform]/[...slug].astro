@@ -1,0 +1,60 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import TableOfContents from '../../../components/TableOfContents.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const writeups = await getCollection('writeups');
+  
+  return writeups.map(writeup => ({
+    params: {
+      platform: writeup.data.platform.toLowerCase(),
+      slug: writeup.slug.split('/').pop()
+    },
+    props: { writeup }
+  }));
+}
+
+const { writeup } = Astro.props;
+const { Content, headings } = await writeup.render();
+
+const getColorForDifficulty = (difficulty: string) => {
+  switch (difficulty) {
+    case 'Easy': return 'bg-green-100 text-green-800';
+    case 'Medium': return 'bg-yellow-100 text-yellow-800';
+    case 'Hard': return 'bg-red-100 text-red-800';
+    default: return 'bg-gray-100 text-gray-800';
+  }
+};
+---
+
+<Layout title={writeup.data.title}>
+  <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <a href={`/writeups/${writeup.data.platform.toLowerCase()}`} class="text-indigo-600 hover:text-indigo-500">
+        ← Back to {writeup.data.platform} writeups
+      </a>
+    </div>
+    
+    <article class="prose prose-indigo max-w-none">
+      <div class="flex justify-between items-center mb-4">
+        <h1 class="mb-0">{writeup.data.title}</h1>
+        <span class={`px-3 py-1 rounded-md text-sm ${getColorForDifficulty(writeup.data.difficulty)}`}>
+          {writeup.data.difficulty}
+        </span>
+      </div>
+      
+      <div class="flex flex-wrap gap-2 mb-8">
+        {writeup.data.tags?.map((tag) => (
+          <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-sm">
+            {tag}
+          </span>
+        ))}
+      </div>
+      
+      <Content />
+    </article>
+
+    <TableOfContents headings={headings} />
+  </div>
+</Layout>

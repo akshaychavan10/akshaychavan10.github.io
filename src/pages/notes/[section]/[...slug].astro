@@ -1,0 +1,44 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import TableOfContents from '../../../components/TableOfContents.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  
+  return notes.map(note => ({
+    params: {
+      section: note.data.section,
+      slug: note.slug.split('/').pop()
+    },
+    props: { note }
+  }));
+}
+
+const { note } = Astro.props;
+const { Content, headings } = await note.render();
+---
+
+<Layout title={note.data.title}>
+  <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <a href={`/notes/${note.data.section}`} class="text-indigo-600 hover:text-indigo-500">
+        ← Back to {note.data.section.replace('-', ' ')}
+      </a>
+    </div>
+    
+    <article class="prose prose-indigo max-w-none">
+      <h1>{note.data.title}</h1>
+      <div class="flex flex-wrap gap-2 mb-8">
+        {note.data.tags?.map((tag) => (
+          <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-sm">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <Content />
+    </article>
+
+    <TableOfContents headings={headings} />
+  </div>
+</Layout>

@@ -1,0 +1,66 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const writeups = await getCollection('writeups');
+  const platforms = [...new Set(writeups.map(writeup => writeup.data.platform.toLowerCase()))];
+  
+  return platforms.map(platform => ({
+    params: { platform },
+    props: { 
+      writeups: writeups.filter(writeup => writeup.data.platform.toLowerCase() === platform)
+    }
+  }));
+}
+
+const { platform } = Astro.params;
+const { writeups } = Astro.props;
+
+const getColorForDifficulty = (difficulty: string) => {
+  switch (difficulty) {
+    case 'Easy': return 'bg-green-100 text-green-800';
+    case 'Medium': return 'bg-yellow-100 text-yellow-800';
+    case 'Hard': return 'bg-red-100 text-red-800';
+    default: return 'bg-gray-100 text-gray-800';
+  }
+};
+---
+
+<Layout title={`${platform} Writeups`}>
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <a href="/writeups" class="text-indigo-600 hover:text-indigo-500">
+        ← Back to all writeups
+      </a>
+    </div>
+    
+    <h1 class="text-3xl font-bold mb-8 capitalize">{platform.replace('-', ' ')} Writeups</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {writeups.map((writeup) => (
+        <a href={`/writeups/${platform}/${writeup.slug.split('/').pop()}`} class="block">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="p-6">
+              <div class="flex justify-between items-start mb-4">
+                <h2 class="text-xl font-semibold">{writeup.data.title}</h2>
+                <span class={`px-2 py-1 rounded-md text-sm ${getColorForDifficulty(writeup.data.difficulty)}`}>
+                  {writeup.data.difficulty}
+                </span>
+              </div>
+              <p class="text-gray-600 mb-4">
+                {new Date(writeup.data.date).toLocaleDateString()}
+              </p>
+              <div class="flex flex-wrap gap-2">
+                {writeup.data.tags?.map((tag) => (
+                  <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-sm">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

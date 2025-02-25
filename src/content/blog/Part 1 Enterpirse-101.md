@@ -108,4 +108,4 @@ For more details, including scripts and configurations, check out the [GitHub Re
 
 ## Let’s Connect!
 
-Interested in learning more about this project or collaborating on something similar? Feel free to reach out to me at [your email] or connect with me on [LinkedIn](https://www.linkedin.com/in/akshaychavan07).
+Interested in learning more about this project or collaborating on something similar? Feel free to reach out to me at akschavan100@gmail.com or connect with me on [LinkedIn](https://www.linkedin.com/in/akshaychavan07).

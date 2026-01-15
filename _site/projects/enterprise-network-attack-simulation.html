@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Enterprise Cybersecurity Lab Infrastructure">
+  <meta property="og:description" content="An end-to-end virtual lab featuring Active Directory, Wazuh monitoring, and a Kali Linux attack vector for enterprise-level cybersecurity and network adminis...">
+  <meta property="og:image" content="/assets/projects/enterprise_lab.png">
+
+  <title>Enterprise Cybersecurity Lab Infrastructure</title>
+  <meta name="description" content="An end-to-end virtual lab featuring Active Directory, Wazuh monitoring, and a Kali Linux attack vector for enterprise-level cybersecurity and network adminis...">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link active" href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link " href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1 id="enterprise-cybersecurity-lab-infrastructure">Enterprise Cybersecurity Lab Infrastructure</h1>
+
+<h3 id="project-overview">Project Overview</h3>
+
+<p>Enterprise Cybersecurity Lab is a hands-on project that simulates a real-world enterprise network environment to test, analyze, and improve cybersecurity defenses through penetration testing and security monitoring.</p>
+
+<p>This project demonstrates my ability to design, implement, and secure complex network infrastructures while simulating real-world cyber attacks.</p>
+
+<hr />
+
+<h3 id="key-features">Key Features</h3>
+
+<ul>
+  <li>
+    <p><strong>Network Topology:</strong> Designed and implemented a NAT-based network with VirtualBox, including DHCP and DNS services.</p>
+  </li>
+  <li>
+    <p><strong>Active Directory:</strong> Deployed and managed Microsoft Active Directory for user and resource management.</p>
+  </li>
+  <li>
+    <p><strong>Email Server:</strong> Configured and secured an SMTP relay server using <strong>Postfix</strong> on Ubuntu Server.</p>
+  </li>
+  <li>
+    <p><strong>Security Monitoring:</strong> Integrated <strong>Wazuh</strong> and <strong>Security Onion</strong> for intrusion detection and log analysis.</p>
+  </li>
+  <li>
+    <p><strong>Penetration Testing:</strong> Conducted simulated attacks using tools like <strong>Hydra</strong>, <strong>Evil-WinRM</strong>, and <strong>NetExec</strong>.</p>
+  </li>
+  <li>
+    <p><strong>Documentation:</strong> Created detailed, step-by-step guides for each phase of the project, from setup to attack simulation.</p>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="technical-details">Technical Details</h3>
+
+<h5 id="network-setup">Network Setup</h5>
+
+<ul>
+  <li>
+    <p><strong>NAT Network:</strong> <code class="language-plaintext highlighter-rouge">10.0.0.0/24</code> with DHCP scope <code class="language-plaintext highlighter-rouge">10.0.0.100–10.0.0.200</code>.</p>
+  </li>
+  <li>
+    <p><strong>Hosts:</strong></p>
+
+    <ul>
+      <li>
+        <p>Domain Controller (<code class="language-plaintext highlighter-rouge">10.0.0.5</code>): DNS, DHCP, and Single Sign-On (SSO).</p>
+      </li>
+      <li>
+        <p>Email Server (<code class="language-plaintext highlighter-rouge">10.0.0.8</code>): SMTP relay server.</p>
+      </li>
+      <li>
+        <p>Security Server (<code class="language-plaintext highlighter-rouge">10.0.0.10</code>): Dedicated security monitoring.</p>
+      </li>
+      <li>
+        <p>Windows Workstation (<code class="language-plaintext highlighter-rouge">10.0.0.100</code>): Simulated business user environment.</p>
+      </li>
+      <li>
+        <p>Linux Desktop (<code class="language-plaintext highlighter-rouge">10.0.0.101</code>): Simulated software development environment.</p>
+      </li>
+      <li>
+        <p>Attacker Machine: Dynamic IP for penetration testing</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="operating-systems">Operating Systems</h5>
+
+<ul>
+  <li>
+    <p><strong>Windows Server 2025:</strong> For directory services and network management.</p>
+  </li>
+  <li>
+    <p><strong>Windows 11 Enterprise:</strong> Simulates a typical business user environment.</p>
+  </li>
+  <li>
+    <p><strong>Ubuntu Desktop 22.04:</strong> For software development and security monitoring.</p>
+  </li>
+  <li>
+    <p><strong>Ubuntu Server 2022:</strong> Used as the email server.</p>
+  </li>
+  <li>
+    <p><strong>Kali Linux:</strong> For penetration testing and ethical hacking.</p>
+  </li>
+  <li>
+    <p><strong>Security Onion:</strong> For network security monitoring and intrusion detection.</p>
+  </li>
+</ul>
+
+<h5 id="tools-used">Tools Used</h5>
+
+<ul>
+  <li>
+    <p><strong>Virtualization:</strong> Hypervisor for virtual machine management.</p>
+  </li>
+  <li>
+    <p><strong>Operating Systems:</strong> Windows Server 2025, Windows 11 Enterprise, Ubuntu Desktop/Server, Kali Linux</p>
+  </li>
+  <li>
+    <p><strong>Security Tools:</strong> Wazuh, Security Onion, Hydra, Evil-WinRM, NetExec, XFreeRDP</p>
+  </li>
+  <li>
+    <p><strong>Networking:</strong> NAT, DHCP, DNS, Active Directory</p>
+  </li>
+  <li>
+    <p><strong>Scripting:</strong> Bash, PowerShell</p>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="visuals">Visuals</h3>
+
+<h5 id="infrastructure-setup">Infrastructure Setup</h5>
+
+<p><img src="/assets/projects/Ent_Infra.png" alt="Infrastructure Setup" /></p>
+
+<h5 id="active-directory-setup">Active Directory Setup</h5>
+
+<p><img src="/assets/projects/ent_active_dir_setup.png" alt="Active Directory" /></p>
+
+<hr />
+
+<h3 id="blog-post-guides">Blog Post Guides</h3>
+
+<p>As part of this project, I documented the setup and configuration process in detail through comprehensive blog posts. These posts are available for reference below:</p>
+
+<ol>
+  <li>
+    <p><strong><a href="https://akshaychavan10.github.io/blog/Foundations-of-Virtualization">Foundations of Virtualization: Architecting an Isolated Network with VirtualBox</a></strong>
+Step-by-step guide to setting up virtual machines for the project.</p>
+  </li>
+  <li>
+    <p><strong>The Domain Core: Deploying Windows Server 2025 and Active Directory Services</strong> Detailed instructions for deploying and configuring Active Directory.</p>
+  </li>
+  <li>
+    <p><strong>Building the Modern Workplace: Provisioning Windows 11 Enterprise Clients</strong> Configuring a simulated business user environment.</p>
+  </li>
+  <li>
+    <p><strong>Cross-Platform Identity: Integrating Ubuntu Desktops with Active Directory</strong> Setting up a software development environment.</p>
+  </li>
+  <li>
+    <p><strong>The Linux Backbone: Deploying Ubuntu Server 22.04 for Enterprise Roles</strong> Configuring the email server.</p>
+  </li>
+  <li>
+    <p><strong>Routing Communication: Configuring a Postfix Mail Transfer Agent (MTA)</strong> Securing an SMTP relay server on Ubuntu Server.</p>
+  </li>
+  <li>
+    <p><strong>Watching the Wire: Implementing Network Security Monitoring with Security Onion</strong> Implementing network security monitoring.</p>
+  </li>
+  <li>
+    <p><strong>The SOC Command Center: Engineering a Dedicated Security Hosting Environment</strong> Configuring the security monitoring environment.</p>
+  </li>
+  <li>
+    <p><strong>Enterprise Visibility: Deploying Wazuh SIEM/XDR for Endpoint Monitoring</strong> Integrating Wazuh for intrusion detection.</p>
+  </li>
+  <li>
+    <p><strong>Engineering the Target: Hardening and Weakening the Lab for Realistic Testing</strong> Preparing the network for penetration testing.</p>
+  </li>
+  <li>
+    <p><strong>The Offensive Platform: Setting Up Kali Linux for Ethical Hacking Operations</strong> Configuring Kali Linux for ethical hacking.</p>
+  </li>
+  <li>
+    <p><strong>Red Team Operations: Simulating the Breach from Initial Access to Impact</strong> Simulating and analyzing cyber attacks.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="outcome">Outcome</h3>
+
+<ul>
+  <li>Successfully simulated a realistic enterprise network environment.</li>
+  <li>Configured and integrated various operating systems and security tools.</li>
+  <li>Demonstrated the ability to perform and detect cyber attacks using penetration testing tools.</li>
+  <li>Gained hands-on experience with network security, Active Directory, and email server management.</li>
+</ul>
+
+<h3 id="learnings">Learnings</h3>
+
+<ul>
+  <li>Understanding of network topologies and virtualization.</li>
+  <li>Proficiency in configuring and managing Active Directory and Postfix.</li>
+  <li>Insight into security monitoring and incident response using Wazuh.</li>
+  <li>Familiarity with penetration testing tools and techniques.</li>
+</ul>
+
+<hr />
+
+<h3 id="github-repository">GitHub Repository</h3>
+
+<p>For more details, including scripts and configurations, check out the <a href="https://github.com/akshaychavan10/Enterprise-Cybersecurity-Lab-Infrastructure">GitHub Repository</a>.</p>
+
+<hr />
+
+<h3 id="lets-connect">Let’s Connect!</h3>
+
+<p>Interested in learning more about this project or collaborating on something similar? Feel free to reach out to me at [your email] or connect with me on <a href="https://www.linkedin.com/in/akshaychavan07">LinkedIn</a>.</p>
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

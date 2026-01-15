@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AWS GuardDuty Driven Cloud Security Monitoring">
+  <meta property="og:description" content="Demonstrated hands-on cloud security by simulating real-world attacks and using AWS GuardDuty to detect and analyze malicious activity in an AWS environment.">
+  <meta property="og:image" content="/assets/projects/aws_infra.png">
+
+  <title>AWS GuardDuty Driven Cloud Security Monitoring</title>
+  <meta name="description" content="Demonstrated hands-on cloud security by simulating real-world attacks and using AWS GuardDuty to detect and analyze malicious activity in an AWS environment.">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link active" href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link " href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <p>This project demonstrates how to use <strong>Amazon GuardDuty</strong>, an AI-powered threat detection service, to identify and analyze security attacks against an insecure web application. By playing the roles of both an <strong>attacker and a defender</strong>, I explored how web vulnerabilities like <strong>SQL Injection</strong> and <strong>Command Injection</strong> can be exploited to exfiltrate sensitive data from an AWS environment.</p>
+
+<hr />
+
+<h3 id="1-infrastructure-deployment"><strong>1. Infrastructure Deployment</strong></h3>
+
+<p>To simulate a real-world environment, I used <strong>AWS CloudFormation</strong> to deploy a vulnerable version of the <strong>OWASP Juice Shop</strong>.</p>
+
+<p><img src="/assets/project/aws_infra.png" alt="infra.png" /></p>
+
+<ul>
+  <li>
+    <p><strong>Infrastructure as Code (IaC):</strong> Used a template to instantly deploy <strong>27 resources</strong>, including a VPC, an EC2 instance (web server), an S3 bucket (storage), and a CloudFront distribution.</p>
+  </li>
+  <li>
+    <p><strong>Resource Roles:</strong> The EC2 instance acted as the engine for the web app and was granted IAM permissions to access a private S3 bucket containing “sensitive” information.</p>
+  </li>
+  <li>
+    <p><strong>GuardDuty Setup:</strong> Amazon GuardDuty was enabled at the start to monitor the environment for unusual activity.</p>
+  </li>
+</ul>
+
+<p><img src="/assets/project/aws_Phase_1.png" alt="Phase 1.png" /></p>
+
+<h3 id="2-the-attack-phase-hacker-mode"><strong>2. The Attack Phase (Hacker Mode)</strong></h3>
+
+<p>The objective was to exploit the web application to steal the EC2 instance’s IAM credentials and access private data.</p>
+
+<ul>
+  <li><strong>Step A: SQL Injection:</strong> I bypassed the administrative login page by entering <code class="language-plaintext highlighter-rouge">' or 1=1--</code> into the email field. This manipulated the database query to always evaluate as <strong>True</strong>, granting access without a valid password.</li>
+</ul>
+
+<p><img src="/assets/project/aws_SQL_Login.png" alt="SQL_Login.png" /></p>
+
+<p><img src="/assets/project/aws_admin_access.png" alt="admin access.png" /></p>
+
+<ul>
+  <li><strong>Step B: Command Injection:</strong> Once logged in, I navigated to the profile page and injected a <strong>JavaScript script</strong> into the username field. Because the application failed to <strong>sanitize user inputs</strong>, the web server executed the code, which exfiltrated its temporary <strong>IAM credentials</strong> into a publicly accessible <code class="language-plaintext highlighter-rouge">credentials.json</code> file.</li>
+</ul>
+
+<p><img src="./media/cmd_injection.png" alt="cmd injection.png" /></p>
+
+<ul>
+  <li><strong>Step C: Credential Exfiltration:</strong> I accessed the public URL for <code class="language-plaintext highlighter-rouge">credentials.json</code> to obtain the <strong>Access Key ID, Secret Access Key, and Session Token</strong>.</li>
+</ul>
+
+<p><img src="/assets/project/aws_bucket_secrets.png" alt="s3 bucket secrets download.png" /></p>
+
+<h3 id="3-data-breach-execution"><strong>3. Data Breach Execution</strong></h3>
+
+<p>Using the stolen credentials, I moved to the <strong>AWS Command Line Interface (CLI)</strong> via <strong>Cloud Shell</strong> to impersonate the web server.</p>
+
+<ul>
+  <li><strong>Configuration:</strong> I configured a new AWS CLI profile named <strong>“attacker”</strong> using the exfiltrated keys.</li>
+  <li><strong>The Theft:</strong> Wearing these credentials “like a suit,” I bypassed standard permissions to access the victim’s private S3 bucket. I successfully copied and read the contents of <code class="language-plaintext highlighter-rouge">secret-information.txt</code>, confirming the data breach.</li>
+</ul>
+
+<p><img src="/assets/project/aws_file_access.png" alt="s3 bucket's secret file access.png" /></p>
+
+<h3 id="4-the-defense-phase-detection-and-analysis"><strong>4. The Defense Phase (Detection and Analysis)</strong></h3>
+
+<p>After the attack, I transitioned back to the <strong>Defender</strong> role to evaluate how AWS monitored the incident.</p>
+
+<p><img src="/assets/project/aws_guardduty_findings.png" alt="guardduty findings.png" /></p>
+
+<ul>
+  <li>
+    <p><strong>GuardDuty Finding:</strong> GuardDuty successfully generated a high-severity finding titled <strong>“InstanceCredentialExfiltration”</strong>.</p>
+  </li>
+  <li>
+    <p><strong>Anomaly Detection:</strong> The service used <strong>Machine Learning</strong> to detect that credentials belonging to my EC2 instance were being used by a different, remote AWS account (the Cloud Shell environment).</p>
+  </li>
+  <li>
+    <p><strong>Finding Details:</strong> GuardDuty provided the attacker’s <strong>IP address, geographic location</strong>, and the specific <strong>S3:GetObject</strong> action performed.</p>
+  </li>
+</ul>
+
+<h3 id="5-secret-mission-s3-malware-protection"><strong>5. Secret Mission: S3 Malware Protection</strong></h3>
+
+<p>To enhance the security posture, I enabled <strong>GuardDuty Malware Protection for S3</strong>.</p>
+
+<p><img src="/assets/project/aws_eicar_upload.png" alt="eicar file upload.png" /></p>
+
+<ul>
+  <li>
+    <p><strong>Testing:</strong> I uploaded a harmless <strong>EICAR test file</strong> (designed to trigger antivirus software) to the S3 bucket.</p>
+  </li>
+  <li>
+    <p><strong>Result:</strong> GuardDuty instantly flagged the file with a <strong>“Malicious file in S3”</strong> finding, demonstrating its ability to scan and protect storage resources from harmful uploads.</p>
+  </li>
+</ul>
+
+<p><img src="/assets/project/aws_eicar_finding.png" alt="eicar finding.png" /></p>
+
+<hr />
+
+<h3 id="key-skills--technologies"><strong>Key Skills &amp; Technologies</strong></h3>
+
+<ul>
+  <li><strong>Security Services:</strong> Amazon GuardDuty (Threat Detection &amp; Malware Protection).</li>
+  <li><strong>Automation:</strong> AWS CloudFormation (Infrastructure as Code).</li>
+  <li><strong>Offensive Security:</strong> SQL Injection, Command Injection, Credential Exfiltration.</li>
+  <li><strong>DevOps/CLI:</strong> AWS Cloud Shell, Linux commands (<code class="language-plaintext highlighter-rouge">wget</code>, <code class="language-plaintext highlighter-rouge">cat</code>, <code class="language-plaintext highlighter-rouge">jq</code>), AWS CLI Profile management.</li>
+</ul>
+
+<hr />
+
+<p><strong>Analogy for the project:</strong> This project is like testing the security of a high-tech bank. First, I acted as the thief who found a back door (SQL injection) and tricked the staff into handing over a manager’s keycard (Command injection). Then, I switched roles to the bank’s security chief to review the AI-powered surveillance footage (GuardDuty). The project proved that while a thief might find a way in, a smart security system will recognize the unusual behavior and sound the alarm.</p>
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

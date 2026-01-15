@@ -27,7 +27,7 @@ VirtualBox offers five primary networking modes to control how VMs connect to ea
 
 5. **Host-Only Adapter:** Creates a direct link between the host machine and the VM without internet access.
 
---Image of: --Image Placeholder: VirtualBox Network Settings Overview
+![VirtualBox Network Settings Overview](/assets/blogs/virtualbox.png)
 
 ### Step 1: Provisioning the NAT Network
 

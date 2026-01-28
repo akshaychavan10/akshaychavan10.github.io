@@ -200,49 +200,38 @@
 
 <hr />
 
-<h3 id="blog-post-guides">Blog Post Guides</h3>
+<h3 id="red-team-operations">Red Team Operations</h3>
 
-<p>As part of this project, I documented the setup and configuration process in detail through comprehensive blog posts. These posts are available for reference below:</p>
+<p>Simulated offensive attacks using <strong>Kali Linux</strong> to test network defenses:</p>
 
-<ol>
+<ul>
+  <li><strong>Initial Access &amp; Reconnaissance:</strong> Performed brute-force and dictionary attacks with <strong>Hydra</strong>, mapped Active Directory (<code class="language-plaintext highlighter-rouge">corp.project-x-dc.com</code>) to identify high-value targets like the Domain Controller.</li>
+  <li><strong>Exploitation &amp; Lateral Movement:</strong> Used <strong>Evil-WinRM</strong> and <strong>NetExec</strong> to execute commands, extract data, and move laterally.</li>
+  <li><strong>Targeting Services:</strong> Tested critical infrastructure such as the <strong>Postfix Mail Server</strong> for vulnerabilities and potential credential exploitation.</li>
+</ul>
+
+<iframe src="https://mitre-attack.github.io/attack-navigator/#layerURL=https://raw.githubusercontent.com/akshaychavan10/shopify_notes/refs/heads/main/red_team_attack_simulation.json" width="100%" height="800" style="border:1px solid #ddd;">
+</iframe>
+
+<hr />
+
+<h3 id="blue-team-operations">Blue Team Operations</h3>
+
+<p>Defensive monitoring and response using a layered security stack:</p>
+
+<ul>
   <li>
-    <p><strong><a href="https://akshaychavan10.github.io/blog/Foundations-of-Virtualization">Foundations of Virtualization: Architecting an Isolated Network with VirtualBox</a></strong>
-Step-by-step guide to setting up virtual machines for the project.</p>
+    <p><strong>Endpoint Security:</strong> <strong>Wazuh</strong> agents collected logs from Windows and Linux hosts, with File Integrity Monitoring (FIM) and behavioral analysis for real-time alerts.</p>
   </li>
   <li>
-    <p><strong>The Domain Core: Deploying Windows Server 2025 and Active Directory Services</strong> Detailed instructions for deploying and configuring Active Directory.</p>
+    <p><strong>Network Monitoring:</strong> <strong>Security Onion</strong> with <strong>Zeek</strong> and <strong>Suricata</strong> analyzed traffic for anomalies. Logs aggregated in the <strong>Elastic Stack</strong> enabled proactive threat hunting.</p>
   </li>
   <li>
-    <p><strong>Building the Modern Workplace: Provisioning Windows 11 Enterprise Clients</strong> Configuring a simulated business user environment.</p>
+    <p><strong>Isolation &amp; Management:</strong> Security tools were hosted on a dedicated server to protect performance and maintain separation from production systems.</p>
   </li>
-  <li>
-    <p><strong>Cross-Platform Identity: Integrating Ubuntu Desktops with Active Directory</strong> Setting up a software development environment.</p>
-  </li>
-  <li>
-    <p><strong>The Linux Backbone: Deploying Ubuntu Server 22.04 for Enterprise Roles</strong> Configuring the email server.</p>
-  </li>
-  <li>
-    <p><strong>Routing Communication: Configuring a Postfix Mail Transfer Agent (MTA)</strong> Securing an SMTP relay server on Ubuntu Server.</p>
-  </li>
-  <li>
-    <p><strong>Watching the Wire: Implementing Network Security Monitoring with Security Onion</strong> Implementing network security monitoring.</p>
-  </li>
-  <li>
-    <p><strong>The SOC Command Center: Engineering a Dedicated Security Hosting Environment</strong> Configuring the security monitoring environment.</p>
-  </li>
-  <li>
-    <p><strong>Enterprise Visibility: Deploying Wazuh SIEM/XDR for Endpoint Monitoring</strong> Integrating Wazuh for intrusion detection.</p>
-  </li>
-  <li>
-    <p><strong>Engineering the Target: Hardening and Weakening the Lab for Realistic Testing</strong> Preparing the network for penetration testing.</p>
-  </li>
-  <li>
-    <p><strong>The Offensive Platform: Setting Up Kali Linux for Ethical Hacking Operations</strong> Configuring Kali Linux for ethical hacking.</p>
-  </li>
-  <li>
-    <p><strong>Red Team Operations: Simulating the Breach from Initial Access to Impact</strong> Simulating and analyzing cyber attacks.</p>
-  </li>
-</ol>
+</ul>
+
+<p><img src="/assets/projects/wazuh_blue.png" alt="endpoint configuration" /></p>
 
 <hr />
 
@@ -274,7 +263,7 @@ Step-by-step guide to setting up virtual machines for the project.</p>
 
 <h3 id="lets-connect">Let’s Connect!</h3>
 
-<p>Interested in learning more about this project or collaborating on something similar? Feel free to reach out to me at [your email] or connect with me on <a href="https://www.linkedin.com/in/akshaychavan07">LinkedIn</a>.</p>
+<p>Interested in learning more about this project or collaborating on something similar? Feel free to reach out to me at <a href="akschavan100@gmail.com">mail</a> or connect with me on <a href="https://www.linkedin.com/in/akshaychavan07">LinkedIn</a>.</p>
 
 </div>
   </main>

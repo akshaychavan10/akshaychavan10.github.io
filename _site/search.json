@@ -1,11 +1,163 @@
 [
   
     {
-      "title"    : "Foundations of Virtualization",
+      "title"    : "Anonymous",
       "category" : "",
-      "tags"     : "Virtualization, Virtualbox, Enterprise101",
-      "url"      : "/blog/Foundations-of-Virtualization",
-      "date"     : "2025-01-13 00:00:00 +0100"
+      "tags"     : "NetworkSecurity, FTPExploitation, SUID",
+      "url"      : "/blog/Anonymous",
+      "date"     : "2024-01-21 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Random",
+      "category" : "",
+      "tags"     : "XORLogic, BinaryExploitation",
+      "url"      : "/blog/Random",
+      "date"     : "2024-01-12 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Beep",
+      "category" : "",
+      "tags"     : "UnrealIRCdBackdoor, Steganography",
+      "url"      : "/blog/Irked",
+      "date"     : "2024-01-04 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Horizontall",
+      "category" : "",
+      "tags"     : "Strapi, UnauthenticatedRCE",
+      "url"      : "/blog/Horizontall",
+      "date"     : "2023-12-22 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Mirai",
+      "category" : "",
+      "tags"     : "WeakAuthentication, FileRecovery",
+      "url"      : "/blog/Mirai",
+      "date"     : "2023-12-14 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Valentine",
+      "category" : "",
+      "tags"     : "Heartbleed, SSHKeyAbuse",
+      "url"      : "/blog/Valentine",
+      "date"     : "2023-12-05 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Beep",
+      "category" : "",
+      "tags"     : "LFI, Elastix",
+      "url"      : "/blog/Beep",
+      "date"     : "2023-11-26 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "FD",
+      "category" : "",
+      "tags"     : "LinuxIO",
+      "url"      : "/blog/FD",
+      "date"     : "2023-11-18 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Cmspit",
+      "category" : "",
+      "tags"     : "NoSQLInjection, PasswordResetAbuse, SUID",
+      "url"      : "/blog/Cmspit",
+      "date"     : "2023-11-09 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Cybercrafted",
+      "category" : "",
+      "tags"     : "http, sqlinjection, sudo",
+      "url"      : "/blog/Cybercrafted",
+      "date"     : "2023-11-01 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Shoker",
+      "category" : "",
+      "tags"     : "Shellshock, CGIExploitation",
+      "url"      : "/blog/Shoker",
+      "date"     : "2023-10-22 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Blocky",
+      "category" : "",
+      "tags"     : "JARAnalysis, CredentialExposure",
+      "url"      : "/blog/Blocky",
+      "date"     : "2023-10-14 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Bashed",
+      "category" : "",
+      "tags"     : "WebShell, KernelExploit",
+      "url"      : "/blog/Bashed",
+      "date"     : "2023-10-05 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Curling",
+      "category" : "",
+      "tags"     : "CredentialDisclosure, CronJob",
+      "url"      : "/blog/Curling",
+      "date"     : "2023-09-27 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Light",
+      "category" : "",
+      "tags"     : "sqlinjection, obfuscation",
+      "url"      : "/blog/Light",
+      "date"     : "2023-09-18 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Bank",
+      "category" : "",
+      "tags"     : "FileUploadBypass, DNSEnumeration",
+      "url"      : "/blog/Bank",
+      "date"     : "2023-09-10 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Lame",
+      "category" : "",
+      "tags"     : "SambaUsermap, RootCompromise",
+      "url"      : "/blog/Lame",
+      "date"     : "2023-09-02 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Nibbles",
+      "category" : "",
+      "tags"     : "WeakAuthentication, SUDO",
+      "url"      : "/blog/Nibbles",
+      "date"     : "2023-08-25 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Buffer Overflow",
+      "category" : "",
+      "tags"     : "BufferOverflow",
+      "url"      : "/blog/BoF",
+      "date"     : "2023-08-18 00:00:00 +0200"
+    } ,
+  
+    {
+      "title"    : "Bandit",
+      "category" : "",
+      "tags"     : "Overtheflow",
+      "url"      : "/blog/Bandit",
+      "date"     : "2023-08-12 00:00:00 +0200"
     } 
   
 ]

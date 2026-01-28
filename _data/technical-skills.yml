@@ -1,0 +1,36 @@
+- name: Linux
+  percentage: 90
+  color: danger
+
+- name: Windows
+  percentage: 80
+  color:
+
+- name: Security Information and EVent Management
+  percentage: 90
+  color: secondary
+
+- name: Phishing Analysis
+  percentage: 85
+  color: info
+
+- name: Cyber Defense Frameworks
+  percentage: 80
+  color: success
+
+- name: Network Security
+  percentage: 75
+  color: warning
+
+- name: Endpoint Security Monitoring
+  percentage: 88
+  color: dark
+
+- name: Threat Intelligence
+  percentage: 75
+  color: success
+
+- name: Report Writing And Documentation
+  percentage: 95
+  color: secondary
+    

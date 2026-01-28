@@ -5,6 +5,10 @@ image: /assets/projects/aws_infra.png
 description: Demonstrated hands-on cloud security by simulating real-world attacks and using AWS GuardDuty to detect and analyze malicious activity in an AWS environment. 
 ---
 
+## AWS GuardDuty Driven Cloud Security Monitoring
+
+### Project Overview
+
 This project demonstrates the use of Amazon GuardDuty, an AI-powered threat detection service, to identify and analyze security attacks against an intentionally insecure web application. By playing the roles of both attacker and defender, I explored how web vulnerabilities such as SQL Injection and Command Injection can be exploited to exfiltrate sensitive data from an AWS environment. The attacks were then monitored in real time using Amazon GuardDuty, enabling a clear understanding of how such threats are detected and how they can be identified, investigated, and mitigated through cloud-native security controls.
 
 ---

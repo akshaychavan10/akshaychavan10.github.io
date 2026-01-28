@@ -1,7 +1,11 @@
-- name: Adobe Photoshop
-  percentage: 95
+- name: Attention To Details
+  percentage: 100
   color: info
 
-- name: Adobe Illustrator
-  percentage: 90
+- name: Strong Written And Verbal Communication
+  percentage: 100
   color: success
+
+- name: Problem Solving
+  percentage: 100 
+  color:

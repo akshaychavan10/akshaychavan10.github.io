@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Random">
+  <meta property="og:description" content="Predictable rand() exploitation">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Random</title>
+  <meta name="description" content="Predictable rand() exploitation">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Random</b></h1>
+
+<p class="post-metadata text-muted">
+  12 January 2024 -  
+  <b>2 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#xorlogic">
+      <span class="tag badge badge-pill text-primary border border-primary">XORLogic</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#binaryexploitation">
+      <span class="tag badge badge-pill text-primary border border-primary">BinaryExploitation</span>
+    </a>
+    </p>
+
+<p><strong>Hint</strong> Daddy, teach me how to use random value in programming!</p>
+
+<p>ssh random@pwnable.kr -p2222 (pw:guest)</p>
+
+<p>ssh in the box and we got three files. <code class="language-plaintext highlighter-rouge">flag</code>,<code class="language-plaintext highlighter-rouge">random</code> and <code class="language-plaintext highlighter-rouge">random.c</code>.</p>
+
+<p>First we analyze the c code.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">random</span><span class="p">;</span>
+        <span class="n">random</span> <span class="o">=</span> <span class="n">rand</span><span class="p">();</span>        <span class="c1">// random value!</span>
+
+        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">key</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">key</span> <span class="o">^</span> <span class="n">random</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xdeadbeef</span> <span class="p">){</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">"Good!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+                <span class="n">system</span><span class="p">(</span><span class="s">"/bin/cat flag"</span><span class="p">);</span>
+                <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Wrong, maybe you should try 2^32 cases.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>it create <code class="language-plaintext highlighter-rouge">random</code> variable and asign it to <code class="language-plaintext highlighter-rouge">rand()</code> output.
+<code class="language-plaintext highlighter-rouge">rand()</code> generate randome number.</p>
+
+<p>next it declare variable <code class="language-plaintext highlighter-rouge">key</code> and asign it value 0.</p>
+
+<p>then it ask for our input and asign it to <code class="language-plaintext highlighter-rouge">key</code>.</p>
+
+<p>if block perform <code class="language-plaintext highlighter-rouge">bitwise XOR</code> operation between <code class="language-plaintext highlighter-rouge">key</code> and random number generated by <code class="language-plaintext highlighter-rouge">rand()</code>. then it compare it to <code class="language-plaintext highlighter-rouge">0xdeadbeef</code>. if match then it gives us flag.</p>
+
+<p><code class="language-plaintext highlighter-rouge">bitwise XOR</code> compare two binary value. if bits of two operands are opposite then it result in <code class="language-plaintext highlighter-rouge">1</code>.</p>
+
+<p>eg :</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1001
+0101
+-----
+1100
+</code></pre></div></div>
+
+<p>here trick is if you use <code class="language-plaintext highlighter-rouge">rand()</code> without <code class="language-plaintext highlighter-rouge">srand()</code> it will generate same sequence of numbers each time it runs.</p>
+
+<p>so we have to find that first number which <code class="language-plaintext highlighter-rouge">rand()</code> generate.</p>
+
+<p>write a simple c program using <code class="language-plaintext highlighter-rouge">rand()</code></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">random</span><span class="p">;</span>
+        <span class="n">random</span> <span class="o">=</span> <span class="n">rand</span><span class="p">();</span>
+
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">random</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>compile it.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>random@pwnable:/tmp/demodir<span class="nv">$ </span>gcc <span class="nt">-o</span> <span class="nb">test </span>test.c
+</code></pre></div></div>
+<p>give execuation permission and run binary.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>random@pwnable:/tmp/demodir<span class="nv">$ </span><span class="nb">chmod</span> +x <span class="nb">test
+</span>random@pwnable:/tmp/demodir<span class="nv">$ </span>./test
+1804289383
+</code></pre></div></div>
+<p>it gives number which <code class="language-plaintext highlighter-rouge">rand()</code> generate first time when we executes program.</p>
+
+<p>next we has to find key. we reverse the bitwise operation to get key.</p>
+
+<pre><code class="language-python3">&gt;&gt;&gt; 1804289383 ^ 0xdeadbeef
+3039230856
+</code></pre>
+
+<p>now we have our key and random number to satisfy <code class="language-plaintext highlighter-rouge">if condition</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>random@pwnable:~<span class="nv">$ </span>./random 
+3039230856
+Good!
+Mommy, I thought libc random is unpredictable...
+</code></pre></div></div>
+
+<p>and we got our flag.</p>
+
+<blockquote>
+  <p>Mommy, I thought libc random is unpredictable…</p>
+</blockquote>
+
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

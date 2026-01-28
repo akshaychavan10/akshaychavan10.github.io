@@ -100,6 +100,13 @@ Simulated offensive attacks using **Kali Linux** to test network defenses:
 * **Exploitation & Lateral Movement:** Used **Evil-WinRM** and **NetExec** to execute commands, extract data, and move laterally.
 * **Targeting Services:** Tested critical infrastructure such as the **Postfix Mail Server** for vulnerabilities and potential credential exploitation.
 
+<iframe
+  src="https://mitre-attack.github.io/attack-navigator/#layerURL=https://raw.githubusercontent.com/akshaychavan10/shopify_notes/refs/heads/main/red_team_attack_simulation.json"
+  width="100%"
+  height="800"
+  style="border:1px solid #ddd;">
+</iframe>
+
 ---
 
 ### Blue Team Operations
@@ -107,8 +114,12 @@ Simulated offensive attacks using **Kali Linux** to test network defenses:
 Defensive monitoring and response using a layered security stack:
 
 * **Endpoint Security:** **Wazuh** agents collected logs from Windows and Linux hosts, with File Integrity Monitoring (FIM) and behavioral analysis for real-time alerts.
+
 * **Network Monitoring:** **Security Onion** with **Zeek** and **Suricata** analyzed traffic for anomalies. Logs aggregated in the **Elastic Stack** enabled proactive threat hunting.
+
 * **Isolation & Management:** Security tools were hosted on a dedicated server to protect performance and maintain separation from production systems.
+
+![endpoint configuration](/assets/projects/wazuh_blue.png)
 
 ---
 
@@ -136,4 +147,4 @@ For more details, including scripts and configurations, check out the [GitHub Re
 
 ### Let’s Connect!
 
-Interested in learning more about this project or collaborating on something similar? Feel free to reach out to me at [your email] or connect with me on [LinkedIn](https://www.linkedin.com/in/akshaychavan07).
+Interested in learning more about this project or collaborating on something similar? Feel free to reach out to me at [mail](akschavan100@gmail.com) or connect with me on [LinkedIn](https://www.linkedin.com/in/akshaychavan07).

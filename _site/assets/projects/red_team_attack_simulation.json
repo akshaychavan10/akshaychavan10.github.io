@@ -1,0 +1,305 @@
+{
+	"name": "Red Team Attack Simulation",
+	"versions": {
+		"attack": "18",
+		"navigator": "5.3.0",
+		"layer": "4.5"
+	},
+	"domain": "enterprise-attack",
+	"description": "",
+	"filters": {
+		"platforms": [
+			"Windows",
+			"Linux",
+			"macOS",
+			"Network Devices",
+			"ESXi",
+			"PRE",
+			"Containers",
+			"IaaS",
+			"Office Suite",
+			"SaaS",
+			"Identity Provider"
+		]
+	},
+	"sorting": 0,
+	"layout": {
+		"layout": "side",
+		"aggregateFunction": "average",
+		"showID": false,
+		"showName": true,
+		"showAggregateScores": false,
+		"countUnscored": false,
+		"expandedSubtechniques": "annotated"
+	},
+	"hideDisabled": false,
+	"techniques": [
+		{
+			"techniqueID": "T1053",
+			"tactic": "execution",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1053",
+			"tactic": "persistence",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1053",
+			"tactic": "privilege-escalation",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1053.003",
+			"tactic": "execution",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1053.003",
+			"tactic": "persistence",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1053.003",
+			"tactic": "privilege-escalation",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1053.005",
+			"tactic": "execution",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1053.005",
+			"tactic": "persistence",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1053.005",
+			"tactic": "privilege-escalation",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1562",
+			"tactic": "defense-evasion",
+			"color": "#fc3b3b",
+			"comment": "A deceptive email was sent to an internal user, Jane Doe, containing a \"Verify My Account\" link that directed her to a malicious credential-harvesting website",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1562.001",
+			"tactic": "defense-evasion",
+			"color": "#fc3b3b",
+			"comment": "To allow the reverse shell to function, the simulation involved manually turning off Windows Defender toggles",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1021",
+			"tactic": "lateral-movement",
+			"color": "#fc3b3b",
+			"comment": "Using Evil-WinRM (via ports 5985/5986) to gain a shell on the Windows client and xfreerdp (RDP on port 3389) to access the Domain Controller",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1021.006",
+			"tactic": "lateral-movement",
+			"color": "#fc3b3b",
+			"comment": "The attacker identified that ports 5985 (HTTP) and 5986 (HTTPS) were open, which are the standard ports for the WinRM (Windows Remote Management) service",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1021.001",
+			"tactic": "lateral-movement",
+			"color": "#fc3b3b",
+			"comment": "Through an nmap scan, the attacker discovered port 3389 was open, which is the default port for RDP (Remote Desktop Protocol)",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1595",
+			"tactic": "reconnaissance",
+			"color": "#fc3b3b",
+			"comment": "Use of Nmap to identify live hosts, open ports (like SSH on 10.0.0.8), and running services.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1059",
+			"tactic": "execution",
+			"color": "#fc3b3b",
+			"comment": "",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1059.001",
+			"tactic": "execution",
+			"color": "#fc3b3b",
+			"comment": "The attacker executed malicious scripts using bypass execution policies to circumvent standard security restrictions",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1048",
+			"tactic": "exfiltration",
+			"color": "#fc3b3b",
+			"comment": "Using the Secure Copy Protocol (SCP), the attacker transferred a sensitive proprietary file, secrets.txt, from the Domain Controller back to the Kali Linux attacker machine",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1566",
+			"tactic": "initial-access",
+			"color": "#fc3b3b",
+			"comment": "",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1566.002",
+			"tactic": "initial-access",
+			"color": "#fc3b3b",
+			"comment": "A deceptive email was sent to an internal user, Jane Doe, containing a \"Verify My Account\" link that directed her to a malicious credential-harvesting website",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1110",
+			"tactic": "credential-access",
+			"color": "#fc3b3b",
+			"comment": " Leveraging Hydra and the rockyou.txt wordlist to crack the root password on the email server",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1110.003",
+			"tactic": "credential-access",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1136",
+			"tactic": "persistence",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1136.001",
+			"tactic": "persistence",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1136.002",
+			"tactic": "persistence",
+			"color": "#fc3b3b",
+			"comment": "A task named \"PersistenceTask\" was created to execute a malicious PowerShell reverse shell script (reverse.ps1) daily at 12:00 PM",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		}
+	],
+	"gradient": {
+		"colors": [
+			"#ff6666ff",
+			"#ffe766ff",
+			"#8ec843ff"
+		],
+		"minValue": 0,
+		"maxValue": 100
+	},
+	"legendItems": [],
+	"metadata": [],
+	"links": [],
+	"showTacticRowBackground": false,
+	"tacticRowBackground": "#dddddd",
+	"selectTechniquesAcrossTactics": true,
+	"selectSubtechniquesWithParent": false,
+	"selectVisibleTechniques": false
+}

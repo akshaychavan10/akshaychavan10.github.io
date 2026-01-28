@@ -74,7 +74,11 @@
 
 </nav>
     <div class="col-lg-10 mx-auto mt-5 markdown-body">
-  <p>This project demonstrates how to use <strong>Amazon GuardDuty</strong>, an AI-powered threat detection service, to identify and analyze security attacks against an insecure web application. By playing the roles of both an <strong>attacker and a defender</strong>, I explored how web vulnerabilities like <strong>SQL Injection</strong> and <strong>Command Injection</strong> can be exploited to exfiltrate sensitive data from an AWS environment.</p>
+  <h2 id="aws-guardduty-driven-cloud-security-monitoring">AWS GuardDuty Driven Cloud Security Monitoring</h2>
+
+<h3 id="project-overview">Project Overview</h3>
+
+<p>This project demonstrates the use of Amazon GuardDuty, an AI-powered threat detection service, to identify and analyze security attacks against an intentionally insecure web application. By playing the roles of both attacker and defender, I explored how web vulnerabilities such as SQL Injection and Command Injection can be exploited to exfiltrate sensitive data from an AWS environment. The attacks were then monitored in real time using Amazon GuardDuty, enabling a clear understanding of how such threats are detected and how they can be identified, investigated, and mitigated through cloud-native security controls.</p>
 
 <hr />
 
@@ -82,7 +86,7 @@
 
 <p>To simulate a real-world environment, I used <strong>AWS CloudFormation</strong> to deploy a vulnerable version of the <strong>OWASP Juice Shop</strong>.</p>
 
-<p><img src="/assets/project/aws_infra.png" alt="infra.png" /></p>
+<p><img src="/assets/projects/aws_infra.png" alt="infra.png" /></p>
 
 <ul>
   <li>
@@ -96,48 +100,52 @@
   </li>
 </ul>
 
-<p><img src="/assets/project/aws_Phase_1.png" alt="Phase 1.png" /></p>
+<p><img src="/assets/projects/aws_Phase_1.png" alt="Phase 1.png" /></p>
 
 <h3 id="2-the-attack-phase-hacker-mode"><strong>2. The Attack Phase (Hacker Mode)</strong></h3>
 
 <p>The objective was to exploit the web application to steal the EC2 instance’s IAM credentials and access private data.</p>
 
 <ul>
-  <li><strong>Step A: SQL Injection:</strong> I bypassed the administrative login page by entering <code class="language-plaintext highlighter-rouge">' or 1=1--</code> into the email field. This manipulated the database query to always evaluate as <strong>True</strong>, granting access without a valid password.</li>
+  <li><strong>Step A - SQL Injection:</strong> I bypassed the administrative login page by entering <code class="language-plaintext highlighter-rouge">' or 1=1--</code> into the email field. This manipulated the database query to always evaluate as <strong>True</strong>, granting access without a valid password.</li>
 </ul>
 
-<p><img src="/assets/project/aws_SQL_Login.png" alt="SQL_Login.png" /></p>
+<p><img src="/assets/projects/aws_SQL_Login.png" alt="SQL_Login.png" /></p>
 
-<p><img src="/assets/project/aws_admin_access.png" alt="admin access.png" /></p>
+<p><img src="/assets/projects/aws_admin_access.png" alt="admin access.png" /></p>
 
 <ul>
-  <li><strong>Step B: Command Injection:</strong> Once logged in, I navigated to the profile page and injected a <strong>JavaScript script</strong> into the username field. Because the application failed to <strong>sanitize user inputs</strong>, the web server executed the code, which exfiltrated its temporary <strong>IAM credentials</strong> into a publicly accessible <code class="language-plaintext highlighter-rouge">credentials.json</code> file.</li>
+  <li><strong>Step B - Command Injection:</strong> Once logged in, I navigated to the profile page and injected a <strong>JavaScript script</strong> into the username field. Because the application failed to <strong>sanitize user inputs</strong>, the web server executed the code, which exfiltrated its temporary <strong>IAM credentials</strong> into a publicly accessible <code class="language-plaintext highlighter-rouge">credentials.json</code> file.</li>
 </ul>
 
-<p><img src="./media/cmd_injection.png" alt="cmd injection.png" /></p>
+<p><img src="/assets/projects/aws_cmd_injection.png" alt="cmd injection.png" /></p>
 
 <ul>
-  <li><strong>Step C: Credential Exfiltration:</strong> I accessed the public URL for <code class="language-plaintext highlighter-rouge">credentials.json</code> to obtain the <strong>Access Key ID, Secret Access Key, and Session Token</strong>.</li>
+  <li><strong>Step C - Credential Exfiltration:</strong> I accessed the public URL for <code class="language-plaintext highlighter-rouge">credentials.json</code> to obtain the <strong>Access Key ID, Secret Access Key, and Session Token</strong>.</li>
 </ul>
 
-<p><img src="/assets/project/aws_bucket_secrets.png" alt="s3 bucket secrets download.png" /></p>
+<p><img src="/assets/projects/aws_bucket_secrets.png" alt="s3 bucket secrets download.png" /></p>
 
 <h3 id="3-data-breach-execution"><strong>3. Data Breach Execution</strong></h3>
 
 <p>Using the stolen credentials, I moved to the <strong>AWS Command Line Interface (CLI)</strong> via <strong>Cloud Shell</strong> to impersonate the web server.</p>
 
 <ul>
-  <li><strong>Configuration:</strong> I configured a new AWS CLI profile named <strong>“attacker”</strong> using the exfiltrated keys.</li>
-  <li><strong>The Theft:</strong> Wearing these credentials “like a suit,” I bypassed standard permissions to access the victim’s private S3 bucket. I successfully copied and read the contents of <code class="language-plaintext highlighter-rouge">secret-information.txt</code>, confirming the data breach.</li>
+  <li>
+    <p><strong>Configuration:</strong> I configured a new AWS CLI profile named <strong>“attacker”</strong> using the exfiltrated keys.</p>
+  </li>
+  <li>
+    <p><strong>The Theft:</strong> Wearing these credentials “like a suit,” I bypassed standard permissions to access the victim’s private S3 bucket. I successfully copied and read the contents of <code class="language-plaintext highlighter-rouge">secret-information.txt</code>, confirming the data breach.</p>
+  </li>
 </ul>
 
-<p><img src="/assets/project/aws_file_access.png" alt="s3 bucket's secret file access.png" /></p>
+<p><img src="/assets/projects/aws_file_access.png" alt="s3 bucket's secret file access.png" /></p>
 
 <h3 id="4-the-defense-phase-detection-and-analysis"><strong>4. The Defense Phase (Detection and Analysis)</strong></h3>
 
 <p>After the attack, I transitioned back to the <strong>Defender</strong> role to evaluate how AWS monitored the incident.</p>
 
-<p><img src="/assets/project/aws_guardduty_findings.png" alt="guardduty findings.png" /></p>
+<p><img src="/assets/projects/aws_guardduty_findings.png" alt="guardduty findings.png" /></p>
 
 <ul>
   <li>
@@ -155,7 +163,7 @@
 
 <p>To enhance the security posture, I enabled <strong>GuardDuty Malware Protection for S3</strong>.</p>
 
-<p><img src="/assets/project/aws_eicar_upload.png" alt="eicar file upload.png" /></p>
+<p><img src="/assets/projects/aws_eicar_upload.png" alt="eicar file upload.png" /></p>
 
 <ul>
   <li>
@@ -166,22 +174,30 @@
   </li>
 </ul>
 
-<p><img src="/assets/project/aws_eicar_finding.png" alt="eicar finding.png" /></p>
+<p><img src="/assets/projects/aws_eicar_finding.png" alt="eicar finding.png" /></p>
 
 <hr />
 
 <h3 id="key-skills--technologies"><strong>Key Skills &amp; Technologies</strong></h3>
 
 <ul>
-  <li><strong>Security Services:</strong> Amazon GuardDuty (Threat Detection &amp; Malware Protection).</li>
-  <li><strong>Automation:</strong> AWS CloudFormation (Infrastructure as Code).</li>
-  <li><strong>Offensive Security:</strong> SQL Injection, Command Injection, Credential Exfiltration.</li>
-  <li><strong>DevOps/CLI:</strong> AWS Cloud Shell, Linux commands (<code class="language-plaintext highlighter-rouge">wget</code>, <code class="language-plaintext highlighter-rouge">cat</code>, <code class="language-plaintext highlighter-rouge">jq</code>), AWS CLI Profile management.</li>
+  <li>
+    <p><strong>Security Services:</strong> Amazon GuardDuty (Threat Detection &amp; Malware Protection).</p>
+  </li>
+  <li>
+    <p><strong>Automation:</strong> AWS CloudFormation (Infrastructure as Code).</p>
+  </li>
+  <li>
+    <p><strong>Offensive Security:</strong> SQL Injection, Command Injection, Credential Exfiltration.</p>
+  </li>
+  <li>
+    <p><strong>DevOps/CLI:</strong> AWS Cloud Shell, Linux commands (<code class="language-plaintext highlighter-rouge">wget</code>, <code class="language-plaintext highlighter-rouge">cat</code>, <code class="language-plaintext highlighter-rouge">jq</code>), AWS CLI Profile management.</p>
+  </li>
 </ul>
 
 <hr />
 
-<p><strong>Analogy for the project:</strong> This project is like testing the security of a high-tech bank. First, I acted as the thief who found a back door (SQL injection) and tricked the staff into handing over a manager’s keycard (Command injection). Then, I switched roles to the bank’s security chief to review the AI-powered surveillance footage (GuardDuty). The project proved that while a thief might find a way in, a smart security system will recognize the unusual behavior and sound the alarm.</p>
+<p>This project demonstrates a complete cloud attack–to–detection lifecycle, showing how common web application vulnerabilities can escalate into serious cloud security breaches when IAM permissions are misused. By operating as both attacker and defender, I gained hands-on experience in offensive exploitation, credential abuse, and real-time threat detection using Amazon GuardDuty. The lab reinforces the importance of least-privilege IAM design, continuous monitoring, and cloud-native security controls in securing modern AWS environments.</p>
 
 </div>
   </main>

